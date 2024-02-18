@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "anki-poker-generator"
+version = "0.1.0"
+description = ""
+authors = ["Omar Kohl <omarkohl@posteo.net>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+poker = "^0.30.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
