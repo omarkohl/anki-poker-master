@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 poker = "^0.30.0"
+genanki = "^0.13.1"
 
 
 [tool.poetry.group.dev.dependencies]
