@@ -7,15 +7,15 @@ from poker.hand import Range, Hand, Rank
 _CSS_START = """<style>
     table.range, table.legend {
         border-collapse: collapse;
-        font-size: 1em;
+        font-size: 0.7em;
         font-family: monospace;
     }
     table.range td, table.legend td {
         border: 1px solid black;
         padding: 1px;
         text-align: center;
-        width: 29px;
-        height: 32px;
+        width: 25px;
+        height: 25px;
         box-sizing: border-box;
         overflow: hidden;
     }
@@ -62,7 +62,16 @@ _EASY_TO_READ_COLORS = [
 
 class PreflopScenario:
     def __init__(self, ranges: Dict[str, Range], position: str, scenario: str, game: str, config: Dict = None):
-        self.ranges = ranges
+        self.ranges = ranges.copy()
+        if "fold" not in [r.lower() for r in self.ranges]:
+            # Make the fold range explicit if it's missing
+            all_hands = Range("XX").hands
+            fold_hands = set(all_hands)
+            for action in self.ranges:
+                fold_hands -= set(self.ranges[action].hands)
+            fold_range = Range.from_objects(fold_hands)
+            if len(fold_range) > 0:
+                self.ranges["Fold"] = fold_range
         self.position = position
         self.scenario = scenario
         self.game = game
