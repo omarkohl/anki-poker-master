@@ -67,7 +67,16 @@ _EASY_TO_READ_COLORS = [
 
 
 class PreflopScenario:
-    def __init__(self, ranges: Dict[str, Range], position: str, scenario: str, game: str, config: Dict = None):
+    def __init__(
+            self,
+            ranges: Dict[str, Range],
+            position: str,
+            scenario: str,
+            game: str,
+            config: Dict = None,
+            source: str = None,
+            notes: str = None,
+            ):
         self.ranges = ranges.copy()
         if "fold" not in [r.lower() for r in self.ranges]:
             # Make the fold range explicit if it's missing
@@ -89,6 +98,8 @@ class PreflopScenario:
                         self.config["color"][_to_css_class(color_k)] = color_v
                 else:
                     self.config[key] = value
+        self.source = source
+        self.notes = notes
 
     def header(self) -> str:
         indent = 0
