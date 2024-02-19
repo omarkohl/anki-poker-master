@@ -6,7 +6,7 @@ from anki_poker_generator.anki import create_deck, write_deck_to_file
 
 def main():
     config = {}
-    source = "https://pokertrainer.se/"
+    source = '<a href="https://pokertrainer.se/">pokertrainer.se</a>'
     scenarios = []
     scenarios.append(PreflopScenario(
         {
