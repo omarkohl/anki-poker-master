@@ -26,6 +26,13 @@ _CSS_START = """<style>
         text-align: left;
         padding: 5px;
     }
+    table.range td.pair {
+        border: 2px solid black;
+    }
+    table.range td.center {
+        font-weight: bold;
+        font-size: 1.3em;
+    }
 """
 
 _CSS_END = "</style>\n"
@@ -42,7 +49,6 @@ _DEFAULT_CONFIG = {
         "fold": "#D6D2D2",
         "call": "#4BE488",
         "raise": "#FF6A6A",
-        "diagonal": "#F9F2D6",
     }
 }
 
@@ -138,12 +144,6 @@ class PreflopScenario:
             css += [indent * " " + f"background-color: {color[action]};"]
             indent -= 4
             css += [indent * " " + "}"]
-        # don't de-indent because we add class
-        css += [indent * " " + f"td.blank.pair {{"]
-        indent += 4
-        css += [indent * " " + f"background-color: {color['diagonal']};"]
-        indent -= 4
-        css += [indent * " " + "}"]
         indent -= 4
         return _CSS_START + "\n".join(css) + "\n" + _CSS_END
 
@@ -161,13 +161,6 @@ class PreflopScenario:
             html.append(indent * " " + f"<td class='{_to_css_class(action)}'>&nbsp;</td>")
             indent -= 4
             html.append(indent * " " + "</tr>")
-        # don't de-indent because we add another row
-        html.append(indent * " " + "<tr>")
-        indent += 4
-        html.append(indent * " " + "<th class='row'>Diagonal</th>")
-        html.append(indent * " " + "<td class='blank pair'>&nbsp;</td>")
-        indent -= 4
-        html.append(indent * " " + "</tr>")
         indent -= 4
         html.append(indent * " " + "</table>")
         return "\n".join(html) + "\n"
@@ -202,11 +195,13 @@ def _to_html(action_ranges: Dict[str, Range]) -> str:
             if "blank" in action_ranges:
                 if hand in action_ranges["blank"].hands:
                     action = "blank"
+            css_classes = f"{_to_css_class(action)} {hand_type}"
+            if hand == Hand("88"):
+                css_classes += " center"
             html.append(
                 indent * " " +
-                '<td class="%s %s">%s</td>' % (
-                    _to_css_class(action),
-                    hand_type,
+                '<td class="%s">%s</td>' % (
+                    css_classes,
                     hand,
                 ),
             )

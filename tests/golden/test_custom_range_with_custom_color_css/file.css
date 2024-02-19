@@ -20,6 +20,13 @@
         text-align: left;
         padding: 5px;
     }
+    table.range td.pair {
+        border: 2px solid black;
+    }
+    table.range td.center {
+        font-weight: bold;
+        font-size: 1.3em;
+    }
     td.call {
         background-color: #4BE488;
     }
@@ -31,8 +38,5 @@
     }
     td.raise {
         background-color: #FF6A6A;
-    }
-    td.blank.pair {
-        background-color: #F9F2D6;
     }
 </style>
