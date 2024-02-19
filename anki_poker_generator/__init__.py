@@ -1,5 +1,6 @@
 import re
 import random
+import copy
 from typing import Dict
 from poker.hand import Range, Hand, Rank
 
@@ -27,7 +28,7 @@ _CSS_START = """<style>
     }
 """
 
-_CSS_END = "</style>"
+_CSS_END = "</style>\n"
 
 # Note that there is overlap between the quadrants since the grid is 13x13.
 # Each quadrant is 7x7.
@@ -60,22 +61,27 @@ _EASY_TO_READ_COLORS = [
 
 
 class PreflopScenario:
-    def __init__(self, ranges: Dict[str, Range], position: str, scenario: str, game: str, config: Dict = {}):
+    def __init__(self, ranges: Dict[str, Range], position: str, scenario: str, game: str, config: Dict = None):
         self.ranges = ranges
         self.position = position
         self.scenario = scenario
         self.game = game
-
-        self.config = {**_DEFAULT_CONFIG}
-        for key, value in config.items():
-            if key == "color":
-                for color_k, color_v in value.items():
-                    self.config["color"][_to_css_class(color_k)] = color_v
-            else:
-                self.config[key] = value
+        self.config = copy.deepcopy(_DEFAULT_CONFIG)
+        if config is not None:
+            for key, value in config.items():
+                if key == "color":
+                    for color_k, color_v in value.items():
+                        self.config["color"][_to_css_class(color_k)] = color_v
+                else:
+                    self.config[key] = value
 
     def header(self) -> str:
-        return f"<h1>{self.game}</h1><h2>{self.position}</h2><h3>{self.scenario}</h3>"
+        indent = 0
+        html = []
+        html += [indent * " " + self.game + "<br>"]
+        html += [indent * " " + "<b>Position: </b>%s<br>" % self.position]
+        html += [indent * " " + "<b>Scenario: </b>%s<br>" % self.scenario]
+        return "\n".join(html) + "\n"
 
     def html_full(self) -> str:
         return _to_html(self.ranges)
@@ -101,7 +107,6 @@ class PreflopScenario:
         return self._html_quadrant_blank(_BOTTOM_RIGHT_QUADRANT)
 
     def css(self) -> str:
-        css = _CSS_START
         all_actions = {"fold"}
         for action in self.ranges:
             all_actions.add(_to_css_class(action))
@@ -115,28 +120,57 @@ class PreflopScenario:
                 else:
                     random.seed(action)
                     color[action] = "#%06x" % random.randint(0, 0xFFFFFF)
+        indent = 0
+        css = []
+        indent += 4
         for action in sorted(all_actions):
-            css += f"td.{action} {{background-color: {color[action]};}}"
-        css += f"td.blank.pair {{background-color: {color['diagonal']};}}"
-        css += _CSS_END
-        return css
+            css += [indent * " " + f"td.{action} {{"]
+            indent += 4
+            css += [indent * " " + f"background-color: {color[action]};"]
+            indent -= 4
+            css += [indent * " " + "}"]
+        # don't de-indent because we add class
+        css += [indent * " " + f"td.blank.pair {{"]
+        indent += 4
+        css += [indent * " " + f"background-color: {color['diagonal']};"]
+        indent -= 4
+        css += [indent * " " + "}"]
+        indent -= 4
+        return _CSS_START + "\n".join(css) + "\n" + _CSS_END
 
     def html_legend(self) -> str:
-        html = "<h2>Legend</h2>"
-        html += "<table class='legend'>"
+        indent = 0
         all_actions = {"Fold"}
         all_actions.update(self.ranges.keys())
+        html = []
+        html += [indent * " " + "<table class='legend'>"]
+        indent += 4
         for action in sorted(all_actions):
-            html += f"<tr><th class='row'>{action}</th><td class='{_to_css_class(action)}'>&nbsp;</td></tr>"
-        html += "<tr><th class='row'>Diagonal</th><td class='blank pair'>&nbsp;</td></tr>"
-        html += "</table>"
-        return html
+            html.append(indent * " " + "<tr>")
+            indent += 4
+            html.append(indent * " " + f"<th class='row'>{action}</th>")
+            html.append(indent * " " + f"<td class='{_to_css_class(action)}'>&nbsp;</td>")
+            indent -= 4
+            html.append(indent * " " + "</tr>")
+        # don't de-indent because we add another row
+        html.append(indent * " " + "<tr>")
+        indent += 4
+        html.append(indent * " " + "<th class='row'>Diagonal</th>")
+        html.append(indent * " " + "<td class='blank pair'>&nbsp;</td>")
+        indent -= 4
+        html.append(indent * " " + "</tr>")
+        indent -= 4
+        html.append(indent * " " + "</table>")
+        return "\n".join(html) + "\n"
 
 
 def _to_html(action_ranges: Dict[str, Range]) -> str:
-    html = ['<table class="range">']
+    indent = 0
+    html = [indent * " " + '<table class="range">']
+    indent += 4
     for row in reversed(Rank):
-        html.append("<tr>")
+        html.append(indent * " " + "<tr>")
+        indent += 4
         for col in reversed(Rank):
             if row > col:
                 suit = "s"
@@ -149,22 +183,29 @@ def _to_html(action_ranges: Dict[str, Range]) -> str:
                 hand_type = "pair"
             action = "fold"
             hand = Hand(row.val + col.val + suit)
-            for a, r in action_ranges.items():
+            for a in sorted(action_ranges):
                 if a == "blank":
                     # Handled later
                     continue
-                if hand in r.hands:
+                if hand in action_ranges[a].hands:
                     action = a
             # Overwrite if blank
             if "blank" in action_ranges:
                 if hand in action_ranges["blank"].hands:
                     action = "blank"
-            html.append('<td class="%s %s">' % (_to_css_class(action), hand_type))
-            html.append(str(hand))
-            html.append("</td>")
-        html.append("</tr>")
-    html.append("</table>")
-    return "".join(html)
+            html.append(
+                indent * " " +
+                '<td class="%s %s">%s</td>' % (
+                    _to_css_class(action),
+                    hand_type,
+                    hand,
+                ),
+            )
+        indent -= 4
+        html.append(indent * " " + "</tr>")
+    indent -= 4
+    html.append(indent * " " + "</table>")
+    return "\n".join(html) + "\n"
 
 
 def _to_css_class(action: str) -> str:

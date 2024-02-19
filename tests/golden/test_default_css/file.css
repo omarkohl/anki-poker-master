@@ -1,0 +1,35 @@
+<style>
+    table.range, table.legend {
+        border-collapse: collapse;
+        font-size: 1em;
+        font-family: monospace;
+    }
+    table.range td, table.legend td {
+        border: 1px solid black;
+        padding: 1px;
+        text-align: center;
+        width: 29px;
+        height: 32px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    td {
+        background-color: white;
+    }
+    table.legend th {
+        text-align: left;
+        padding: 5px;
+    }
+    td.call {
+        background-color: #4BE488;
+    }
+    td.fold {
+        background-color: #D6D2D2;
+    }
+    td.raise {
+        background-color: #FF6A6A;
+    }
+    td.blank.pair {
+        background-color: #F9F2D6;
+    }
+</style>

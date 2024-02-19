@@ -1,0 +1,232 @@
+<style>
+    table.range, table.legend {
+        border-collapse: collapse;
+        font-size: 1em;
+        font-family: monospace;
+    }
+    table.range td, table.legend td {
+        border: 1px solid black;
+        padding: 1px;
+        text-align: center;
+        width: 29px;
+        height: 32px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    td {
+        background-color: white;
+    }
+    table.legend th {
+        text-align: left;
+        padding: 5px;
+    }
+    td.call {
+        background-color: #4BE488;
+    }
+    td.fold {
+        background-color: #D6D2D2;
+    }
+    td.raise {
+        background-color: #FF6A6A;
+    }
+    td.blank.pair {
+        background-color: #F9F2D6;
+    }
+</style>
+<table class="range">
+    <tr>
+        <td class="raise pair">AA</td>
+        <td class="call suited">AKs</td>
+        <td class="call suited">AQs</td>
+        <td class="call suited">AJs</td>
+        <td class="call suited">ATs</td>
+        <td class="call suited">A9s</td>
+        <td class="call suited">A8s</td>
+        <td class="call suited">A7s</td>
+        <td class="call suited">A6s</td>
+        <td class="call suited">A5s</td>
+        <td class="call suited">A4s</td>
+        <td class="call suited">A3s</td>
+        <td class="fold suited">A2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">AKo</td>
+        <td class="raise pair">KK</td>
+        <td class="call suited">KQs</td>
+        <td class="call suited">KJs</td>
+        <td class="call suited">KTs</td>
+        <td class="call suited">K9s</td>
+        <td class="call suited">K8s</td>
+        <td class="call suited">K7s</td>
+        <td class="call suited">K6s</td>
+        <td class="call suited">K5s</td>
+        <td class="call suited">K4s</td>
+        <td class="call suited">K3s</td>
+        <td class="fold suited">K2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">AQo</td>
+        <td class="call offsuit">KQo</td>
+        <td class="raise pair">QQ</td>
+        <td class="call suited">QJs</td>
+        <td class="call suited">QTs</td>
+        <td class="call suited">Q9s</td>
+        <td class="call suited">Q8s</td>
+        <td class="call suited">Q7s</td>
+        <td class="call suited">Q6s</td>
+        <td class="call suited">Q5s</td>
+        <td class="call suited">Q4s</td>
+        <td class="call suited">Q3s</td>
+        <td class="fold suited">Q2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">AJo</td>
+        <td class="call offsuit">KJo</td>
+        <td class="call offsuit">QJo</td>
+        <td class="raise pair">JJ</td>
+        <td class="call suited">JTs</td>
+        <td class="call suited">J9s</td>
+        <td class="call suited">J8s</td>
+        <td class="call suited">J7s</td>
+        <td class="call suited">J6s</td>
+        <td class="call suited">J5s</td>
+        <td class="call suited">J4s</td>
+        <td class="call suited">J3s</td>
+        <td class="fold suited">J2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">ATo</td>
+        <td class="call offsuit">KTo</td>
+        <td class="call offsuit">QTo</td>
+        <td class="call offsuit">JTo</td>
+        <td class="raise pair">TT</td>
+        <td class="call suited">T9s</td>
+        <td class="call suited">T8s</td>
+        <td class="call suited">T7s</td>
+        <td class="call suited">T6s</td>
+        <td class="call suited">T5s</td>
+        <td class="call suited">T4s</td>
+        <td class="call suited">T3s</td>
+        <td class="fold suited">T2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">A9o</td>
+        <td class="call offsuit">K9o</td>
+        <td class="call offsuit">Q9o</td>
+        <td class="call offsuit">J9o</td>
+        <td class="call offsuit">T9o</td>
+        <td class="raise pair">99</td>
+        <td class="call suited">98s</td>
+        <td class="call suited">97s</td>
+        <td class="call suited">96s</td>
+        <td class="call suited">95s</td>
+        <td class="call suited">94s</td>
+        <td class="call suited">93s</td>
+        <td class="fold suited">92s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A8o</td>
+        <td class="blank offsuit">K8o</td>
+        <td class="blank offsuit">Q8o</td>
+        <td class="blank offsuit">J8o</td>
+        <td class="blank offsuit">T8o</td>
+        <td class="blank offsuit">98o</td>
+        <td class="blank pair">88</td>
+        <td class="call suited">87s</td>
+        <td class="call suited">86s</td>
+        <td class="call suited">85s</td>
+        <td class="call suited">84s</td>
+        <td class="call suited">83s</td>
+        <td class="fold suited">82s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A7o</td>
+        <td class="blank offsuit">K7o</td>
+        <td class="blank offsuit">Q7o</td>
+        <td class="blank offsuit">J7o</td>
+        <td class="blank offsuit">T7o</td>
+        <td class="blank offsuit">97o</td>
+        <td class="blank offsuit">87o</td>
+        <td class="raise pair">77</td>
+        <td class="call suited">76s</td>
+        <td class="call suited">75s</td>
+        <td class="call suited">74s</td>
+        <td class="call suited">73s</td>
+        <td class="fold suited">72s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A6o</td>
+        <td class="blank offsuit">K6o</td>
+        <td class="blank offsuit">Q6o</td>
+        <td class="blank offsuit">J6o</td>
+        <td class="blank offsuit">T6o</td>
+        <td class="blank offsuit">96o</td>
+        <td class="blank offsuit">86o</td>
+        <td class="call offsuit">76o</td>
+        <td class="fold pair">66</td>
+        <td class="fold suited">65s</td>
+        <td class="fold suited">64s</td>
+        <td class="fold suited">63s</td>
+        <td class="fold suited">62s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A5o</td>
+        <td class="blank offsuit">K5o</td>
+        <td class="blank offsuit">Q5o</td>
+        <td class="blank offsuit">J5o</td>
+        <td class="blank offsuit">T5o</td>
+        <td class="blank offsuit">95o</td>
+        <td class="blank offsuit">85o</td>
+        <td class="call offsuit">75o</td>
+        <td class="fold offsuit">65o</td>
+        <td class="fold pair">55</td>
+        <td class="fold suited">54s</td>
+        <td class="fold suited">53s</td>
+        <td class="fold suited">52s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A4o</td>
+        <td class="blank offsuit">K4o</td>
+        <td class="blank offsuit">Q4o</td>
+        <td class="blank offsuit">J4o</td>
+        <td class="blank offsuit">T4o</td>
+        <td class="blank offsuit">94o</td>
+        <td class="blank offsuit">84o</td>
+        <td class="call offsuit">74o</td>
+        <td class="fold offsuit">64o</td>
+        <td class="fold offsuit">54o</td>
+        <td class="fold pair">44</td>
+        <td class="fold suited">43s</td>
+        <td class="fold suited">42s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A3o</td>
+        <td class="blank offsuit">K3o</td>
+        <td class="blank offsuit">Q3o</td>
+        <td class="blank offsuit">J3o</td>
+        <td class="blank offsuit">T3o</td>
+        <td class="blank offsuit">93o</td>
+        <td class="blank offsuit">83o</td>
+        <td class="call offsuit">73o</td>
+        <td class="fold offsuit">63o</td>
+        <td class="fold offsuit">53o</td>
+        <td class="fold offsuit">43o</td>
+        <td class="fold pair">33</td>
+        <td class="fold suited">32s</td>
+    </tr>
+    <tr>
+        <td class="blank offsuit">A2o</td>
+        <td class="blank offsuit">K2o</td>
+        <td class="blank offsuit">Q2o</td>
+        <td class="blank offsuit">J2o</td>
+        <td class="blank offsuit">T2o</td>
+        <td class="blank offsuit">92o</td>
+        <td class="blank offsuit">82o</td>
+        <td class="fold offsuit">72o</td>
+        <td class="fold offsuit">62o</td>
+        <td class="fold offsuit">52o</td>
+        <td class="fold offsuit">42o</td>
+        <td class="fold offsuit">32o</td>
+        <td class="fold pair">22</td>
+    </tr>
+</table>
