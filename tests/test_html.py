@@ -14,7 +14,11 @@ def compare_or_update_golden(pytestconfig, golden_file_path, actual_output):
         assert actual_output == golden_output
 
 
-def test_default_css(pytestconfig, golden_dir):
+def test_default_extra_css(pytestconfig, golden_dir):
+    """
+    In the default case extra CSS should be empty since we don't need to add
+    or change any colors.
+    """
     from anki_poker_generator import PreflopScenario
     action_ranges = {
         "Call": Range('A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+'),
@@ -23,10 +27,8 @@ def test_default_css(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.css()
-
-    golden_css_file = os.path.join(golden_dir, "file.css")
-    compare_or_update_golden(pytestconfig, golden_css_file, css)
+    css = scenario.extra_css()
+    assert css == ""
 
 
 def test_custom_fold_color_css(pytestconfig, golden_dir):
@@ -42,7 +44,7 @@ def test_custom_fold_color_css(pytestconfig, golden_dir):
     }
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.css()
+    css = scenario.extra_css()
     golden_css_file = os.path.join(golden_dir, "file.css")
     compare_or_update_golden(pytestconfig, golden_css_file, css)
 
@@ -59,7 +61,7 @@ def test_custom_range_css(pytestconfig, golden_dir):
     }
     config = {}
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.css()
+    css = scenario.extra_css()
     golden_css_file = os.path.join(golden_dir, "file.css")
     compare_or_update_golden(pytestconfig, golden_css_file, css)
 
@@ -80,7 +82,7 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
         }
     }
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.css()
+    css = scenario.extra_css()
     golden_css_file = os.path.join(golden_dir, "file.css")
     compare_or_update_golden(pytestconfig, golden_css_file, css)
 
@@ -94,7 +96,7 @@ def test_legend_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_legend()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_legend()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -108,7 +110,7 @@ def test_full_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_full()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_full()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -122,7 +124,7 @@ def test_blank_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_blank()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_blank()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -136,7 +138,7 @@ def test_top_left_quadrant_blank_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_top_left_quadrant_blank()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_top_left_quadrant_blank()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -150,7 +152,7 @@ def test_top_right_quadrant_blank_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_top_right_quadrant_blank()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_top_right_quadrant_blank()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -164,7 +166,7 @@ def test_bottom_left_quadrant_blank_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_bottom_left_quadrant_blank()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_bottom_left_quadrant_blank()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -178,7 +180,7 @@ def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_bottom_right_quadrant_blank()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_bottom_right_quadrant_blank()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -192,7 +194,7 @@ def test_header_html(pytestconfig, golden_dir):
     config = {}
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.header()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.header()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -209,7 +211,7 @@ def test_overlapping_ranges(pytestconfig, golden_dir):
     }
     config = {}
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_full()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_full()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
@@ -221,6 +223,6 @@ def test_default_is_fold(pytestconfig, golden_dir):
     action_ranges = {}
     config = {}
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = scenario.css() + scenario.html_full()
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_full()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)

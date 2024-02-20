@@ -4,38 +4,6 @@ import copy
 from typing import Dict
 from poker.hand import Range, Hand, Rank
 
-_CSS_START = """<style>
-    table.range, table.legend {
-        border-collapse: collapse;
-        font-size: 0.7em;
-        font-family: monospace;
-    }
-    table.range td, table.legend td {
-        border: 1px solid black;
-        padding: 1px;
-        text-align: center;
-        width: 25px;
-        height: 25px;
-        box-sizing: border-box;
-        overflow: hidden;
-    }
-    td {
-        background-color: white;
-    }
-    table.legend th {
-        text-align: left;
-        padding: 5px;
-    }
-    table.range td.pair {
-        border: 2px solid black;
-    }
-    table.range td.center {
-        font-weight: bold;
-        font-size: 1.3em;
-    }
-"""
-
-_CSS_END = "</style>\n"
 
 # Note that there is overlap between the quadrants since the grid is 13x13.
 # Each quadrant is 7x7.
@@ -132,7 +100,12 @@ class PreflopScenario:
     def html_bottom_right_quadrant_blank(self) -> str:
         return self._html_quadrant_blank(_BOTTOM_RIGHT_QUADRANT)
 
-    def css(self) -> str:
+    def extra_css(self) -> str:
+        """
+        Generate custom CSS for the ranges, if needed. This is only the case
+        if new actions are added or a default color is changed. Otherwise,
+        an empty string is returned.
+        """
         all_actions = {"fold"}
         for action in self.ranges:
             all_actions.add(_to_css_class(action))
@@ -146,17 +119,18 @@ class PreflopScenario:
                 else:
                     random.seed(action)
                     color[action] = "#%06x" % random.randint(0, 0xFFFFFF)
+        # We only need custom CSS if new actions are added or a default color is changed
+        if color == _DEFAULT_CONFIG["color"]:
+            return ""
         indent = 0
         css = []
-        indent += 4
         for action in sorted(all_actions):
             css += [indent * " " + f"td.{action} {{"]
             indent += 4
             css += [indent * " " + f"background-color: {color[action]};"]
             indent -= 4
             css += [indent * " " + "}"]
-        indent -= 4
-        return _CSS_START + "\n".join(css) + "\n" + _CSS_END
+        return "\n".join(css) + "\n"
 
     def html_legend(self) -> str:
         indent = 0

@@ -1,10 +1,10 @@
 import random
 import genanki
 from anki_poker_generator import PreflopScenario
-from anki_poker_generator.const import BLANK_TABLE
+from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS
 from typing import List
 
-_HEADER_FMT = "{{CSS}}<b>Game: </b>{{Game}}<br><b>Position: </b>{{Position}}<br><b>Scenario: </b>{{Scenario}}<br>"
+_HEADER_FMT = "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br><b>Position: </b>{{Position}}<br><b>Scenario: </b>{{Scenario}}<br>"
 _FOOTER_FMT = "<br>{{Ranges}}<br><b>Notes: </b>{{Notes}}<br><b>Source: </b>{{Source}}<br>"
 
 _PREFLOP_MODEL = genanki.Model(
@@ -53,11 +53,13 @@ _PREFLOP_MODEL = genanki.Model(
         },
         {
             'name': 'Guess Position',
-            'qfmt': "{{CSS}}<b>Game: </b>{{Game}}<br><b>Position: </b>?<br><b>Scenario: </b>{{Scenario}}<br>" +
+            'qfmt': "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br>" +
+                "<b>Position: </b>?<br><b>Scenario: </b>{{Scenario}}<br>" +
                 '{{Full HTML}}' + '<br>{{Legend}}',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
         }
     ],
+    css=DEFAULT_CSS,
 )
 
 
@@ -83,7 +85,7 @@ def create_deck(scenarios: List[PreflopScenario]) -> List[genanki.Deck]:
                 scenario.html_top_right_quadrant_blank(),
                 scenario.html_bottom_left_quadrant_blank(),
                 scenario.html_bottom_right_quadrant_blank(),
-                scenario.css(),
+                scenario.extra_css(),
                 scenario.html_legend(),
             ],
         ))
