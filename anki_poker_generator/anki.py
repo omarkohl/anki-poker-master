@@ -1,6 +1,7 @@
 import random
 import genanki
 from anki_poker_generator import PreflopScenario
+from anki_poker_generator.const import BLANK_TABLE
 from typing import List
 
 _HEADER_FMT = "{{CSS}}<b>Game: </b>{{Game}}<br><b>Position: </b>{{Position}}<br><b>Scenario: </b>{{Scenario}}<br>"
@@ -45,6 +46,17 @@ _PREFLOP_MODEL = genanki.Model(
             'qfmt': _HEADER_FMT + '{{Bottom Right Quadrant Blank HTML}}' + '<br>{{Legend}}',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
         },
+        {
+            'name': 'Full',
+            'qfmt': _HEADER_FMT + BLANK_TABLE + '<br>{{Legend}}',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+        },
+        {
+            'name': 'Guess Position',
+            'qfmt': "{{CSS}}<b>Game: </b>{{Game}}<br><b>Position: </b>?<br><b>Scenario: </b>{{Scenario}}<br>" +
+                '{{Full HTML}}' + '<br>{{Legend}}',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+        }
     ],
 )
 
