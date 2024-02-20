@@ -28,6 +28,38 @@ def main():
         config,
         source,
         ))
+    scenarios.append(PreflopScenario(
+        {
+            "Raise": Range('A2s+, K3s+, Q5s+, J7s+, T8s+, 98s+, A8o+, K9o+, QTo+, JTo+, 22+'),
+        },
+        "CO",
+        "Opening",
+        "Cash 100BB 6P",
+        config,
+        source,
+        ))
+    scenarios.append(PreflopScenario(
+        {
+            "Raise": Range('A2s+, K2s+, Q2s+, J4s+, T6s+, 96s+, 86s+, 75s+, 65s+, 54s+, A3o+, K8o+, Q9o+, J9o+, T9o+, 22+'),
+        },
+        "BTN",
+        "Opening",
+        "Cash 100BB 6P",
+        config,
+        source,
+        "Same range as SB."
+        ))
+    scenarios.append(PreflopScenario(
+        {
+            "Raise": Range('A2s+, K2s+, Q2s+, J4s+, T6s+, 96s+, 86s+, 75s+, 65s+, 54s+, A3o+, K8o+, Q9o+, J9o+, T9o+, 22+'),
+        },
+        "SB",
+        "Opening",
+        "Cash 100BB 6P",
+        config,
+        source,
+        "Same range as BTN."
+        ))
     d = create_deck(scenarios)
     write_deck_to_file(d, "preflop.apkg")
 
