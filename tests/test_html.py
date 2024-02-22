@@ -230,6 +230,31 @@ def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
 
+def test_top_right_quadrant_blank_html_with_custom_ranges(pytestconfig, golden_dir):
+    """
+    The purpose of this test is to verify that custom CSS also works with blank.
+    """
+    from anki_poker_generator import PreflopScenario
+    from anki_poker_generator.const import DEFAULT_CSS
+    action_ranges = {
+        "Call": Range('A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+'),
+        "Raise": Range('AA, KK, QQ, JJ, TT, 99, 88, 77'),
+        "My special range": Range('K2s+'),
+    }
+    config = {
+        "color": {
+            "My special range": "red",
+        }
+    }
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    html = ''
+    html += '<style>\n' + textwrap.indent(DEFAULT_CSS, 4*' ') + '</style>\n'
+    html += '<style>\n'+textwrap.indent(scenario.extra_css(), 4*' ')+'</style>\n'
+    html += scenario.html_top_right_quadrant_blank()
+    golden_html_file = os.path.join(golden_dir, "file.html")
+    compare_or_update_golden(pytestconfig, golden_html_file, html)
+
+
 def test_overlapping_ranges(pytestconfig, golden_dir):
     """
     Verify that overlapping ranges are overwritten in alphabetical order.
@@ -250,6 +275,7 @@ def test_overlapping_ranges(pytestconfig, golden_dir):
     html += scenario.html_full()
     golden_html_file = os.path.join(golden_dir, "file.html")
     compare_or_update_golden(pytestconfig, golden_html_file, html)
+
 
 def test_default_is_fold(pytestconfig, golden_dir):
     """
