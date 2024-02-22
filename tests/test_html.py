@@ -44,9 +44,9 @@ def test_custom_fold_color_css(pytestconfig, golden_dir):
     }
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.extra_css()
-    golden_css_file = os.path.join(golden_dir, "file.css")
-    compare_or_update_golden(pytestconfig, golden_css_file, css)
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_legend()
+    golden_html_file = os.path.join(golden_dir, "file.html")
+    compare_or_update_golden(pytestconfig, golden_html_file, html)
 
 
 def test_custom_range_css(pytestconfig, golden_dir):
@@ -61,9 +61,9 @@ def test_custom_range_css(pytestconfig, golden_dir):
     }
     config = {}
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.extra_css()
-    golden_css_file = os.path.join(golden_dir, "file.css")
-    compare_or_update_golden(pytestconfig, golden_css_file, css)
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_legend()
+    golden_html_file = os.path.join(golden_dir, "file.html")
+    compare_or_update_golden(pytestconfig, golden_html_file, html)
 
 
 def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
@@ -82,9 +82,9 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
         }
     }
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    css = scenario.extra_css()
-    golden_css_file = os.path.join(golden_dir, "file.css")
-    compare_or_update_golden(pytestconfig, golden_css_file, css)
+    html = '<script>'+scenario.extra_css()+'</script>' + scenario.html_legend()
+    golden_html_file = os.path.join(golden_dir, "file.html")
+    compare_or_update_golden(pytestconfig, golden_html_file, html)
 
 
 def test_legend_html(pytestconfig, golden_dir):
