@@ -66,6 +66,9 @@ let dragging = false;
 let isMarking = true;
 document.querySelectorAll('table.range td').forEach(cell => {
     cell.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) {
+            return;  // Not the primary button, ignore the event
+        }
         e.preventDefault();
         dragging = true;
         if (!cell.classList.contains('marked')) {
@@ -86,8 +89,11 @@ document.querySelectorAll('table.range td').forEach(cell => {
         }
     });
 });
+
 document.addEventListener('mouseup', (e) => {
-    dragging = false;
+    if (e.button === 0) {
+        dragging = false;
+    }
 });
 """.lstrip()
 
