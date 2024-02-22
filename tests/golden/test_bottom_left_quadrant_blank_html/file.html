@@ -1,4 +1,45 @@
-<script></script><table class="range">
+<script>
+    table.range, table.legend {
+        border-collapse: collapse;
+        font-size: 0.7em;
+        font-family: monospace;
+    }
+    table.range td, table.legend td {
+        border: 1px solid black;
+        padding: 1px;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    td {
+        background-color: white;
+    }
+    table.legend th {
+        text-align: left;
+        padding: 5px;
+    }
+    table.range td.pair {
+        border: 2px solid black;
+    }
+    table.range td.center {
+        font-weight: bold;
+        font-size: 1.3em;
+    }
+    td.fold {
+        background-color: #D6D2D2;
+    }
+    td.call {
+        background-color: #4BE488;
+    }
+    td.raise {
+        background-color: #FF6A6A;
+    }
+</script>
+<script>
+</script>
+<table class="range">
     <tr>
         <td class="raise pair">AA</td>
         <td class="call suited">AKs</td>
