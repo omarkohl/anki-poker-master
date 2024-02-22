@@ -4,26 +4,29 @@ from anki_poker_generator import PreflopScenario
 from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS
 from typing import List
 
-_HEADER_FMT = "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br><b>Position: </b>{{Position}}<br><b>Scenario: </b>{{Scenario}}<br>"
+_HEADER_FMT = "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br><b>Scenario: </b>{{Scenario}}<br><b>Position: </b>{{Position}}<br>"
 _FOOTER_FMT = "<br>{{Ranges}}<br><b>Notes: </b>{{Notes}}<br><b>Source: </b>{{Source}}<br>"
 
 _PREFLOP_MODEL = genanki.Model(
     1995683082, # Random number that should not change in the future
     'Poker Preflop',
     fields=[
+        # The first field is just to avoid the 'Duplicate' warning in Anki
+        # that checks for the first field.
+        {'name': 'Summary'},
         {'name': 'Game'},
-        {'name': 'Position'},
         {'name': 'Scenario'},
+        {'name': 'Position'},
         {'name': 'Ranges'},
         {'name': 'Notes'},
         {'name': 'Source'},
-        {'name': 'Full HTML'},
-        {'name': 'Top Left Quadrant Blank HTML'},
-        {'name': 'Top Right Quadrant Blank HTML'},
-        {'name': 'Bottom Left Quadrant Blank HTML'},
-        {'name': 'Bottom Right Quadrant Blank HTML'},
-        {'name': 'CSS'},
-        {'name': 'Legend'},
+        {'name': 'Full HTML', 'collapsed': True},
+        {'name': 'Top Left Quadrant Blank HTML', 'collapsed': True},
+        {'name': 'Top Right Quadrant Blank HTML', 'collapsed': True},
+        {'name': 'Bottom Left Quadrant Blank HTML', 'collapsed': True},
+        {'name': 'Bottom Right Quadrant Blank HTML', 'collapsed': True},
+        {'name': 'CSS', 'collapsed': True},
+        {'name': 'Legend', 'collapsed': True},
     ],
     templates=[
         {
@@ -54,7 +57,7 @@ _PREFLOP_MODEL = genanki.Model(
         {
             'name': 'Guess Position',
             'qfmt': "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br>" +
-                "<b>Position: </b>?<br><b>Scenario: </b>{{Scenario}}<br>" +
+                "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>" +
                 '{{Full HTML}}' + '<br>{{Legend}}',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
         }
@@ -74,9 +77,10 @@ def create_deck(scenarios: List[PreflopScenario]) -> List[genanki.Deck]:
         deck.add_note(genanki.Note(
             model=_PREFLOP_MODEL,
             fields=[
+                f"{scenario.game} / {scenario.scenario} / {scenario.position}",
                 scenario.game,
-                scenario.position,
                 scenario.scenario,
+                scenario.position,
                 ranges_txt,
                 scenario.notes if scenario.notes else "",
                 scenario.source if scenario.source else "",
