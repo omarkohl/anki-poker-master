@@ -13,6 +13,9 @@
         box-sizing: border-box;
         overflow: hidden;
     }
+    table.range:hover td {
+        cursor: pointer;
+    }
     td {
         background-color: white;
     }
@@ -36,7 +39,17 @@
     td.raise {
         background-color: #FF6A6A;
     }
+    td.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 3px,
+            black 3px,
+            black 6px
+        );
+    }
     td.blank {
+        /* Blanking a cell must have priority */
         background-color: white !important;
     }
 </style>
@@ -239,3 +252,38 @@
         <td class="fold pair blank">22</td>
     </tr>
 </table>
+<script>
+    /*
+    For all td cells within the table.range we want to do the following
+    - When clicking a cell the 'marked' class should be toggled.
+    - When clicking and dragging it should also be toggled but only
+      depending on the first cell (i.e. either mark or unmark all of them).
+    */
+    let dragging = false;
+    let isMarking = true;
+    document.querySelectorAll('table.range td').forEach(cell => {
+        cell.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            dragging = true;
+            if (!cell.classList.contains('marked')) {
+                cell.classList.add('marked');
+                isMarking = true;
+            } else {
+                cell.classList.remove('marked');
+                isMarking = false;
+            }
+        });
+        cell.addEventListener('mouseenter', (e) => {
+            if (dragging) {
+                if (isMarking) {
+                    cell.classList.add('marked');
+                } else {
+                    cell.classList.remove('marked');
+                }
+            }
+        });
+    });
+    document.addEventListener('mouseup', (e) => {
+        dragging = false;
+    });
+</script>
