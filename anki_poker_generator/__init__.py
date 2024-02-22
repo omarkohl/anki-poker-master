@@ -69,14 +69,6 @@ class PreflopScenario:
         self.source = source
         self.notes = notes
 
-    def header(self) -> str:
-        indent = 0
-        html = []
-        html += [indent * " " + self.game + "<br>"]
-        html += [indent * " " + "<b>Position: </b>%s<br>" % self.position]
-        html += [indent * " " + "<b>Scenario: </b>%s<br>" % self.scenario]
-        return "\n".join(html) + "\n"
-
     def html_full(self) -> str:
         return _to_html(self.ranges)
 

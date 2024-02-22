@@ -230,23 +230,6 @@ def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
     compare_or_update_golden(pytestconfig, golden_html_file, html)
 
 
-def test_header_html(pytestconfig, golden_dir):
-    from anki_poker_generator import PreflopScenario
-    from anki_poker_generator.const import DEFAULT_CSS
-    action_ranges = {
-        "Call": Range('A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+'),
-        "Raise": Range('AA, KK, QQ, JJ, TT, 99, 88, 77'),
-    }
-    config = {}
-
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
-    html = ''
-    html += '<style>\n' + textwrap.indent(DEFAULT_CSS, 4*' ') + '</style>\n'
-    html += '<style>\n'+textwrap.indent(scenario.extra_css(), 4*' ')+'</style>\n'
-    html += scenario.header()
-    golden_html_file = os.path.join(golden_dir, "file.html")
-    compare_or_update_golden(pytestconfig, golden_html_file, html)
-
 def test_overlapping_ranges(pytestconfig, golden_dir):
     """
     Verify that overlapping ranges are overwritten in alphabetical order.
