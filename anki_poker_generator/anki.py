@@ -66,7 +66,7 @@ _PREFLOP_MODEL = genanki.Model(
 )
 
 
-def create_deck(scenarios: List[PreflopScenario]) -> List[genanki.Deck]:
+def create_deck(scenarios: List[PreflopScenario], tags: List[str] = None) -> List[genanki.Deck]:
     deck_id = random.randrange(1 << 30, 1 << 31)
     deck = genanki.Deck(deck_id, "Poker Preflop")
     for scenario in scenarios:
@@ -92,6 +92,7 @@ def create_deck(scenarios: List[PreflopScenario]) -> List[genanki.Deck]:
                 scenario.extra_css(),
                 scenario.html_legend(),
             ],
+            tags=tags if tags else [],
         ))
     return deck
 

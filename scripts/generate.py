@@ -60,7 +60,7 @@ def main():
         source,
         "Same range as BTN."
         ))
-    d = create_deck(scenarios)
+    d = create_deck(scenarios, tags=["poker"])
     write_deck_to_file(d, "preflop.apkg")
 
 
