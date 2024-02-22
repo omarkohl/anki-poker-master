@@ -4,7 +4,7 @@ from anki_poker_generator import PreflopScenario
 from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS
 from typing import List
 
-_HEADER_FMT = "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br><b>Scenario: </b>{{Scenario}}<br><b>Position: </b>{{Position}}<br>"
+_HEADER_FMT = "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br><b>Scenario: </b>{{Scenario}}<br><b>Position: </b>{{Position}}<br>"
 _FOOTER_FMT = "<br>{{Ranges}}<br><b>Notes: </b>{{Notes}}<br><b>Source: </b>{{Source}}<br>"
 
 _PREFLOP_MODEL = genanki.Model(
@@ -56,7 +56,7 @@ _PREFLOP_MODEL = genanki.Model(
         },
         {
             'name': 'Guess Position',
-            'qfmt': "<script>{{CSS}}</script><b>Game: </b>{{Game}}<br>" +
+            'qfmt': "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>" +
                 "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>" +
                 '{{Full HTML}}' + '<br>{{Legend}}',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
