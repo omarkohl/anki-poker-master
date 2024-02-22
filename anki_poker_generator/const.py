@@ -44,8 +44,8 @@ td.marked {
         45deg,
         transparent,
         transparent 3px,
-        black 3px,
-        black 6px
+        #00000070 3px,
+        #00000070 6px
     );
 }
 td.blank {
