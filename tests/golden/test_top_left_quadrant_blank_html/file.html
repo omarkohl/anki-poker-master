@@ -36,18 +36,21 @@
     td.raise {
         background-color: #FF6A6A;
     }
+    td.blank {
+        background-color: white !important;
+    }
 </style>
 <style>
 </style>
 <table class="range">
     <tr>
-        <td class="blank pair">AA</td>
-        <td class="blank suited">AKs</td>
-        <td class="blank suited">AQs</td>
-        <td class="blank suited">AJs</td>
-        <td class="blank suited">ATs</td>
-        <td class="blank suited">A9s</td>
-        <td class="blank suited">A8s</td>
+        <td class="raise pair blank">AA</td>
+        <td class="call suited blank">AKs</td>
+        <td class="call suited blank">AQs</td>
+        <td class="call suited blank">AJs</td>
+        <td class="call suited blank">ATs</td>
+        <td class="call suited blank">A9s</td>
+        <td class="call suited blank">A8s</td>
         <td class="call suited">A7s</td>
         <td class="call suited">A6s</td>
         <td class="call suited">A5s</td>
@@ -56,13 +59,13 @@
         <td class="fold suited">A2s</td>
     </tr>
     <tr>
-        <td class="blank offsuit">AKo</td>
-        <td class="blank pair">KK</td>
-        <td class="blank suited">KQs</td>
-        <td class="blank suited">KJs</td>
-        <td class="blank suited">KTs</td>
-        <td class="blank suited">K9s</td>
-        <td class="blank suited">K8s</td>
+        <td class="call offsuit blank">AKo</td>
+        <td class="raise pair blank">KK</td>
+        <td class="call suited blank">KQs</td>
+        <td class="call suited blank">KJs</td>
+        <td class="call suited blank">KTs</td>
+        <td class="call suited blank">K9s</td>
+        <td class="call suited blank">K8s</td>
         <td class="call suited">K7s</td>
         <td class="call suited">K6s</td>
         <td class="call suited">K5s</td>
@@ -71,13 +74,13 @@
         <td class="fold suited">K2s</td>
     </tr>
     <tr>
-        <td class="blank offsuit">AQo</td>
-        <td class="blank offsuit">KQo</td>
-        <td class="blank pair">QQ</td>
-        <td class="blank suited">QJs</td>
-        <td class="blank suited">QTs</td>
-        <td class="blank suited">Q9s</td>
-        <td class="blank suited">Q8s</td>
+        <td class="call offsuit blank">AQo</td>
+        <td class="call offsuit blank">KQo</td>
+        <td class="raise pair blank">QQ</td>
+        <td class="call suited blank">QJs</td>
+        <td class="call suited blank">QTs</td>
+        <td class="call suited blank">Q9s</td>
+        <td class="call suited blank">Q8s</td>
         <td class="call suited">Q7s</td>
         <td class="call suited">Q6s</td>
         <td class="call suited">Q5s</td>
@@ -86,13 +89,13 @@
         <td class="fold suited">Q2s</td>
     </tr>
     <tr>
-        <td class="blank offsuit">AJo</td>
-        <td class="blank offsuit">KJo</td>
-        <td class="blank offsuit">QJo</td>
-        <td class="blank pair">JJ</td>
-        <td class="blank suited">JTs</td>
-        <td class="blank suited">J9s</td>
-        <td class="blank suited">J8s</td>
+        <td class="call offsuit blank">AJo</td>
+        <td class="call offsuit blank">KJo</td>
+        <td class="call offsuit blank">QJo</td>
+        <td class="raise pair blank">JJ</td>
+        <td class="call suited blank">JTs</td>
+        <td class="call suited blank">J9s</td>
+        <td class="call suited blank">J8s</td>
         <td class="call suited">J7s</td>
         <td class="call suited">J6s</td>
         <td class="call suited">J5s</td>
@@ -101,13 +104,13 @@
         <td class="fold suited">J2s</td>
     </tr>
     <tr>
-        <td class="blank offsuit">ATo</td>
-        <td class="blank offsuit">KTo</td>
-        <td class="blank offsuit">QTo</td>
-        <td class="blank offsuit">JTo</td>
-        <td class="blank pair">TT</td>
-        <td class="blank suited">T9s</td>
-        <td class="blank suited">T8s</td>
+        <td class="call offsuit blank">ATo</td>
+        <td class="call offsuit blank">KTo</td>
+        <td class="call offsuit blank">QTo</td>
+        <td class="call offsuit blank">JTo</td>
+        <td class="raise pair blank">TT</td>
+        <td class="call suited blank">T9s</td>
+        <td class="call suited blank">T8s</td>
         <td class="call suited">T7s</td>
         <td class="call suited">T6s</td>
         <td class="call suited">T5s</td>
@@ -116,13 +119,13 @@
         <td class="fold suited">T2s</td>
     </tr>
     <tr>
-        <td class="blank offsuit">A9o</td>
-        <td class="blank offsuit">K9o</td>
-        <td class="blank offsuit">Q9o</td>
-        <td class="blank offsuit">J9o</td>
-        <td class="blank offsuit">T9o</td>
-        <td class="blank pair">99</td>
-        <td class="blank suited">98s</td>
+        <td class="call offsuit blank">A9o</td>
+        <td class="call offsuit blank">K9o</td>
+        <td class="call offsuit blank">Q9o</td>
+        <td class="call offsuit blank">J9o</td>
+        <td class="call offsuit blank">T9o</td>
+        <td class="raise pair blank">99</td>
+        <td class="call suited blank">98s</td>
         <td class="call suited">97s</td>
         <td class="call suited">96s</td>
         <td class="call suited">95s</td>
@@ -131,13 +134,13 @@
         <td class="fold suited">92s</td>
     </tr>
     <tr>
-        <td class="blank offsuit">A8o</td>
-        <td class="blank offsuit">K8o</td>
-        <td class="blank offsuit">Q8o</td>
-        <td class="blank offsuit">J8o</td>
-        <td class="blank offsuit">T8o</td>
-        <td class="blank offsuit">98o</td>
-        <td class="blank pair center">88</td>
+        <td class="call offsuit blank">A8o</td>
+        <td class="call offsuit blank">K8o</td>
+        <td class="call offsuit blank">Q8o</td>
+        <td class="call offsuit blank">J8o</td>
+        <td class="call offsuit blank">T8o</td>
+        <td class="call offsuit blank">98o</td>
+        <td class="raise pair blank center">88</td>
         <td class="call suited">87s</td>
         <td class="call suited">86s</td>
         <td class="call suited">85s</td>

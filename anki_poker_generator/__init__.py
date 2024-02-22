@@ -161,6 +161,7 @@ def _to_html(action_ranges: Dict[str, Range]) -> str:
                 suit = ""
                 hand_type = "pair"
             action = "fold"
+            blank = False
             hand = Hand(row.val + col.val + suit)
             for a in sorted(action_ranges):
                 if a == "blank":
@@ -171,8 +172,8 @@ def _to_html(action_ranges: Dict[str, Range]) -> str:
             # Overwrite if blank
             if "blank" in action_ranges:
                 if hand in action_ranges["blank"].hands:
-                    action = "blank"
-            css_classes = f"{_to_css_class(action)} {hand_type}"
+                    blank = True
+            css_classes = f"{_to_css_class(action)} {hand_type}" + (" blank" if blank else "")
             if hand == Hand("88"):
                 css_classes += " center"
             html.append(

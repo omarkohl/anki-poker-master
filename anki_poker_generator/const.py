@@ -36,6 +36,10 @@ td.call {
 td.raise {
     background-color: #FF6A6A;
 }
+td.blank {
+    /* Blanking a cell must have priority */
+    background-color: white !important;
+}
 """.lstrip()
 
 BLANK_TABLE = """<table class="range">
