@@ -33,26 +33,36 @@ _PREFLOP_MODEL = genanki.Model(
             'name': 'TL Quadrant',
             'qfmt': _HEADER_FMT + '{{Top Left Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'bqfmt': '{{Summary}} (top left)',
+            'bafmt': '(HTML table)',
         },
         {
             'name': 'TR Quadrant',
             'qfmt': _HEADER_FMT + '{{Top Right Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'bqfmt': '{{Summary}} (top right)',
+            'bafmt': '(HTML table)',
         },
         {
             'name': 'BL Quadrant',
             'qfmt': _HEADER_FMT + '{{Bottom Left Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'bqfmt': '{{Summary}} (bottom left)',
+            'bafmt': '(HTML table)',
         },
         {
             'name': 'BR Quadrant',
             'qfmt': _HEADER_FMT + '{{Bottom Right Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'bqfmt': '{{Summary}} (bottom right)',
+            'bafmt': '(HTML table)',
         },
         {
             'name': 'Full',
             'qfmt': _HEADER_FMT + BLANK_TABLE + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'bqfmt': '{{Summary}} (full)',
+            'bafmt': '(HTML table)',
         },
         {
             'name': 'Guess Position',
@@ -60,6 +70,8 @@ _PREFLOP_MODEL = genanki.Model(
                 "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>" +
                 '{{Full HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
             'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'bqfmt': '{{Game}} / {{Scenario}} / ?',
+            'bafmt': '{{Position}}',
         }
     ],
     css=DEFAULT_CSS,
