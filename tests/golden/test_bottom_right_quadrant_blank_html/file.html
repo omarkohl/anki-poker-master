@@ -260,38 +260,46 @@
       depending on the first cell (i.e. either mark or unmark all of them).
     */
     function setupDragging() {
+        function handleStart(e) {
+            if ((e instanceof MouseEvent && e.button !== 0) || (e.touches && e.touches.length > 1)) {
+                return;  // Not the primary button or single touch, ignore the event
+            }
+            e.preventDefault();
+            dragging = true;
+            if (!this.classList.contains('marked')) {
+                this.classList.add('marked');
+                isMarking = true;
+            } else {
+                this.classList.remove('marked');
+                isMarking = false;
+            }
+        }
+
+        function handleMove(e) {
+            if (dragging) {
+                if (isMarking) {
+                    this.classList.add('marked');
+                } else {
+                    this.classList.remove('marked');
+                }
+            }
+        }
+
+        function handleEnd(e) {
+            if ((e instanceof MouseEvent && e.button === 0) || e instanceof TouchEvent) {
+                dragging = false;
+            }
+        }
+
         let dragging = false;
         let isMarking = true;
         document.querySelectorAll('table.range td').forEach(cell => {
-            cell.addEventListener('mousedown', (e) => {
-                if (e.button !== 0) {
-                    return;  // Not the primary button, ignore the event
-                }
-                e.preventDefault();
-                dragging = true;
-                if (!cell.classList.contains('marked')) {
-                    cell.classList.add('marked');
-                    isMarking = true;
-                } else {
-                    cell.classList.remove('marked');
-                    isMarking = false;
-                }
-            });
-            cell.addEventListener('mouseenter', (e) => {
-                if (dragging) {
-                    if (isMarking) {
-                        cell.classList.add('marked');
-                    } else {
-                        cell.classList.remove('marked');
-                    }
-                }
-            });
-        });
-
-        document.addEventListener('mouseup', (e) => {
-            if (e.button === 0) {
-                dragging = false;
-            }
+            cell.addEventListener('mousedown', handleStart);
+            cell.addEventListener('touchstart', handleStart);
+            cell.addEventListener('mouseenter', handleMove);
+            cell.addEventListener('touchmove', handleMove);
+            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('touchend', handleEnd);
         });
     }
 
