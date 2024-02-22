@@ -289,37 +289,45 @@
     - When clicking and dragging it should also be toggled but only
       depending on the first cell (i.e. either mark or unmark all of them).
     */
-    let dragging = false;
-    let isMarking = true;
-    document.querySelectorAll('table.range td').forEach(cell => {
-        cell.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) {
-                return;  // Not the primary button, ignore the event
-            }
-            e.preventDefault();
-            dragging = true;
-            if (!cell.classList.contains('marked')) {
-                cell.classList.add('marked');
-                isMarking = true;
-            } else {
-                cell.classList.remove('marked');
-                isMarking = false;
-            }
-        });
-        cell.addEventListener('mouseenter', (e) => {
-            if (dragging) {
-                if (isMarking) {
+    function setupDragging() {
+        let dragging = false;
+        let isMarking = true;
+        document.querySelectorAll('table.range td').forEach(cell => {
+            cell.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) {
+                    return;  // Not the primary button, ignore the event
+                }
+                e.preventDefault();
+                dragging = true;
+                if (!cell.classList.contains('marked')) {
                     cell.classList.add('marked');
+                    isMarking = true;
                 } else {
                     cell.classList.remove('marked');
+                    isMarking = false;
                 }
+            });
+            cell.addEventListener('mouseenter', (e) => {
+                if (dragging) {
+                    if (isMarking) {
+                        cell.classList.add('marked');
+                    } else {
+                        cell.classList.remove('marked');
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (e.button === 0) {
+                dragging = false;
             }
         });
-    });
+    }
 
-    document.addEventListener('mouseup', (e) => {
-        if (e.button === 0) {
-            dragging = false;
-        }
-    });
+    if (typeof onUpdateHook !== 'undefined') {
+        onUpdateHook.push(setupDragging);
+    } else {
+        setupDragging();
+    }
 </script>

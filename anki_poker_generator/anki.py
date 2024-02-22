@@ -1,7 +1,7 @@
 import random
 import genanki
 from anki_poker_generator import PreflopScenario
-from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS
+from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
 from typing import List
 
 _HEADER_FMT = "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br><b>Scenario: </b>{{Scenario}}<br><b>Position: </b>{{Position}}<br>"
@@ -31,35 +31,35 @@ _PREFLOP_MODEL = genanki.Model(
     templates=[
         {
             'name': 'TL Quadrant',
-            'qfmt': _HEADER_FMT + '{{Top Left Quadrant Blank HTML}}' + '<br>{{Legend}}',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+            'qfmt': _HEADER_FMT + '{{Top Left Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
         },
         {
             'name': 'TR Quadrant',
-            'qfmt': _HEADER_FMT + '{{Top Right Quadrant Blank HTML}}' + '<br>{{Legend}}',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+            'qfmt': _HEADER_FMT + '{{Top Right Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
         },
         {
             'name': 'BL Quadrant',
-            'qfmt': _HEADER_FMT + '{{Bottom Left Quadrant Blank HTML}}' + '<br>{{Legend}}',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+            'qfmt': _HEADER_FMT + '{{Bottom Left Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
         },
         {
             'name': 'BR Quadrant',
-            'qfmt': _HEADER_FMT + '{{Bottom Right Quadrant Blank HTML}}' + '<br>{{Legend}}',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+            'qfmt': _HEADER_FMT + '{{Bottom Right Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
         },
         {
             'name': 'Full',
-            'qfmt': _HEADER_FMT + BLANK_TABLE + '<br>{{Legend}}',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+            'qfmt': _HEADER_FMT + BLANK_TABLE + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
         },
         {
             'name': 'Guess Position',
             'qfmt': "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>" +
                 "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>" +
-                '{{Full HTML}}' + '<br>{{Legend}}',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT,
+                '{{Full HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
         }
     ],
     css=DEFAULT_CSS,
