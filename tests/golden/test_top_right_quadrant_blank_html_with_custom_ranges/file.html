@@ -289,10 +289,18 @@
 
         function handleMove(e) {
             if (dragging) {
-                if (isMarking) {
-                    this.classList.add('marked');
-                } else {
-                    this.classList.remove('marked');
+                let target;
+                if (e instanceof MouseEvent) {
+                    target = e.target;
+                } else if (e instanceof TouchEvent && e.touches.length > 0) {
+                    target = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                }
+                if (target && target.nodeName === 'TD' && target.closest('table.range')) {
+                    if (isMarking) {
+                        target.classList.add('marked');
+                    } else {
+                        target.classList.remove('marked');
+                    }
                 }
             }
         }
@@ -308,11 +316,11 @@
         document.querySelectorAll('table.range td').forEach(cell => {
             cell.addEventListener('mousedown', handleStart);
             cell.addEventListener('touchstart', handleStart);
-            cell.addEventListener('mouseenter', handleMove);
+            cell.addEventListener('mousemove', handleMove);
             cell.addEventListener('touchmove', handleMove);
-            document.addEventListener('mouseup', handleEnd);
-            document.addEventListener('touchend', handleEnd);
         });
+        document.addEventListener('mouseup', handleEnd);
+        document.addEventListener('touchend', handleEnd);
     }
 
     if (typeof onUpdateHook !== 'undefined') {
