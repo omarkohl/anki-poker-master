@@ -4,8 +4,50 @@ from anki_poker_generator import PreflopScenario
 from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
 from typing import List
 
-_HEADER_FMT = "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br><b>Scenario: </b>{{Scenario}}<br><b>Position: </b>{{Position}}<br>"
-_FOOTER_FMT = "<br>{{Ranges}}<br><b>Notes: </b>{{Notes}}<br><b>Source: </b>{{Source}}<br>"
+_ALL_CARD_HEADER = """
+<div class="row">
+    <div class="column column_left">
+        {{Tags}}
+    </div>
+    <div class="column column_right">
+    </div>
+</div>
+<style>
+{{CSS}}
+</style>
+""".lstrip()
+
+_HEADER_FMT = _ALL_CARD_HEADER + """
+<b>Game: </b>{{Game}}
+<br>
+<b>Scenario: </b>{{Scenario}}
+<br>
+<b>Position: </b>{{Position}}
+<br>
+""".lstrip()
+
+
+_ALL_CARD_FOOTER = """
+<p>
+{{Ranges}}
+</p>
+{{#Notes}}
+<p>
+<small><b>Notes:</b></small>
+<br>
+<small>{{Notes}}</small>
+</p>
+{{/Notes}}
+{{#Source}}
+<p>
+<small><b>Source:</b></small>
+<br>
+<small>{{Source}}</small>
+</p>
+{{/Source}}
+<script>
+""".lstrip() + DEFAULT_JS + "\n</script>"
+
 
 _PREFLOP_MODEL = genanki.Model(
     1995683082, # Random number that should not change in the future
@@ -32,44 +74,44 @@ _PREFLOP_MODEL = genanki.Model(
         {
             'name': 'TL Quadrant',
             'qfmt': _HEADER_FMT + '{{Top Left Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _ALL_CARD_FOOTER,
             'bqfmt': '{{Summary}} (top left)',
             'bafmt': '(HTML table)',
         },
         {
             'name': 'TR Quadrant',
             'qfmt': _HEADER_FMT + '{{Top Right Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _ALL_CARD_FOOTER,
             'bqfmt': '{{Summary}} (top right)',
             'bafmt': '(HTML table)',
         },
         {
             'name': 'BL Quadrant',
             'qfmt': _HEADER_FMT + '{{Bottom Left Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _ALL_CARD_FOOTER,
             'bqfmt': '{{Summary}} (bottom left)',
             'bafmt': '(HTML table)',
         },
         {
             'name': 'BR Quadrant',
             'qfmt': _HEADER_FMT + '{{Bottom Right Quadrant Blank HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _ALL_CARD_FOOTER,
             'bqfmt': '{{Summary}} (bottom right)',
             'bafmt': '(HTML table)',
         },
         {
             'name': 'Full',
             'qfmt': _HEADER_FMT + BLANK_TABLE + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _ALL_CARD_FOOTER,
             'bqfmt': '{{Summary}} (full)',
             'bafmt': '(HTML table)',
         },
         {
             'name': 'Guess Position',
-            'qfmt': "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>" +
+            'qfmt': _ALL_CARD_HEADER + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>" +
                 "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>" +
                 '{{Full HTML}}' + '<br>{{Legend}}' + '<script>' + DEFAULT_JS + '</script>',
-            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _FOOTER_FMT + '<script>' + DEFAULT_JS + '</script>' ,
+            'afmt': _HEADER_FMT + '{{Full HTML}}' + '<br>{{Legend}}' + _ALL_CARD_FOOTER,
             'bqfmt': '{{Game}} / {{Scenario}} / ?',
             'bafmt': '{{Position}}',
         }
