@@ -1,7 +1,7 @@
 import random
 import genanki
-from anki_poker_generator import PreflopScenario
-from anki_poker_generator.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
+from anki_poker_master import PreflopScenario
+from anki_poker_master.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
 from typing import List
 
 _ALL_CARD_HEADER = """

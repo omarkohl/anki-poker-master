@@ -1,7 +1,7 @@
 from poker.hand import Range, Hand, Rank
 from typing import Dict
-from anki_poker_generator import PreflopScenario
-from anki_poker_generator.anki import create_deck, write_deck_to_file
+from anki_poker_master import PreflopScenario
+from anki_poker_master.anki import create_deck, write_deck_to_file
 
 
 def main():

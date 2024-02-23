@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "anki-poker-generator"
+name = "anki_poker_master"
 version = "0.1.0"
 description = ""
 authors = ["Omar Kohl <omarkohl@posteo.net>"]

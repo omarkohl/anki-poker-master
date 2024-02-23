@@ -1,4 +1,4 @@
-# anki-poker-generator
+# AnkiPokerMaster
 
 Python tool to generate one or multiple Anki decks for memorizing Texas Hold'em
 Poker preflop ranges.
