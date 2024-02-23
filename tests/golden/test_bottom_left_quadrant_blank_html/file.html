@@ -72,7 +72,7 @@
 </style>
 <style>
 </style>
-<table class="range">
+<table class="markable range">
     <tr>
         <td class="raise pair">AA</td>
         <td class="call suited">AKs</td>
@@ -318,7 +318,7 @@
 
         let dragging = false;
         let isMarking = true;
-        document.querySelectorAll('table.range td').forEach(cell => {
+        document.querySelectorAll('table.range.markable td').forEach(cell => {
             cell.addEventListener('mousedown', handleStart);
             cell.addEventListener('touchstart', handleStart);
             cell.addEventListener('mousemove', handleMove);

@@ -1,7 +1,7 @@
 import re
 import random
 import copy
-from typing import Dict
+from typing import Dict, List
 from poker.hand import Range, Hand, Rank
 
 
@@ -72,12 +72,12 @@ class PreflopScenario:
         return _to_html(self.ranges)
 
     def html_blank(self) -> str:
-        return _to_html({"blank": Range("XX")})
+        return _to_html({"blank": Range("XX")}, table_css_classes=["markable"])
 
     def _html_quadrant_blank(self, quadrant) -> str:
         ranges = self.ranges.copy()
         ranges["blank"] = Range(quadrant)
-        return _to_html(ranges)
+        return _to_html(ranges, table_css_classes=["markable"])
 
     def html_top_left_quadrant_blank(self) -> str:
         return self._html_quadrant_blank(_TOP_LEFT_QUADRANT)
@@ -144,9 +144,14 @@ class PreflopScenario:
         return "\n".join(html) + "\n"
 
 
-def _to_html(action_ranges: Dict[str, Range]) -> str:
+def _to_html(
+    action_ranges: Dict[str, Range], table_css_classes: List[str] = None
+) -> str:
+    table_classes = {"range"}
+    if table_css_classes:
+        table_classes.update(c.lower() for c in table_css_classes)
     indent = 0
-    html = [indent * " " + '<table class="range">']
+    html = [indent * " " + f'<table class="{" ".join(sorted(table_classes))}">']
     indent += 4
     for row in reversed(Rank):
         html.append(indent * " " + "<tr>")
