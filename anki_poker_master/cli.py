@@ -1,6 +1,6 @@
 import os
 import sys
-from poker.hand import Range, Hand, Rank
+from poker.hand import Range
 from typing import Dict, List
 import argparse
 import yaml
@@ -10,7 +10,6 @@ from anki_poker_master import PreflopScenario
 from anki_poker_master.anki import create_deck, write_deck_to_file
 
 
-# Example in YAML format
 EXAMPLE_CONFIG_FILE = """
 ## You can override the default colors for the ranges and specify colors for
 ## custom ranges.
