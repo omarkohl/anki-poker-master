@@ -121,6 +121,17 @@ class PreflopScenario:
             css += [indent * " " + f"background-color: {color[action]};"]
             indent -= 4
             css += [indent * " " + "}"]
+            css += [indent * " " + f"td.{action}.marked {{"]
+            indent += 4
+            css += [indent * " " + "background: repeating-linear-gradient("]
+            indent += 4
+            css += [indent * " " + "45deg,"]
+            css += [indent * " " + f"{color[action]}, {color[action]} 3px,"]
+            css += [indent * " " + f"#00000070 3px, #00000070 6px"]
+            indent -= 4
+            css += [indent * " " + ");"]
+            indent -= 4
+            css += [indent * " " + "}"]
         return "\n".join(css) + "\n"
 
     def html_legend(self) -> str:

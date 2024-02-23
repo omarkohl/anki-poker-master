@@ -59,8 +59,35 @@
     td.marked {
         background: repeating-linear-gradient(
             45deg,
-            transparent,
-            transparent 3px,
+            white,
+            white 3px,
+            #00000070 3px,
+            #00000070 6px
+        );
+    }
+    td.marked.fold {
+        background: repeating-linear-gradient(
+            45deg,
+            #D6D2D2,
+            #D6D2D2 3px,
+            #00000070 3px,
+            #00000070 6px
+        );
+    }
+    td.marked.call {
+        background: repeating-linear-gradient(
+            45deg,
+            #4BE488,
+            #4BE488 3px,
+            #00000070 3px,
+            #00000070 6px
+        );
+    }
+    td.marked.raise {
+        background: repeating-linear-gradient(
+            45deg,
+            #FF6A6A,
+            #FF6A6A 3px,
             #00000070 3px,
             #00000070 6px
         );
@@ -69,19 +96,56 @@
         /* Blanking a cell must have priority */
         background-color: white !important;
     }
+    td.marked.blank {
+        background: repeating-linear-gradient(
+            45deg,
+            white,
+            white 3px,
+            #00000070 3px,
+            #00000070 6px
+        ) !important;
+    }
 </style>
 <style>
     td.call {
         background-color: #4BE488;
     }
+    td.call.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #4BE488, #4BE488 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
     td.fold {
         background-color: #D6D2D2;
+    }
+    td.fold.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #D6D2D2, #D6D2D2 3px,
+            #00000070 3px, #00000070 6px
+        );
     }
     td.my_special_range {
         background-color: red;
     }
+    td.my_special_range.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            red, red 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
     td.raise {
         background-color: #FF6A6A;
+    }
+    td.raise.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #FF6A6A, #FF6A6A 3px,
+            #00000070 3px, #00000070 6px
+        );
     }
 </style>
 <table class="range">
