@@ -13,6 +13,7 @@ genanki = "^0.13.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
+black = "^24.2.0"
 
 [build-system]
 requires = ["poetry-core"]
