@@ -53,11 +53,16 @@ EXAMPLE_CONFIG_FILE = """
 #  Big Important Poker Book<br>
 #  John Smith<br>
 #
+## You can specify the Anki tags you want to add to the generated cards. The
+## default is an empty list.
+#tags: ["poker"]
+#
 """.lstrip()
 
 EXAMPLE_SCENARIO_FILE = """
 ## The scenario file is a list of scenarios. Each scenario is a dictionary
-## with the following keys: game, position, scenario, ranges.
+## with the following keys: game, position, scenario, ranges and
+## notes (optional).
 ## ranges is a dictionary of ranges you want to differentiate. Most common
 ## is to have Raise, Call and Fold. You can also have custom range names.
 ## Everything that is not specified will default to 'Fold'.
@@ -73,6 +78,7 @@ EXAMPLE_SCENARIO_FILE = """
 #   scenario: "raise from LJ"
 #   ranges:
 #     Raise: "A9s+, KTs+, QJs, A5s, A4s, AQo+, KQo, TT+"
+#   notes: "This is a note for the scenario. You can write anything here."
 
 ## As you can see in the following example, you are very flexible in how you
 ## can define the information you care about.
@@ -83,6 +89,7 @@ EXAMPLE_SCENARIO_FILE = """
 #     Raise: "A2s+"
 #     Call: "77+"
 #     "Secret range to bluff against Bob": "66-"
+#   notes: "Remember that Bob is a nit and always folds to 3bets."
 
 ## ... and so on
 """.lstrip()
@@ -155,10 +162,7 @@ def main():
     with open(args.scenarios, "r") as f:
         scenarios = yaml.safe_load(f)
 
-    # TODO tags in config
-    # TODO notes in scenarios
-
-    d = create_deck(convert_scenarios(scenarios, config), tags=["poker"])
+    d = create_deck(convert_scenarios(scenarios, config), tags=config.get("tags", None))
     deck_name = config.get("deck_name", "Poker Ranges")
     write_deck_to_file(d, f"{deck_name}.apkg")
 
@@ -170,6 +174,7 @@ def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
         position = scenario["position"]
         scenario_name = scenario["scenario"]
         ranges = scenario["ranges"]
+        notes = scenario.get("notes", None)
         result.append(
             PreflopScenario(
                 game=game,
@@ -177,7 +182,7 @@ def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
                 scenario=scenario_name,
                 ranges=convert_ranges(ranges),
                 config=config,
-                notes=None,
+                notes=notes,
             ),
         )
     return result
