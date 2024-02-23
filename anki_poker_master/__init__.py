@@ -7,10 +7,10 @@ from poker.hand import Range, Hand, Rank
 
 # Note that there is overlap between the quadrants since the grid is 13x13.
 # Each quadrant is 7x7.
-_TOP_LEFT_QUADRANT = '98+, A8+, K8+, Q8+, J8+, T8+, 88+'
-_TOP_RIGHT_QUADRANT = 'A8s-, K8s-, Q8s-, J8s-, T8s-, 98s-, 87s-, 88'
-_BOTTOM_LEFT_QUADRANT = 'A8o-, K8o-, Q8o-, J8o-, T8o-, 98o-, 87o-, 88'
-_BOTTOM_RIGHT_QUADRANT = '88-, 87-, 76-, 65-, 54-, 43-, 32-'
+_TOP_LEFT_QUADRANT = "98+, A8+, K8+, Q8+, J8+, T8+, 88+"
+_TOP_RIGHT_QUADRANT = "A8s-, K8s-, Q8s-, J8s-, T8s-, 98s-, 87s-, 88"
+_BOTTOM_LEFT_QUADRANT = "A8o-, K8o-, Q8o-, J8o-, T8o-, 98o-, 87o-, 88"
+_BOTTOM_RIGHT_QUADRANT = "88-, 87-, 76-, 65-, 54-, 43-, 32-"
 
 _DEFAULT_CONFIG = {
     "color": {
@@ -36,15 +36,14 @@ _EASY_TO_READ_COLORS = [
 
 class PreflopScenario:
     def __init__(
-            self,
-            ranges: Dict[str, Range],
-            position: str,
-            scenario: str,
-            game: str,
-            config: Dict = None,
-            source: str = None,
-            notes: str = None,
-            ):
+        self,
+        ranges: Dict[str, Range],
+        position: str,
+        scenario: str,
+        game: str,
+        config: Dict = None,
+        notes: str = None,
+    ):
         self.ranges = ranges.copy()
         if "fold" not in [r.lower() for r in self.ranges]:
             # Make the fold range explicit if it's missing
@@ -66,7 +65,7 @@ class PreflopScenario:
                         self.config["color"][_to_css_class(color_k)] = color_v
                 else:
                     self.config[key] = value
-        self.source = source
+        self.source = self.config.get("source", "")
         self.notes = notes
 
     def html_full(self) -> str:
@@ -135,7 +134,9 @@ class PreflopScenario:
             html.append(indent * " " + "<tr>")
             indent += 4
             html.append(indent * " " + f"<th class='row'>{action}</th>")
-            html.append(indent * " " + f"<td class='{_to_css_class(action)}'>&nbsp;</td>")
+            html.append(
+                indent * " " + f"<td class='{_to_css_class(action)}'>&nbsp;</td>"
+            )
             indent -= 4
             html.append(indent * " " + "</tr>")
         indent -= 4
@@ -173,12 +174,15 @@ def _to_html(action_ranges: Dict[str, Range]) -> str:
             if "blank" in action_ranges:
                 if hand in action_ranges["blank"].hands:
                     blank = True
-            css_classes = f"{_to_css_class(action)} {hand_type}" + (" blank" if blank else "")
+            css_classes = f"{_to_css_class(action)} {hand_type}" + (
+                " blank" if blank else ""
+            )
             if hand == Hand("88"):
                 css_classes += " center"
             html.append(
-                indent * " " +
-                '<td class="%s">%s</td>' % (
+                indent * " "
+                + '<td class="%s">%s</td>'
+                % (
                     css_classes,
                     hand,
                 ),
@@ -191,4 +195,4 @@ def _to_html(action_ranges: Dict[str, Range]) -> str:
 
 
 def _to_css_class(action: str) -> str:
-    return re.sub(r'[^a-zA-Z0-9]', '_', action).lstrip('_').lower().strip()
+    return re.sub(r"[^a-zA-Z0-9]", "_", action).lstrip("_").lower().strip()

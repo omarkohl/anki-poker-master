@@ -2,7 +2,7 @@ import random
 import genanki
 from anki_poker_master import PreflopScenario
 from anki_poker_master.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
-from typing import List
+from typing import List, Dict
 
 _ALL_CARD_HEADER = """
 <div class="row">
