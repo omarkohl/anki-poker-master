@@ -17,3 +17,6 @@ pytest = "^8.0.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+anki-poker-master = 'anki_poker_master.cli:main'

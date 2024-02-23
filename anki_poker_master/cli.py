@@ -4,6 +4,11 @@ from anki_poker_master import PreflopScenario
 from anki_poker_master.anki import create_deck, write_deck_to_file
 
 
+EXAMPLE_CONFIG = """
+
+""".lstrip()
+
+
 def main():
     config = {}
     source = '<a href="https://pokertrainer.se/">pokertrainer.se</a>'
@@ -62,7 +67,3 @@ def main():
         ))
     d = create_deck(scenarios, tags=["poker"])
     write_deck_to_file(d, "preflop.apkg")
-
-
-if __name__ == '__main__':
-    main()

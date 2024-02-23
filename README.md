@@ -7,7 +7,8 @@ Poker preflop ranges.
 ## Develop
 
 ```bash
-poetry run python scripts/generate.py
+poetry install
+poetry run anki-poker-master
 # poetry shell
 ```
 
