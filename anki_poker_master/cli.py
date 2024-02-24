@@ -114,6 +114,9 @@ def main_with_args(args):
     parser.add_argument(
         "-s", "--scenarios", type=str, help="Path to the scenarios file"
     )
+    parser.add_argument(
+        "-d", "--output-dir", type=str, help="Path to the output directory", default="."
+    )
     parser.add_argument("-n", "--name", type=str, help="Name of the Anki deck")
     parser.add_argument(
         "-e",
@@ -171,8 +174,9 @@ def main_with_args(args):
         deck_name=config.get("deck_name", "Poker Ranges"),
     )
     deck_name = config.get("deck_name", "Poker Ranges")
+    deck_path = os.path.join(args.output_dir, f"{deck_name}.apkg")
     # TODO needs to support multiple decks
-    write_deck_to_file(decks[0], f"{deck_name}.apkg")
+    write_deck_to_file(decks[0], deck_path)
 
 
 def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
