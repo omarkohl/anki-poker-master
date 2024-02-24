@@ -21,6 +21,10 @@ EXAMPLE_CONFIG_FILE = """
 #
 ## Choose which deck types you want to generate. The default is 'overview' and
 ## 'ranks' only.
+## - The 'basics' deck contains questions of the type "What is a range?", "What
+##   does AQo mean?", "Find J7s in the range table." etc. It is independent
+##   of the scenarios you specify and you only need it once (if at all). For
+##   this reason it defaults to False.
 ## - The 'overview' contains the range tables and asks you to memorize them
 ##   visually. It also contains some general information about the ranges.
 ## - The 'ranks' deck contains questions of the type "You are opening as BTN
@@ -29,6 +33,7 @@ EXAMPLE_CONFIG_FILE = """
 ##   Poker cards and asks for each one if you should play it and how. Beware
 ##   that this will generate a lot of Anki cards!
 #deck_types:
+#  - basics: False
 #  - overview: True
 #  - ranks: True
 #  - combinations: False
