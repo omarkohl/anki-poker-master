@@ -95,6 +95,10 @@ EXAMPLE_SCENARIO_FILE = """
 
 
 def main():
+    main_with_args(sys.argv[1:])
+
+
+def main_with_args(args):
     try:
         package_version = version("anki-poker-master")
     except PackageNotFoundError:
@@ -123,7 +127,7 @@ def main():
         action="version",
         version=f"AnkiPokerMaster {package_version}",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(args)
 
     if args.example:
         if not args.config and not args.scenarios:
