@@ -56,9 +56,9 @@ _ALL_CARD_FOOTER = (
 )
 
 
-_PREFLOP_MODEL = genanki.Model(
+_SCENARIO_MODEL = genanki.Model(
     1995683082,  # Random number that should not change in the future
-    "Poker Preflop",
+    "Poker Preflop Scenario",
     fields=[
         # The first field is just to avoid the 'Duplicate' warning in Anki
         # that checks for the first field.
@@ -152,6 +152,20 @@ _PREFLOP_MODEL = genanki.Model(
             "bqfmt": "{{Game}} / {{Scenario}} / ?",
             "bafmt": "{{Position}}",
         },
+        {
+            "name:": "Guess Scenario",
+            "qfmt": _ALL_CARD_HEADER
+            + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>"
+            + "<b>Scenario: </b>?<br><b>Position: </b>{{Position}}<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + "<script>"
+            + DEFAULT_JS
+            + "</script>",
+            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "bqfmt": "{{Game}} / ? / {{Position}}",
+            "bafmt": "{{Scenario}}",
+        },
     ],
     css=DEFAULT_CSS,
 )
@@ -171,7 +185,7 @@ def create_deck(
             )
         deck.add_note(
             genanki.Note(
-                model=_PREFLOP_MODEL,
+                model=_SCENARIO_MODEL,
                 fields=[
                     f"{scenario.game} / {scenario.scenario} / {scenario.position}",
                     scenario.game,
