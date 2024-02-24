@@ -171,11 +171,14 @@ _SCENARIO_MODEL = genanki.Model(
 )
 
 
-def create_deck(
-    scenarios: List[PreflopScenario], tags: List[str] = None
+def create_decks(
+    scenarios: List[PreflopScenario],
+    tags: List[str] = None,
+    deck_name: str = "Poker Ranges",
 ) -> List[genanki.Deck]:
     deck_id = random.randrange(1 << 30, 1 << 31)
-    deck = genanki.Deck(deck_id, "Poker Preflop")
+    decks = []
+    deck = genanki.Deck(deck_id, deck_name)
     for scenario in scenarios:
         ranges_txt = ""
         for action in sorted(scenario.ranges):
@@ -205,7 +208,8 @@ def create_deck(
                 tags=tags if tags else [],
             )
         )
-    return deck
+    decks.append(deck)
+    return decks
 
 
 def write_deck_to_file(deck: genanki.Deck, filename: str):

@@ -7,7 +7,7 @@ import yaml
 from importlib.metadata import version, PackageNotFoundError
 
 from anki_poker_master import PreflopScenario
-from anki_poker_master.anki import create_deck, write_deck_to_file
+from anki_poker_master.anki import create_decks, write_deck_to_file
 
 
 EXAMPLE_CONFIG_FILE = """
@@ -161,9 +161,14 @@ def main():
     with open(args.scenarios, "r") as f:
         scenarios = yaml.safe_load(f)
 
-    d = create_deck(convert_scenarios(scenarios, config), tags=config.get("tags", None))
+    decks = create_decks(
+        convert_scenarios(scenarios, config),
+        tags=config.get("tags", None),
+        deck_name=config.get("deck_name", "Poker Ranges"),
+    )
     deck_name = config.get("deck_name", "Poker Ranges")
-    write_deck_to_file(d, f"{deck_name}.apkg")
+    # TODO needs to support multiple decks
+    write_deck_to_file(decks[0], f"{deck_name}.apkg")
 
 
 def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
