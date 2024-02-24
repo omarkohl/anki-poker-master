@@ -106,8 +106,7 @@ def test_generate_deck(capsys, tmp_path):
   position: UTG
   scenario: Top left
   ranges:
-    Fold: XX
-    Call: 98+, A8+, K8+, Q8+, J8+, T8+, 88+
+    Call: 98+, A8+, K8+, Q8+, J8+, T8+
     Raise: 88+
   notes: This is a test
 """.lstrip()
