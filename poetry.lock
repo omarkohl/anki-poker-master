@@ -693,6 +693,20 @@ files = [
 ]
 
 [[package]]
+name = "strictyaml"
+version = "1.7.3"
+description = "Strict, typed YAML parser"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "strictyaml-1.7.3-py3-none-any.whl", hash = "sha256:fb5c8a4edb43bebb765959e420f9b3978d7f1af88c80606c03fb420888f5d1c7"},
+    {file = "strictyaml-1.7.3.tar.gz", hash = "sha256:22f854a5fcab42b5ddba8030a0e4be51ca89af0267961c8d6cfa86395586c407"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.6.0"
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -787,4 +801,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "f49832e180cf5a75689a243e181e6de715767dc5887292697bb1ffde11fce209"
+content-hash = "70ba91ce495095104173bf702c825d64220c6d17acf61852d0d394f7c4bff9b4"
