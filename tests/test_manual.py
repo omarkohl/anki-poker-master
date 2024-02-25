@@ -61,11 +61,11 @@ def test_manual_deck_creation(tmp_path):
     print("Then import the generated deck and verify that it looks correct.")
     print("Path to the generated deck:")
     print()
-    print(pkg_path)
+    print("    " + pkg_path)
     print()
 
     num_cards = input("How many cards are in the deck? ")
-    assert int(num_cards) == 20
+    assert int(num_cards) == 7
 
     tags = input(
         "Check one note at random and type the tags here (separated by comma): "
@@ -73,8 +73,19 @@ def test_manual_deck_creation(tmp_path):
     tags = set(t.lower().strip() for t in tags.split(","))
     assert tags == {"poker", "manual-test"}
 
-    overall_ok = input("Is the deck overall okay? (y/n) ")
-    assert overall_ok.lower() == "y"
+    contains_notes = input(
+        "Do the cards contain the expected note 'This is a test'? (y/n) "
+    )
+    assert contains_notes.lower() == "y"
+
+    can_study = input("Can you study the deck? (y/n) ")
+    assert can_study.lower() == "y"
+
+    can_you_mark_ranges = input("Can you mark the ranges in the deck? (y/n) ")
+    assert can_you_mark_ranges.lower() == "y"
+
+    anything_wrong = input("Is there anything else wrong with the deck? (y/n) ")
+    assert anything_wrong.lower() == "n"
 
 
 def _extract_tar_gz(file_path, destination):
