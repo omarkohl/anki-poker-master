@@ -61,7 +61,7 @@ def test_manual_deck_creation(tmp_path):
     print("Then import the generated deck and verify that it looks correct.")
     print("Path to the generated deck:")
     print()
-    print("    " + pkg_path)
+    print("    " + str(pkg_path))
     print()
 
     num_cards = input("How many cards are in the deck? ")
