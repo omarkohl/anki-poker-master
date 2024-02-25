@@ -44,6 +44,7 @@ class PreflopScenario:
         game: str,
         config: Dict = None,
         notes: str = None,
+        source: str = None,
     ):
         self.ranges = ranges.copy()
         if "fold" not in [r.lower() for r in self.ranges]:
@@ -66,7 +67,7 @@ class PreflopScenario:
                         self.config["color"][_to_css_class(color_k)] = color_v
                 else:
                     self.config[key] = value
-        self.source = self.config.get("source", "")
+        self.source = source
         self.notes = notes
 
     def html_full(self) -> str:
@@ -232,6 +233,7 @@ def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
         scenario_name = scenario["scenario"]
         ranges = scenario["ranges"]
         notes = scenario.get("notes", None)
+        source = scenario.get("source", None)
         result.append(
             PreflopScenario(
                 game=game,
@@ -240,6 +242,7 @@ def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
                 ranges=convert_ranges(ranges),
                 config=config,
                 notes=notes,
+                source=source,
             ),
         )
     return result

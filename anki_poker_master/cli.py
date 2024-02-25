@@ -19,15 +19,6 @@ EXAMPLE_CONFIG_FILE = """
 #  - Raise: '#FF6A6A'
 #  - My custom range: 'darkblue'
 #
-## You can specify the source of you Poker ranges. The default is empty.
-## This can be useful if after a few months you want to check the source
-## again or if you encounter contradictory information somewhere. Use HTML
-## to format the source.
-#source: >
-#  Chapter 16<br>
-#  Big Important Poker Book<br>
-#  John Smith<br>
-#
 """.lstrip()
 
 EXAMPLE_SCENARIO_FILE = """
@@ -43,6 +34,7 @@ EXAMPLE_SCENARIO_FILE = """
   scenario: "Opening"
   ranges:
     Raise: "A2s+, K2s+, Q2s+, J4s+, T6s+, 96s+, 86s+, 75s+, 65s+, 54s+, A3o+, K8o+, Q9o+, J9o+, T9o+, 22+"
+  source: "https://example.com/"
 
 # - game: "Cash 100BB 6P"
 #   position: "CO"
@@ -50,6 +42,14 @@ EXAMPLE_SCENARIO_FILE = """
 #   ranges:
 #     Raise: "A9s+, KTs+, QJs, A5s, A4s, AQo+, KQo, TT+"
 #   notes: "This is a note for the scenario. You can write anything here."
+## You can specify the source of you Poker ranges. The default is empty.
+## This can be useful if after a few months you want to check the source
+## again or if you encounter contradictory information somewhere. Use HTML
+## to format the source.
+#source: >
+#  Chapter 16<br>
+#  Big Important Poker Book<br>
+#  John Smith<br>
 
 ## As you can see in the following example, you are very flexible in how you
 ## can define the information you care about.
