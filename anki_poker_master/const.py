@@ -175,7 +175,7 @@ if (typeof onUpdateHook !== 'undefined') {
 """.lstrip()
 
 
-BLANK_TABLE = """<table class="range">
+BLANK_TABLE = """<table class="markable range">
     <tr>
         <td class="blank pair">AA</td>
         <td class="blank suited">AKs</td>
