@@ -155,6 +155,9 @@ def main_with_args(args):
         pkg_path = args.output
     else:
         pkg_path = f"{args.output}.apkg"
+    if os.path.exists(pkg_path):
+        print(f"The file {pkg_path} already exists.")
+        sys.exit(1)
     # TODO needs to support multiple decks
     write_deck_to_file(decks[0], pkg_path)
 

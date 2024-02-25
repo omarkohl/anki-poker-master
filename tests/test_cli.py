@@ -133,3 +133,44 @@ tags:
     assert captured == ("", "")
     assert pkg_path.exists()
     assert pkg_path.stat().st_size > 0
+
+
+def test_generate_deck_only_if_it_doesnt_exist(capsys, tmp_path):
+    from anki_poker_master.cli import main_with_args
+
+    scenarios_file = tmp_path / "scenarios.yml"
+    scenarios_file.write_text(
+        """
+- game: NLHE
+  position: UTG
+  scenario: Top left
+  ranges:
+      Call: 98+, A8+, K8+, Q8+, J8+, T8+
+      Raise: 88+
+  notes: This is a test
+""".lstrip()
+    )
+    config_file = tmp_path / "config.yml"
+    config_file.write_text(
+        """
+tags:
+    - test
+""".lstrip()
+    )
+    pkg_path = tmp_path / "test.apkg"
+    pkg_path.write_text("existing file")
+    with pytest.raises(SystemExit) as e:
+        main_with_args(
+            [
+                "-s",
+                str(scenarios_file),
+                "-o",
+                str(pkg_path),
+                "-c",
+                str(config_file),
+            ]
+        )
+    captured = capsys.readouterr()
+    assert "The file" in captured.out
+    assert "already exists" in captured.out
+    assert pkg_path.read_text() == "existing file"
