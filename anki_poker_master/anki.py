@@ -153,7 +153,7 @@ _SCENARIO_MODEL = genanki.Model(
             "bafmt": "{{Position}}",
         },
         {
-            "name:": "Guess Scenario",
+            "name": "Guess Scenario",
             "qfmt": _ALL_CARD_HEADER
             + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>"
             + "<b>Scenario: </b>?<br><b>Position: </b>{{Position}}<br>"
