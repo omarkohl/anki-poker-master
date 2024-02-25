@@ -42,6 +42,7 @@ tags:
   - test
 """.lstrip()
     )
+    pkg_path = tmp_path / "AnkiPokerMaster.apkg"
 
     main_with_args(
         [
@@ -49,8 +50,8 @@ tags:
             str(config_file),
             "-s",
             str(scenarios_file),
-            "-d",
-            str(tmp_path),
+            "-o",
+            str(pkg_path),
         ]
     )
 
@@ -58,7 +59,7 @@ tags:
     print(f"anki -b {tmp_path / 'anki'}")
     print("Then import the generated deck and verify that it looks correct.")
     print("Path to the generated deck:")
-    print(tmp_path / "anki" / "AnkiPokerMaster.apkg")
+    print(pkg_path)
 
     num_cards = input("How many cards are in the deck?")
     assert int(num_cards) == 20

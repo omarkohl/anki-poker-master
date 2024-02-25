@@ -118,18 +118,18 @@ tags:
   - test
 """.lstrip()
     )
-    deck_file = tmp_path / "AnkiPokerMaster.apkg"
+    pkg_path = tmp_path / "AnkiPokerMaster.apkg"
     main_with_args(
         [
             "-s",
             str(scenarios_file),
-            "-d",
-            str(tmp_path),
+            "-o",
+            str(pkg_path),
             "-c",
             str(config_file),
         ]
     )
     captured = capsys.readouterr()
     assert captured == ("", "")
-    assert deck_file.exists()
-    assert deck_file.stat().st_size > 0
+    assert pkg_path.exists()
+    assert pkg_path.stat().st_size > 0

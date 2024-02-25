@@ -91,7 +91,11 @@ def main_with_args(args):
         "-s", "--scenarios", type=str, help="Path to the scenarios file"
     )
     parser.add_argument(
-        "-d", "--output-dir", type=str, help="Path to the output directory", default="."
+        "-o",
+        "--output",
+        type=str,
+        help="Path to the resulting Anki package",
+        default="./AnkiPokerMaster.apkg",
     )
     parser.add_argument(
         "-e",
@@ -147,8 +151,10 @@ def main_with_args(args):
         convert_scenarios(scenarios, config),
         tags=config.get("tags", None),
     )
-    pkg_name = "AnkiPokerMaster"
-    pkg_path = os.path.join(args.output_dir, f"{pkg_name}.apkg")
+    if args.output.endswith(".apkg"):
+        pkg_path = args.output
+    else:
+        pkg_path = f"{args.output}.apkg"
     # TODO needs to support multiple decks
     write_deck_to_file(decks[0], pkg_path)
 
