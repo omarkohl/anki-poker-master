@@ -19,30 +19,6 @@ EXAMPLE_CONFIG_FILE = """
 #  - Raise: '#FF6A6A'
 #  - My custom range: 'darkblue'
 #
-## Choose which deck types you want to generate. The default is 'overview' and
-## 'ranks' only.
-## - The 'basics' deck contains questions of the type "What is a range?", "What
-##   does AQo mean?", "Find J7s in the range table." etc. It is independent
-##   of the scenarios you specify and you only need it once (if at all). For
-##   this reason it defaults to False.
-## - The 'overview' contains the range tables and asks you to memorize them
-##   visually. It also contains some general information about the ranges.
-## - The 'ranks' deck contains questions of the type "You are opening as BTN
-##   in a 6P 100BB cash game. Which AXs do you play and how?".
-## - The 'combinations' deck generates all 169 possible combinations of two
-##   Poker cards and asks for each one if you should play it and how. Beware
-##   that this will generate a lot of Anki cards!
-#deck_types:
-#  - basics: False
-#  - overview: True
-#  - ranks: True
-#  - combinations: False
-#
-## If you decide to generate multiple deck types, you can merge them into one
-## Anki deck. The default is False (i.e. you will get one Anki deck per deck
-## type).
-#merge_decks: False
-#
 ## You can specify a custom deck name. The default is "Poker Ranges". If you
 ## generate multiple deck types, the deck name will be suffixed with the deck
 ## type.
