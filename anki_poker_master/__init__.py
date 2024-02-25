@@ -1,6 +1,7 @@
 import re
 import random
 import copy
+import yaml
 from typing import Dict, List
 from poker.hand import Range, Hand, Rank
 
@@ -212,3 +213,40 @@ def _to_html(
 
 def _to_css_class(action: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]", "_", action).lstrip("_").lower().strip()
+
+
+def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]:
+    """
+    Parse a YAML string containing scenarios and return a list of PreflopScenario objects.
+    The input is assumed to be non-validated.
+    """
+    scenarios = yaml.safe_load(scenario_yml)
+    return convert_scenarios(scenarios, config)
+
+
+def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
+    result = []
+    for scenario in scenarios:
+        game = scenario["game"]
+        position = scenario["position"]
+        scenario_name = scenario["scenario"]
+        ranges = scenario["ranges"]
+        notes = scenario.get("notes", None)
+        result.append(
+            PreflopScenario(
+                game=game,
+                position=position,
+                scenario=scenario_name,
+                ranges=convert_ranges(ranges),
+                config=config,
+                notes=notes,
+            ),
+        )
+    return result
+
+
+def convert_ranges(ranges: Dict) -> Dict[str, Range]:
+    result = {}
+    for action, range_str in ranges.items():
+        result[action] = Range(range_str)
+    return result

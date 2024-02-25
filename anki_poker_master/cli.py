@@ -6,7 +6,7 @@ import argparse
 import yaml
 from importlib.metadata import version, PackageNotFoundError
 
-from anki_poker_master import PreflopScenario
+from anki_poker_master import parse_scenario_yml
 from anki_poker_master.anki import create_decks, write_deck_to_file
 
 
@@ -147,11 +147,11 @@ def main_with_args(args):
         sys.exit(1)
 
     with open(args.scenarios, "r") as f:
-        scenarios = yaml.safe_load(f)
+        scenarios = parse_scenario_yml(f.read(), config)
 
     decks = create_decks(
-        convert_scenarios(scenarios, config),
-        tags=args.tags,
+        scenarios,
+        args.tags,
     )
     if args.output.endswith(".apkg"):
         pkg_path = args.output
@@ -162,31 +162,3 @@ def main_with_args(args):
         sys.exit(1)
     # TODO needs to support multiple decks
     write_deck_to_file(decks[0], pkg_path)
-
-
-def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
-    result = []
-    for scenario in scenarios:
-        game = scenario["game"]
-        position = scenario["position"]
-        scenario_name = scenario["scenario"]
-        ranges = scenario["ranges"]
-        notes = scenario.get("notes", None)
-        result.append(
-            PreflopScenario(
-                game=game,
-                position=position,
-                scenario=scenario_name,
-                ranges=convert_ranges(ranges),
-                config=config,
-                notes=notes,
-            ),
-        )
-    return result
-
-
-def convert_ranges(ranges: Dict) -> Dict[str, Range]:
-    result = {}
-    for action, range_str in ranges.items():
-        result[action] = Range(range_str)
-    return result
