@@ -28,10 +28,6 @@ EXAMPLE_CONFIG_FILE = """
 #  Big Important Poker Book<br>
 #  John Smith<br>
 #
-## You can specify the Anki tags you want to add to the generated cards. The
-## default is an empty list.
-#tags: ["poker"]
-#
 """.lstrip()
 
 EXAMPLE_SCENARIO_FILE = """
@@ -104,6 +100,12 @@ def main_with_args(args):
         help="Write example files to the path specified by --config/-c or --scenarios/-s if and only if those files do not exist yet",
     )
     parser.add_argument(
+        "--tags",
+        nargs="*",
+        type=str,
+        help="Tags for the Anki decks. Specify multiple tags separated by spaces.",
+    )
+    parser.add_argument(
         "-v",
         "--version",
         action="version",
@@ -149,7 +151,7 @@ def main_with_args(args):
 
     decks = create_decks(
         convert_scenarios(scenarios, config),
-        tags=config.get("tags", None),
+        tags=args.tags,
     )
     if args.output.endswith(".apkg"):
         pkg_path = args.output

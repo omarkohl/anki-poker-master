@@ -20,12 +20,10 @@ def test_deck_is_created(tmp_path):
             "notes": "This is a test",
         }
     ]
-    config = {
-        "tags": ["test"],
-    }
+    tags = ["test"]
     decks = create_decks(
         [PreflopScenario(**scenarios[0])],
-        tags=config.get("tags", None),
+        tags=tags,
     )
     # Just perform some basic sanity checks
     assert isinstance(decks, list)

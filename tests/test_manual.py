@@ -35,23 +35,17 @@ def test_manual_deck_creation(tmp_path):
   notes: This is a test
 """.lstrip()
     )
-    config_file = tmp_path / "config.yml"
-    config_file.write_text(
-        """
-tags:
-  - test
-""".lstrip()
-    )
     pkg_path = tmp_path / "AnkiPokerMaster.apkg"
 
     main_with_args(
         [
-            "-c",
-            str(config_file),
             "-s",
             str(scenarios_file),
             "-o",
             str(pkg_path),
+            "--tags",
+            "poker",
+            "manual-test",
         ]
     )
 
@@ -63,6 +57,12 @@ tags:
 
     num_cards = input("How many cards are in the deck?")
     assert int(num_cards) == 20
+
+    tags = input(
+        "Check one note at random and type the tags here (separated by comma):"
+    )
+    tags = set(t.lower().strip() for t in tags.split(","))
+    assert tags == {"poker", "manual-test"}
 
     overall_ok = input("Is the deck overall okay? (y/n)")
     assert overall_ok.lower() == "y"
