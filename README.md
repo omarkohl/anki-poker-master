@@ -30,3 +30,13 @@ do this if you understand what you are changing.
 ```bash
 poetry run pytest --update-golden
 ```
+
+### Manual tests
+
+Currently some tests are not automated because they would require programatically
+evaluating Anki decks. For now doing it manually is simpler. The tests will
+interactively guide you.
+
+```bash
+APM_MANUAL_TESTS=true poetry run pytest tests/test_manual.py -s
+```
