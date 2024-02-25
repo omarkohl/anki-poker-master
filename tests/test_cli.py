@@ -118,7 +118,7 @@ tags:
   - test
 """.lstrip()
     )
-    pkg_path = tmp_path / "AnkiPokerMaster.apkg"
+    pkg_path = tmp_path / "test.apkg"
     main_with_args(
         [
             "-s",
