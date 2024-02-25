@@ -174,11 +174,10 @@ _SCENARIO_MODEL = genanki.Model(
 def create_decks(
     scenarios: List[PreflopScenario],
     tags: List[str] = None,
-    deck_name: str = "Poker Ranges",
 ) -> List[genanki.Deck]:
     deck_id = random.randrange(1 << 30, 1 << 31)
     decks = []
-    deck = genanki.Deck(deck_id, deck_name)
+    deck = genanki.Deck(deck_id, "AnkiPokerMaster")
     for scenario in scenarios:
         ranges_txt = ""
         for action in sorted(scenario.ranges):

@@ -114,18 +114,15 @@ def test_generate_deck(capsys, tmp_path):
     config_file = tmp_path / "config.yml"
     config_file.write_text(
         """
-deck_name: Test Deck
 tags:
   - test
 """.lstrip()
     )
-    deck_file = tmp_path / "Test Deck.apkg"
+    deck_file = tmp_path / "AnkiPokerMaster.apkg"
     main_with_args(
         [
             "-s",
             str(scenarios_file),
-            "-n",
-            "Test Deck",
             "-d",
             str(tmp_path),
             "-c",

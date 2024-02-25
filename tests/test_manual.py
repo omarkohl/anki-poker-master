@@ -38,7 +38,6 @@ def test_manual_deck_creation(tmp_path):
     config_file = tmp_path / "config.yml"
     config_file.write_text(
         """
-deck_name: Test Deck
 tags:
   - test
 """.lstrip()
@@ -52,8 +51,6 @@ tags:
             str(scenarios_file),
             "-d",
             str(tmp_path),
-            "-n",
-            "Test Deck",
         ]
     )
 
@@ -61,7 +58,7 @@ tags:
     print(f"anki -b {tmp_path / 'anki'}")
     print("Then import the generated deck and verify that it looks correct.")
     print("Path to the generated deck:")
-    print(tmp_path / "anki" / "Test Deck.apkg")
+    print(tmp_path / "anki" / "AnkiPokerMaster.apkg")
 
     num_cards = input("How many cards are in the deck?")
     assert int(num_cards) == 20

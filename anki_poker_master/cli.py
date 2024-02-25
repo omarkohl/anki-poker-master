@@ -19,11 +19,6 @@ EXAMPLE_CONFIG_FILE = """
 #  - Raise: '#FF6A6A'
 #  - My custom range: 'darkblue'
 #
-## You can specify a custom deck name. The default is "Poker Ranges". If you
-## generate multiple deck types, the deck name will be suffixed with the deck
-## type.
-#deck_name: "Poker Ranges"
-#
 ## You can specify the source of you Poker ranges. The default is empty.
 ## This can be useful if after a few months you want to check the source
 ## again or if you encounter contradictory information somewhere. Use HTML
@@ -98,7 +93,6 @@ def main_with_args(args):
     parser.add_argument(
         "-d", "--output-dir", type=str, help="Path to the output directory", default="."
     )
-    parser.add_argument("-n", "--name", type=str, help="Name of the Anki deck")
     parser.add_argument(
         "-e",
         "--example",
@@ -152,12 +146,11 @@ def main_with_args(args):
     decks = create_decks(
         convert_scenarios(scenarios, config),
         tags=config.get("tags", None),
-        deck_name=config.get("deck_name", "Poker Ranges"),
     )
-    deck_name = config.get("deck_name", "Poker Ranges")
-    deck_path = os.path.join(args.output_dir, f"{deck_name}.apkg")
+    pkg_name = "AnkiPokerMaster"
+    pkg_path = os.path.join(args.output_dir, f"{pkg_name}.apkg")
     # TODO needs to support multiple decks
-    write_deck_to_file(decks[0], deck_path)
+    write_deck_to_file(decks[0], pkg_path)
 
 
 def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
