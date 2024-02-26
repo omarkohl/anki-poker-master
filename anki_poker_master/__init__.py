@@ -1,9 +1,9 @@
 import re
 import random
 import copy
-import yaml
 from typing import Dict, List
 from poker.hand import Range, Hand, Rank
+import strictyaml
 
 
 # Note that there is overlap between the quadrants since the grid is 13x13.
@@ -221,8 +221,88 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
     Parse a YAML string containing scenarios and return a list of PreflopScenario objects.
     The input is assumed to be non-validated.
     """
-    scenarios = yaml.safe_load(scenario_yml)
-    return convert_scenarios(scenarios, config)
+    """
+    scenarios_schema = schema.Schema(
+        schema.And(
+            schema.Use(yaml.safe_load),
+            [
+                {
+                    "game": str,
+                    "position": str,
+                    "scenario": str,
+                    "ranges": {str: str},
+                    schema.Optional("notes"): str,
+                    schema.Optional("source"): str,
+                    schema.Optional("range_colors"): {str: str},
+                }
+            ],
+        )
+    )
+    """
+    initial_schema = strictyaml.Seq(
+        strictyaml.Map(
+            {
+                strictyaml.Optional("DEFAULT"): strictyaml.Bool(),
+                strictyaml.Optional("game"): strictyaml.Str(),
+                strictyaml.Optional("position"): strictyaml.Str(),
+                strictyaml.Optional("scenario"): strictyaml.Str(),
+                strictyaml.Optional("ranges"): strictyaml.MapPattern(
+                    strictyaml.Str(), strictyaml.Str()
+                ),
+                strictyaml.Optional("notes"): strictyaml.Str(),
+                strictyaml.Optional("source"): strictyaml.Str(),
+                strictyaml.Optional("range_colors"): strictyaml.MapPattern(
+                    strictyaml.Str(), strictyaml.Str()
+                ),
+            }
+        )
+    )
+    v_scenarios = strictyaml.load(scenario_yml, initial_schema).data
+
+    default_values = {}
+    default_found = False
+    for scenario in v_scenarios:
+        if scenario.get("DEFAULT", False):
+            if default_found:
+                raise ValueError("There can only be one DEFAULT scenario.")
+            default_found = True
+            default_values = scenario
+
+    if default_found:
+        v_scenarios.remove(default_values)
+        del default_values["DEFAULT"]
+
+    for scenario in v_scenarios:
+        for key, value in default_values.items():
+            if key not in scenario:
+                scenario[key] = value
+
+    strict_schema = strictyaml.Seq(
+        strictyaml.Map(
+            {
+                "game": strictyaml.Str(),
+                "position": strictyaml.Str(),
+                "scenario": strictyaml.Str(),
+                "ranges": strictyaml.MapPattern(strictyaml.Str(), strictyaml.Str()),
+                strictyaml.Optional("notes"): strictyaml.Str(),
+                strictyaml.Optional("source"): strictyaml.Str(),
+                strictyaml.Optional("range_colors"): strictyaml.MapPattern(
+                    strictyaml.Str(), strictyaml.Str()
+                ),
+            }
+        )
+    )
+    v_scenarios2 = strictyaml.as_document(v_scenarios, strict_schema)
+
+    for s in v_scenarios2:
+        if "range_colors" in s:
+            for action in s["range_colors"]:
+                if action not in s["ranges"]:
+                    raise ValueError(
+                        f"Range color defined for action '{action}', but no range is defined for that action."
+                    )
+
+    return convert_scenarios(v_scenarios2.data, config)
 
 
 def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
