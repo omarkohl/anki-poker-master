@@ -283,3 +283,108 @@ def test_default_source():
     scenarios = parse_scenario_yml(yml_file, {})
     assert len(scenarios) == 1
     assert scenarios[0].source == "https://example.com"
+
+
+def test_default_several():
+    """
+    Verify that several values can be set as default.
+    """
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = """
+- DEFAULT: true
+  game: NLHE
+  scenario: Opening
+  source: "https://example.com"
+
+- position: UTG
+  ranges:
+    Raise: AQ+
+
+- position: HJ
+  ranges:
+    Raise: AT+
+  """.lstrip()
+    scenarios = parse_scenario_yml(yml_file, {})
+    assert len(scenarios) == 2
+    assert scenarios[0].source == "https://example.com"
+    assert scenarios[1].source == "https://example.com"
+    assert scenarios[0].game == "NLHE"
+    assert scenarios[1].game == "NLHE"
+    assert scenarios[0].scenario == "Opening"
+    assert scenarios[1].scenario == "Opening"
+    assert scenarios[0].position == "UTG"
+    assert scenarios[1].position == "HJ"
+
+
+def test_default_overwrite():
+    """
+    Verify that a default value can be overwritten.
+    """
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = """
+- DEFAULT: true
+  game: NLHE
+  scenario: Opening
+  source: "https://example.com"
+
+- position: UTG
+  ranges:
+    Raise: AQ+
+
+- position: HJ
+  scenario: vs. raise from UTG
+  ranges:
+    Raise: AT+
+  """.lstrip()
+    scenarios = parse_scenario_yml(yml_file, {})
+    assert len(scenarios) == 2
+    assert scenarios[0].source == "https://example.com"
+    assert scenarios[1].source == "https://example.com"
+    assert scenarios[0].game == "NLHE"
+    assert scenarios[1].game == "NLHE"
+    assert scenarios[0].scenario == "Opening"
+    assert scenarios[1].scenario == "vs. raise from UTG"
+    assert scenarios[0].position == "UTG"
+    assert scenarios[1].position == "HJ"
+
+
+def test_default_ranges():
+    """
+    Verify that default ranges are applied but only if no ranges are
+    specified (e.g. you cannot only overwrite the 'Raise' range).
+    If necessary, this could be implemented but it's not for simplicity right
+    now.
+    """
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = """
+- DEFAULT: true
+  game: NLHE
+  scenario: Opening
+  source: "https://example.com"
+  ranges:
+    Raise: AQ+
+    Call: 22-77
+
+- position: UTG
+
+- position: HJ
+
+- position: CO
+  ranges:
+    Call: 98+
+  """.lstrip()
+    scenarios = parse_scenario_yml(yml_file, {})
+    assert len(scenarios) == 3
+    for s in scenarios:
+        assert s.source == "https://example.com"
+        assert s.game == "NLHE"
+        assert s.scenario == "Opening"
+    assert scenarios[0].position == "UTG"
+    assert scenarios[1].position == "HJ"
+    assert scenarios[2].position == "CO"
+    assert scenarios[0].ranges.keys() == {"Call", "Raise", "Fold"}
+    assert scenarios[1].ranges.keys() == {"Call", "Raise", "Fold"}
+    assert scenarios[2].ranges.keys() == {"Call", "Fold"}
