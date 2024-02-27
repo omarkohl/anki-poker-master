@@ -1,12 +1,13 @@
 import os
 import sys
+import traceback
 from poker.hand import Range
 from typing import Dict, List
 import argparse
 import yaml
 from importlib.metadata import version, PackageNotFoundError
 
-from anki_poker_master import parse_scenario_yml
+from anki_poker_master import parse_scenario_yml, ValidationError
 from anki_poker_master.anki import create_decks, write_deck_to_file
 
 
@@ -106,6 +107,11 @@ def main_with_args(args):
         help="Tags for the Anki decks. Specify multiple tags separated by spaces.",
     )
     parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print verbose output (e.g. for debugging purposes)",
+    )
+    parser.add_argument(
         "-v",
         "--version",
         action="version",
@@ -146,8 +152,15 @@ def main_with_args(args):
         )
         sys.exit(1)
 
-    with open(args.scenarios, "r") as f:
-        scenarios = parse_scenario_yml(f.read(), config)
+    try:
+        with open(args.scenarios, "r") as f:
+            scenarios = parse_scenario_yml(f.read(), config)
+    except ValidationError as e:
+        print(e.humanize_error())
+        if args.verbose:
+            print()
+            traceback.print_exc()
+        sys.exit(1)
 
     decks = create_decks(
         scenarios,
