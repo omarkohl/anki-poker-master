@@ -259,11 +259,31 @@ def test_valid_ranges(valid_range):
   position: UTG
   scenario: Opening
   ranges:
-    Call: 98+, A8+, K8+, Q8+, J8+, T8+
+    Call: 72s
     Raise: {valid_range}
 """.lstrip()
     scenarios = parse_scenario_yml(yml_file, {})
     assert len(scenarios[0].ranges["Raise"].hands) > 0
+
+
+def test_ranges_cant_overlap():
+    from anki_poker_master import parse_scenario_yml, ValidationError
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 77+
+    Raise: QQ+
+""".lstrip()
+    with pytest.raises(ValidationError) as excinfo:
+        parse_scenario_yml(yml_file, {})
+    err_msg = (
+        "Range for action 'Call' overlaps with range for action "
+        + "'Raise' in scenario 'NLHE / Opening / UTG'"
+    )
+    assert err_msg in excinfo.value.humanize_error()
 
 
 def test_default_source():

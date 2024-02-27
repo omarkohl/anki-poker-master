@@ -298,6 +298,21 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
                         f"Range color defined for action '{action}', but no range is defined for that action."
                     )
 
+    # validate that ranges within a scenario cannot overlap
+    for s in v_scenarios2:
+        for action in s["ranges"]:
+            for other_action in s["ranges"]:
+                if action == other_action:
+                    continue
+                hands1 = set(s["ranges"][action].hands)
+                hands2 = set(s["ranges"][other_action].hands)
+                if hands1.intersection(hands2):
+                    raise ValidationError(
+                        f"Range for action '{action}' overlaps with range "
+                        + f"for action '{other_action}' in scenario "
+                        + f"'{s['game']} / {s['scenario']} / {s['position']}'"
+                    )
+
     return convert_scenarios(v_scenarios2, config)
 
 
