@@ -1,6 +1,6 @@
 import poker
 import pytest
-import strictyaml
+import schema
 
 
 def test_basics():
@@ -40,9 +40,9 @@ def test_game_required():
       Call: 98+, A8+, K8+, Q8+, J8+, T8+
       Raise: 88+
 """.lstrip()
-    with pytest.raises(strictyaml.YAMLError) as excinfo:
+    with pytest.raises(schema.SchemaError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "game" in str(excinfo.value)
+    assert "Missing key: 'game'" in str(excinfo.value)
 
 
 def test_position_required():
@@ -55,9 +55,9 @@ def test_position_required():
       Call: 98+, A8+, K8+, Q8+, J8+, T8+
       Raise: 88+
 """.lstrip()
-    with pytest.raises(strictyaml.YAMLError) as excinfo:
+    with pytest.raises(schema.SchemaError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "position" in str(excinfo.value)
+    assert "Missing key: 'position'" in str(excinfo.value)
 
 
 def test_scenario_required():
@@ -70,9 +70,9 @@ def test_scenario_required():
       Call: 98+, A8+, K8+, Q8+, J8+, T8+
       Raise: 88+
 """.lstrip()
-    with pytest.raises(strictyaml.YAMLError) as excinfo:
+    with pytest.raises(schema.SchemaError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "scenario" in str(excinfo.value)
+    assert "Missing key: 'scenario'" in str(excinfo.value)
 
 
 def test_ranges_required1():
@@ -83,9 +83,38 @@ def test_ranges_required1():
   scenario: Opening
   position: UTG
 """.lstrip()
-    with pytest.raises(strictyaml.YAMLError) as excinfo:
+    with pytest.raises(schema.SchemaError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "ranges" in str(excinfo.value)
+    assert "Missing key: 'ranges'" in str(excinfo.value)
+
+
+def test_ranges_required2():
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = """
+- game: NLHE
+  scenario: Opening
+  position: UTG
+  ranges:
+""".lstrip()
+    with pytest.raises(schema.SchemaError) as excinfo:
+        scenarios = parse_scenario_yml(yml_file, {})
+    assert "Key 'ranges' error" in str(excinfo.value)
+
+
+def test_ranges_required3():
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = """
+- game: NLHE
+  scenario: Opening
+  position: UTG
+  ranges:
+    Call:
+""".lstrip()
+    with pytest.raises(schema.SchemaError) as excinfo:
+        scenarios = parse_scenario_yml(yml_file, {})
+    assert "'None' is an invalid range" in str(excinfo.value)
 
 
 def test_custom_colors():
@@ -110,10 +139,6 @@ def test_custom_colors():
 
 
 def test_range_color_must_be_str():
-    """
-    Basic validation test. StrictYAML does not allow specifying dicts
-    and lists in "flow style" i.e. using curly and square brackets.
-    """
     from anki_poker_master import parse_scenario_yml
 
     yml_file = """
@@ -129,8 +154,9 @@ def test_range_color_must_be_str():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    with pytest.raises(strictyaml.YAMLError) as excinfo:
+    with pytest.raises(schema.SchemaError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
+    assert "Key 'My custom range' error" in str(excinfo.value)
 
 
 def test_range_color_must_be_str2():
@@ -155,9 +181,9 @@ def test_range_color_must_be_str2():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    with pytest.raises(strictyaml.YAMLError) as excinfo:
+    with pytest.raises(schema.SchemaError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "found a sequence" in str(excinfo.value)
+    assert "Key 'My custom range' error" in str(excinfo.value)
 
 
 def test_range_colors_must_use_valid_ranges():
@@ -182,6 +208,62 @@ def test_range_colors_must_use_valid_ranges():
     with pytest.raises(ValueError) as excinfo:
         parse_scenario_yml(yml_file, {})
     assert "My custom range" in str(excinfo.value)
+
+
+@pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
+def test_range_colors_must_be_valid_color(invalid_color):
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 98+, A8+, K8+, Q8+, J8+, T8+
+    Raise: 88+
+  range_colors:
+    Call: "{invalid_color}"
+""".lstrip()
+    with pytest.raises(schema.SchemaError) as excinfo:
+        parse_scenario_yml(yml_file, {})
+    assert f"'{invalid_color}' is an invalid color" in str(excinfo.value)
+
+
+@pytest.mark.parametrize("invalid_range", ["", "GG", "AAA", "-12"])
+def test_invalid_ranges(invalid_range):
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 98+, A8+, K8+, Q8+, J8+, T8+
+    Raise: {invalid_range}
+""".lstrip()
+    with pytest.raises(schema.SchemaError) as excinfo:
+        parse_scenario_yml(yml_file, {})
+    err_msg = f"'{invalid_range}' is an invalid range"
+    if invalid_range == "":
+        # For some reason poker.Range interprets an empty string as None.
+        err_msg = "'None' is an invalid range"
+    assert err_msg in str(excinfo.value)
+
+
+@pytest.mark.parametrize("valid_range", ["22+", "88+; AK", "A4s-ATs", "AK, AQ, AJ"])
+def test_valid_ranges(valid_range):
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 98+, A8+, K8+, Q8+, J8+, T8+
+    Raise: {valid_range}
+""".lstrip()
+    scenarios = parse_scenario_yml(yml_file, {})
+    assert len(scenarios[0].ranges["Raise"].hands) > 0
 
 
 def test_default_source():
