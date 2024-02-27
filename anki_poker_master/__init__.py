@@ -244,12 +244,15 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
     )
     default_scenario_values = {}
     default_found = False
-    v_scenarios = initial_schema.validate(scenario_yml)
+    try:
+        v_scenarios = initial_schema.validate(scenario_yml)
+    except schema.SchemaError as e:
+        raise ValidationError("error validating the scenarios file") from e
     for scenario in v_scenarios:
         if "DEFAULT" in scenario:
             if scenario["DEFAULT"]:
                 if default_found:
-                    raise ValueError("There can only be one DEFAULT scenario.")
+                    raise ValidationError("There can only be one DEFAULT scenario.")
                 default_found = True
                 default_scenario_values = scenario
     if default_found:
@@ -282,12 +285,16 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
             }
         ]
     )
-    v_scenarios2 = strict_schema.validate(v_scenarios)
+    try:
+        v_scenarios2 = strict_schema.validate(v_scenarios)
+    except schema.SchemaError as e:
+        raise ValidationError("error validating the scenarios file") from e
+
     for s in v_scenarios2:
         if "range_colors" in s:
             for action in s["range_colors"]:
                 if action not in s["ranges"]:
-                    raise ValueError(
+                    raise ValidationError(
                         f"Range color defined for action '{action}', but no range is defined for that action."
                     )
 
@@ -315,3 +322,14 @@ def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
             ),
         )
     return result
+
+
+class ValidationError(ValueError):
+    def __init__(self, message):
+        super().__init__(message)
+
+    def humanize_error(self) -> str:
+        err_msg = f"{self.args[0]}"
+        if self.__cause__ and type(self.__cause__) == schema.SchemaError:
+            err_msg += ": " + self.__cause__.code
+        return err_msg

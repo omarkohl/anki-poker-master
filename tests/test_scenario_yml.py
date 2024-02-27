@@ -31,7 +31,7 @@ def test_basics():
 
 
 def test_game_required():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - position: UTG
@@ -40,13 +40,13 @@ def test_game_required():
       Call: 98+, A8+, K8+, Q8+, J8+, T8+
       Raise: 88+
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Missing key: 'game'" in str(excinfo.value)
+    assert "Missing key: 'game'" in excinfo.value.humanize_error()
 
 
 def test_position_required():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -55,13 +55,13 @@ def test_position_required():
       Call: 98+, A8+, K8+, Q8+, J8+, T8+
       Raise: 88+
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Missing key: 'position'" in str(excinfo.value)
+    assert "Missing key: 'position'" in excinfo.value.humanize_error()
 
 
 def test_scenario_required():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -70,26 +70,26 @@ def test_scenario_required():
       Call: 98+, A8+, K8+, Q8+, J8+, T8+
       Raise: 88+
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Missing key: 'scenario'" in str(excinfo.value)
+    assert "Missing key: 'scenario'" in excinfo.value.humanize_error()
 
 
 def test_ranges_required1():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
   scenario: Opening
   position: UTG
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Missing key: 'ranges'" in str(excinfo.value)
+    assert "Missing key: 'ranges'" in excinfo.value.humanize_error()
 
 
 def test_ranges_required2():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -97,13 +97,13 @@ def test_ranges_required2():
   position: UTG
   ranges:
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Key 'ranges' error" in str(excinfo.value)
+    assert "Key 'ranges' error" in excinfo.value.humanize_error()
 
 
 def test_ranges_required3():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -112,9 +112,9 @@ def test_ranges_required3():
   ranges:
     Call:
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "'None' is an invalid range" in str(excinfo.value)
+    assert "'None' is an invalid range" in excinfo.value.humanize_error()
 
 
 def test_custom_colors():
@@ -139,7 +139,7 @@ def test_custom_colors():
 
 
 def test_range_color_must_be_str():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -154,9 +154,9 @@ def test_range_color_must_be_str():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Key 'My custom range' error" in str(excinfo.value)
+    assert "Key 'My custom range' error" in excinfo.value.humanize_error()
 
 
 def test_range_color_must_be_str2():
@@ -164,7 +164,7 @@ def test_range_color_must_be_str2():
     Basic validation test. range_colors must be a mapping from string to
     string.
     """
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -181,16 +181,16 @@ def test_range_color_must_be_str2():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file, {})
-    assert "Key 'My custom range' error" in str(excinfo.value)
+    assert "Key 'My custom range' error" in str(excinfo.value.humanize_error())
 
 
 def test_range_colors_must_use_valid_ranges():
     """
     'My custom range' is not a valid range name here.
     """
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
 - game: NLHE
@@ -205,14 +205,14 @@ def test_range_colors_must_use_valid_ranges():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         parse_scenario_yml(yml_file, {})
-    assert "My custom range" in str(excinfo.value)
+    assert "My custom range" in excinfo.value.humanize_error()
 
 
 @pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
 def test_range_colors_must_be_valid_color(invalid_color):
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = f"""
 - game: NLHE
@@ -224,14 +224,14 @@ def test_range_colors_must_be_valid_color(invalid_color):
   range_colors:
     Call: "{invalid_color}"
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         parse_scenario_yml(yml_file, {})
-    assert f"'{invalid_color}' is an invalid color" in str(excinfo.value)
+    assert f"'{invalid_color}' is an invalid color" in excinfo.value.humanize_error()
 
 
 @pytest.mark.parametrize("invalid_range", ["", "GG", "AAA", "-12"])
 def test_invalid_ranges(invalid_range):
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = f"""
 - game: NLHE
@@ -241,13 +241,13 @@ def test_invalid_ranges(invalid_range):
     Call: 98+, A8+, K8+, Q8+, J8+, T8+
     Raise: {invalid_range}
 """.lstrip()
-    with pytest.raises(schema.SchemaError) as excinfo:
+    with pytest.raises(ValidationError) as excinfo:
         parse_scenario_yml(yml_file, {})
     err_msg = f"'{invalid_range}' is an invalid range"
     if invalid_range == "":
         # For some reason poker.Range interprets an empty string as None.
         err_msg = "'None' is an invalid range"
-    assert err_msg in str(excinfo.value)
+    assert err_msg in str(excinfo.value.humanize_error())
 
 
 @pytest.mark.parametrize("valid_range", ["22+", "88+; AK", "A4s-ATs", "AK, AQ, AJ"])
