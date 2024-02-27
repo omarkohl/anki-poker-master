@@ -1,8 +1,6 @@
 import os
 import sys
 import traceback
-from poker.hand import Range
-from typing import Dict, List
 import argparse
 import yaml
 from importlib.metadata import version, PackageNotFoundError
