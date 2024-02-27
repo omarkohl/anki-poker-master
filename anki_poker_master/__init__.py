@@ -223,7 +223,7 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
     The input is assumed to be non-validated.
     """
 
-    initial_schema2 = schema.Schema(
+    initial_schema = schema.Schema(
         schema.And(
             schema.Use(yaml.safe_load),
             [
@@ -244,8 +244,8 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
     )
     default_scenario_values = {}
     default_found = False
-    v_scenarios2 = initial_schema2.validate(scenario_yml)
-    for scenario in v_scenarios2:
+    v_scenarios = initial_schema.validate(scenario_yml)
+    for scenario in v_scenarios:
         if "DEFAULT" in scenario:
             if scenario["DEFAULT"]:
                 if default_found:
@@ -253,15 +253,15 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
                 default_found = True
                 default_scenario_values = scenario
     if default_found:
-        v_scenarios2.remove(default_scenario_values)
+        v_scenarios.remove(default_scenario_values)
         del default_scenario_values["DEFAULT"]
 
-    for scenario in v_scenarios2:
+    for scenario in v_scenarios:
         for key, value in default_scenario_values.items():
             if key not in scenario:
                 scenario[key] = value
 
-    strict_schema2 = schema.Schema(
+    strict_schema = schema.Schema(
         [
             {
                 "game": str,
@@ -282,8 +282,8 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
             }
         ]
     )
-    v_scenarios3 = strict_schema2.validate(v_scenarios2)
-    for s in v_scenarios3:
+    v_scenarios2 = strict_schema.validate(v_scenarios)
+    for s in v_scenarios2:
         if "range_colors" in s:
             for action in s["range_colors"]:
                 if action not in s["ranges"]:
@@ -291,7 +291,7 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
                         f"Range color defined for action '{action}', but no range is defined for that action."
                     )
 
-    return convert_scenarios(v_scenarios3, config)
+    return convert_scenarios(v_scenarios2, config)
 
 
 def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
