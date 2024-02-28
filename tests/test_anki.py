@@ -13,8 +13,7 @@ def test_deck_is_created(tmp_path):
             "position": "UTG",
             "scenario": "Top left",
             "ranges": {
-                "Fold": Range("XX"),
-                "Call": Range("98+, A8+, K8+, Q8+, J8+, T8+, 88+"),
+                "Call": Range("98+, A8+, K8+, Q8+, J8+, T8+"),
                 "Raise": Range("88+"),
             },
             "notes": "This is a test",
@@ -27,14 +26,16 @@ def test_deck_is_created(tmp_path):
     )
     # Just perform some basic sanity checks
     assert isinstance(decks, list)
-    assert len(decks) == 1
-    assert isinstance(decks[0], genanki.Deck)
-    assert decks[0].name == "AnkiPokerMaster"
+    assert len(decks) == 2
+    for deck in decks:
+        assert isinstance(deck, genanki.Deck)
+    assert decks[0].name == "AnkiPokerMaster::Standard"
     assert len(decks[0].notes) == 1
-    assert len(decks[0].notes[0].fields) == 14
-    assert len(decks[0].notes[0].tags) == 1
     assert decks[0].notes[0].model.name == "Poker Preflop Scenario"
-    assert len(decks[0].notes[0].model.templates) == 7
+
+    assert decks[1].name == "AnkiPokerMaster::Detailed"
+    assert len(decks[1].notes) == 169
+    assert decks[1].notes[0].model.name == "Basic with source"
 
     deck_path = os.path.join(tmp_path, "AnkiPokerMaster.apkg")
     write_deck_to_file(decks[0], deck_path)

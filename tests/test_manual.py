@@ -60,28 +60,56 @@ def test_manual_deck_creation(tmp_path):
     print("    " + str(pkg_path))
     print()
 
-    num_cards = input("How many cards are in the deck? ")
-    assert int(num_cards) == 7
+    questions = [
+        ("How many decks are in the package?", "2"),
+        (
+            "Are the decks named 'AnkiPokerMaster::Standard' and 'AnkiPokerMaster::Detailed'?",
+            "y",
+        ),
+        ("How many cards are in the Standard deck?", "7"),
+        (
+            "Check one note at random from the Standard deck and type the tags here (separated by comma):",
+            {"poker", "manual-test"},
+        ),
+        (
+            "Check one note at randome from the Standard deck, does it contain the expected note 'This is a test'? (y/n)",
+            "y",
+        ),
+        ("Can you study the 'Standard' deck? (y/n)", "y"),
+        (
+            "Standard deck: Can you mark the ranges on the front but not the back of the cards? (y/n)",
+            "y",
+        ),
+        ("How many cards are in the Detailed deck?", "169"),
+        (
+            "Check one note at random from the Detailed deck and type the tags here (separated by comma):",
+            {"poker", "manual-test"},
+        ),
+        (
+            "Check one note at random from the Detailed deck, does it contain the expected note 'This is a test'? (y/n)",
+            "y",
+        ),
+        ("Can you study the 'Detailed' deck? (y/n)", "y"),
+        ("Is there anything else wrong with the decks? (y/n)", "n"),
+    ]
+    wrong_answers = []
 
-    tags = input(
-        "Check one note at random and type the tags here (separated by comma): "
-    )
-    tags = set(t.lower().strip() for t in tags.split(","))
-    assert tags == {"poker", "manual-test"}
+    for question, expected_answer in questions:
+        answer = input(question + " ")
+        if isinstance(expected_answer, set):
+            answer = set(s.strip() for s in answer.split(","))
+        if answer != expected_answer:
+            wrong_answers.append((question, expected_answer, answer))
 
-    contains_notes = input(
-        "Do the cards contain the expected note 'This is a test'? (y/n) "
-    )
-    assert contains_notes.lower() == "y"
+    def format_wrong_answer(wrong_answer):
+        question, expected_answer, answer = wrong_answer
+        return f"{question}\nExpected: {expected_answer}\nGot: {answer}\n"
 
-    can_study = input("Can you study the deck? (y/n) ")
-    assert can_study.lower() == "y"
+    is_closed = "n"
+    while is_closed.lower() != "y":
+        is_closed = input("Is Anki closed? (y/n) ")
 
-    can_you_mark_ranges = input("Can you mark the ranges in the deck? (y/n) ")
-    assert can_you_mark_ranges.lower() == "y"
-
-    anything_wrong = input("Is there anything else wrong with the deck? (y/n) ")
-    assert anything_wrong.lower() == "n"
+    assert not wrong_answers, "\n" + "\n".join(map(format_wrong_answer, wrong_answers))
 
 
 def _extract_tar_gz(file_path, destination):

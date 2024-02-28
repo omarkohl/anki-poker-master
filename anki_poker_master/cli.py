@@ -137,10 +137,6 @@ def main_with_args(args):
     else:
         tags = args.tags.copy()
 
-    decks = create_decks(
-        scenarios,
-        tags,
-    )
     if args.output.endswith(".apkg"):
         pkg_path = args.output
     else:
@@ -148,5 +144,9 @@ def main_with_args(args):
     if os.path.exists(pkg_path):
         print(f"The file {pkg_path} already exists.")
         sys.exit(1)
-    # TODO needs to support multiple decks
-    write_deck_to_file(decks[0], pkg_path)
+
+    decks = create_decks(
+        scenarios,
+        tags,
+    )
+    write_deck_to_file(decks, pkg_path)

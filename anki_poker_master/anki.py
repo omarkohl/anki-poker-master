@@ -56,6 +56,53 @@ _ALL_CARD_FOOTER = (
 )
 
 
+_BASIC_HEADER = """
+<div class="row">
+    <div class="column column_left">
+        {{Tags}}
+    </div>
+    <div class="column column_right">
+    </div>
+</div>
+""".lstrip()
+
+_BASIC_FOOTER = """
+{{#Notes}}
+<p>
+<small><b>Notes:</b></small>
+<br>
+<small>{{Notes}}</small>
+</p>
+{{/Notes}}
+{{#Source}}
+<p>
+<small><b>Source:</b></small>
+<br>
+<small>{{Source}}</small>
+</p>
+{{/Source}}
+""".lstrip()
+
+_BASIC_MODEL = genanki.Model(
+    1708087674509,
+    "Basic with source",
+    fields=[
+        {"name": "Question"},
+        {"name": "Answer"},
+        {"name": "Notes"},
+        {"name": "Source"},
+    ],
+    templates=[
+        {
+            "name": "QA",
+            "qfmt": _BASIC_HEADER + "{{Question}}",
+            "afmt": "{{FrontSide}}<hr id='answer'>{{Answer}}<br>" + _BASIC_FOOTER,
+        },
+    ],
+    css=DEFAULT_CSS,
+)
+
+
 _SCENARIO_MODEL = genanki.Model(
     1995683082,  # Random number that should not change in the future
     "Poker Preflop Scenario",
@@ -175,9 +222,13 @@ def create_decks(
     scenarios: List[PreflopScenario],
     tags: List[str] = None,
 ) -> List[genanki.Deck]:
-    deck_id = random.randrange(1 << 30, 1 << 31)
     decks = []
-    deck = genanki.Deck(deck_id, "AnkiPokerMaster")
+    deck_standard = genanki.Deck(
+        random.randrange(1 << 30, 1 << 31), "AnkiPokerMaster::Standard"
+    )
+    deck_detailed = genanki.Deck(
+        random.randrange(1 << 30, 1 << 31), "AnkiPokerMaster::Detailed"
+    )
     for scenario in scenarios:
         ranges_txt = ""
         for action in sorted(scenario.ranges):
@@ -185,7 +236,7 @@ def create_decks(
             ranges_txt += (
                 f"<b>{action}</b> ({percentage}%): {scenario.ranges[action]}<br>"
             )
-        deck.add_note(
+        deck_standard.add_note(
             genanki.Note(
                 model=_SCENARIO_MODEL,
                 fields=[
@@ -207,9 +258,45 @@ def create_decks(
                 tags=tags if tags else [],
             )
         )
-    decks.append(deck)
+        for range in scenario.ranges:
+            for hand in scenario.ranges[range].hands:
+                header = f"""
+<style>
+{scenario.extra_css()}
+</style>
+<b>Game: </b>{scenario.game}
+<br>
+<b>Scenario: </b>{scenario.scenario}
+<br>
+<b>Position: </b>{scenario.position}
+<br>
+<br>
+""".lstrip()
+                footer = f"""
+<br>
+{scenario.html_legend()}
+<script>
+{DEFAULT_JS}
+</script>
+""".lstrip()
+                deck_detailed.add_note(
+                    genanki.Note(
+                        model=_BASIC_MODEL,
+                        fields=[
+                            header + f"How should you play {hand}?",
+                            f"You should <b>{range}</b>.<br><br>"
+                            + scenario.html_full()
+                            + footer,
+                            scenario.notes if scenario.notes else "",
+                            scenario.source if scenario.source else "",
+                        ],
+                        tags=tags if tags else [],
+                    )
+                )
+    decks.append(deck_standard)
+    decks.append(deck_detailed)
     return decks
 
 
-def write_deck_to_file(deck: genanki.Deck, filename: str):
-    genanki.Package(deck).write_to_file(filename)
+def write_deck_to_file(decks: List[genanki.Deck], filename: str):
+    genanki.Package(decks).write_to_file(filename)
