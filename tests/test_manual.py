@@ -61,35 +61,44 @@ def test_manual_deck_creation(tmp_path):
     print()
 
     questions = [
+        # Browser questions
         ("How many decks are in the package?", "2"),
         (
-            "Are the decks named 'AnkiPokerMaster::Standard' and 'AnkiPokerMaster::Detailed'?",
+            "Are the decks named 'AnkiPokerMaster::Standard' and 'AnkiPokerMaster::Detailed' respectively? (y/n)",
             "y",
         ),
-        ("How many cards are in the Standard deck?", "7"),
+        # Browser questions: Standard deck
+        ("Standard deck: How many cards are in it?", "7"),
         (
-            "Check one note at random from the Standard deck and type the tags here (separated by comma):",
+            "Standard deck: Check one note at random and type the tags here (separated by comma):",
             {"poker", "manual-test"},
         ),
         (
-            "Check one note at randome from the Standard deck, does it contain the expected note 'This is a test'? (y/n)",
+            "Standard deck: Check one note at random, does it contain the expected note 'This is a test'? (y/n)",
             "y",
         ),
-        ("Can you study the 'Standard' deck? (y/n)", "y"),
+        # Browser questions: Detailed deck
+        ("Detailed deck: How many cards are in there?", "169"),
+        (
+            "Detailed deck: Check one note at random and type the tags here (separated by comma):",
+            {"poker", "manual-test"},
+        ),
+        (
+            "Detailed deck: Check one note at random, does it contain correct images? (y/n)",
+            "y",
+        ),
+        (
+            "Detailed deck: Check one note at random, does it contain the expected note 'This is a test'? (y/n)",
+            "y",
+        ),
+        # Studying questions
+        ("Standard deck: Can you study it? (y/n)", "y"),
         (
             "Standard deck: Can you mark the ranges on the front but not the back of the cards? (y/n)",
             "y",
         ),
-        ("How many cards are in the Detailed deck?", "169"),
-        (
-            "Check one note at random from the Detailed deck and type the tags here (separated by comma):",
-            {"poker", "manual-test"},
-        ),
-        (
-            "Check one note at random from the Detailed deck, does it contain the expected note 'This is a test'? (y/n)",
-            "y",
-        ),
-        ("Can you study the 'Detailed' deck? (y/n)", "y"),
+        ("Detailed deck: Can you study it? (y/n)", "y"),
+        # Closing questions
         ("Is there anything else wrong with the decks? (y/n)", "n"),
     ]
     wrong_answers = []
@@ -107,6 +116,7 @@ def test_manual_deck_creation(tmp_path):
 
     is_closed = "n"
     while is_closed.lower() != "y":
+        print("Please close Anki so the temporary files can be deleted.")
         is_closed = input("Is Anki closed? (y/n) ")
 
     assert not wrong_answers, "\n" + "\n".join(map(format_wrong_answer, wrong_answers))

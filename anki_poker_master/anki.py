@@ -1,8 +1,9 @@
 import random
 import genanki
+from importlib_resources import files
 from anki_poker_master import PreflopScenario
 from anki_poker_master.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
-from typing import List, Dict
+from typing import List, Set, Tuple
 
 _ALL_CARD_HEADER = """
 <div class="row">
@@ -221,8 +222,8 @@ _SCENARIO_MODEL = genanki.Model(
 def create_decks(
     scenarios: List[PreflopScenario],
     tags: List[str] = None,
-) -> List[genanki.Deck]:
-    decks = []
+) -> Tuple[List[genanki.Deck], Set[str]]:
+    all_media_files = set()
     deck_standard = genanki.Deck(
         random.randrange(1 << 30, 1 << 31), "AnkiPokerMaster::Standard"
     )
@@ -279,24 +280,39 @@ def create_decks(
 {DEFAULT_JS}
 </script>
 """.lstrip()
+                img1 = f"card-{hand.first}h.png"
+                img2 = f"card-{hand.second}{'h' if hand.is_suited else 'c'}.png"
+                all_media_files.add(img1)
+                all_media_files.add(img2)
+                question = (
+                    header
+                    + f"How should you play {hand}?<br>"
+                    + f'<img src="{img1}">'
+                    + f'<img src="{img2}">'
+                )
+                answer = (
+                    f"You should <b>{range}</b>.<br><br>"
+                    + scenario.html_full()
+                    + footer
+                )
                 deck_detailed.add_note(
                     genanki.Note(
                         model=_BASIC_MODEL,
                         fields=[
-                            header + f"How should you play {hand}?",
-                            f"You should <b>{range}</b>.<br><br>"
-                            + scenario.html_full()
-                            + footer,
+                            question,
+                            answer,
                             scenario.notes if scenario.notes else "",
                             scenario.source if scenario.source else "",
                         ],
                         tags=tags if tags else [],
                     )
                 )
-    decks.append(deck_standard)
-    decks.append(deck_detailed)
-    return decks
+    return [deck_standard, deck_detailed], all_media_files
 
 
-def write_deck_to_file(decks: List[genanki.Deck], filename: str):
-    genanki.Package(decks).write_to_file(filename)
+def write_deck_to_file(decks: List[genanki.Deck], media_files: Set[str], filename: str):
+    media_files_full_path = []
+    for media_file in media_files:
+        image_path = files("anki_poker_master").joinpath("images", media_file)
+        media_files_full_path.append(image_path)
+    genanki.Package(decks, media_files_full_path).write_to_file(filename)

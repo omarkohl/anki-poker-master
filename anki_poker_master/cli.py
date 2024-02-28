@@ -145,8 +145,8 @@ def main_with_args(args):
         print(f"The file {pkg_path} already exists.")
         sys.exit(1)
 
-    decks = create_decks(
+    decks, media_files = create_decks(
         scenarios,
         tags,
     )
-    write_deck_to_file(decks, pkg_path)
+    write_deck_to_file(decks, media_files, pkg_path)

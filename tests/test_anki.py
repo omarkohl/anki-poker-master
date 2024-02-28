@@ -20,7 +20,7 @@ def test_deck_is_created(tmp_path):
         }
     ]
     tags = ["test"]
-    decks = create_decks(
+    decks, media_files = create_decks(
         [PreflopScenario(**scenarios[0])],
         tags=tags,
     )
@@ -37,7 +37,10 @@ def test_deck_is_created(tmp_path):
     assert len(decks[1].notes) == 169
     assert decks[1].notes[0].model.name == "Basic with source"
 
+    assert isinstance(media_files, set)
+    assert len(media_files) == 26
+
     deck_path = os.path.join(tmp_path, "AnkiPokerMaster.apkg")
-    write_deck_to_file(decks[0], deck_path)
+    write_deck_to_file(decks[0], media_files, deck_path)
     assert os.path.exists(deck_path)
     assert os.path.getsize(deck_path) > 0
