@@ -79,6 +79,34 @@ _SCENARIO_MODEL = genanki.Model(
     ],
     templates=[
         {
+            "name": "Guess Position",
+            "qfmt": _ALL_CARD_HEADER
+            + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>"
+            + "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + "<script>"
+            + DEFAULT_JS
+            + "</script>",
+            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "bqfmt": "{{Game}} / {{Scenario}} / ?",
+            "bafmt": "{{Position}}",
+        },
+        {
+            "name": "Guess Scenario",
+            "qfmt": _ALL_CARD_HEADER
+            + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>"
+            + "<b>Scenario: </b>?<br><b>Position: </b>{{Position}}<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + "<script>"
+            + DEFAULT_JS
+            + "</script>",
+            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "bqfmt": "{{Game}} / ? / {{Position}}",
+            "bafmt": "{{Scenario}}",
+        },
+        {
             "name": "TL Quadrant",
             "qfmt": _HEADER_FMT
             + "{{Top Left Quadrant Blank HTML}}"
@@ -137,34 +165,6 @@ _SCENARIO_MODEL = genanki.Model(
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (full)",
             "bafmt": "(HTML table)",
-        },
-        {
-            "name": "Guess Position",
-            "qfmt": _ALL_CARD_HEADER
-            + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>"
-            + "<b>Scenario: </b>{{Scenario}}<br><b>Position: </b>?<br>"
-            + "{{Full HTML}}"
-            + "<br>{{Legend}}"
-            + "<script>"
-            + DEFAULT_JS
-            + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
-            "bqfmt": "{{Game}} / {{Scenario}} / ?",
-            "bafmt": "{{Position}}",
-        },
-        {
-            "name": "Guess Scenario",
-            "qfmt": _ALL_CARD_HEADER
-            + "<style>{{CSS}}</style><b>Game: </b>{{Game}}<br>"
-            + "<b>Scenario: </b>?<br><b>Position: </b>{{Position}}<br>"
-            + "{{Full HTML}}"
-            + "<br>{{Legend}}"
-            + "<script>"
-            + DEFAULT_JS
-            + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
-            "bqfmt": "{{Game}} / ? / {{Position}}",
-            "bafmt": "{{Scenario}}",
         },
     ],
     css=DEFAULT_CSS,
