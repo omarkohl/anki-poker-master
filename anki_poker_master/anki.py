@@ -264,9 +264,7 @@ def create_decks(
                 tags=tags if tags else [],
             )
         )
-        for range in scenario.ranges:
-            for hand in scenario.ranges[range].hands:
-                header = f"""
+        header = f"""
 <style>
 {scenario.extra_css()}
 </style>
@@ -278,13 +276,71 @@ def create_decks(
 <br>
 <br>
 """.lstrip()
-                footer = f"""
+        footer = f"""
 <br>
 {scenario.html_legend()}
 <script>
 {DEFAULT_JS}
 </script>
 """.lstrip()
+        for c in [
+            "AXs",
+            "KXs",
+            "QXs",
+            "JXs",
+            "TXs",
+            "9Xs",
+            "8Xs",
+            "7Xs",
+            "6Xs",
+            "5Xs",
+            "4Xs",
+            "3Xs",
+            "2Xs",
+            "AXo",
+            "KXo",
+            "QXo",
+            "JXo",
+            "TXo",
+            "9Xo",
+            "8Xo",
+            "7Xo",
+            "6Xo",
+            "5Xo",
+            "4Xo",
+            "3Xo",
+            "2Xo",
+            "Pairs",
+        ]:
+            if c == "Pairs":
+                img1 = f"card-Xh.png"
+                img2 = f"card-Xc.png"
+            else:
+                img1 = f"card-{c[0]}h.png"
+                img2 = f"card-{c[1]}{'h' if c[2] == 's' else 'c'}.png"
+            all_media_files.add(img1)
+            all_media_files.add(img2)
+            question = (
+                header
+                + f"How should you play {c}?<br>"
+                + f'<img src="{img1}">'
+                + f'<img src="{img2}">'
+            )
+            answer = f"Check the table below.<br><br>" + scenario.html_full() + footer
+            deck_standard.add_note(
+                genanki.Note(
+                    model=_BASIC_MODEL,
+                    fields=[
+                        question,
+                        answer,
+                        scenario.notes if scenario.notes else "",
+                        scenario.source if scenario.source else "",
+                    ],
+                    tags=tags if tags else [],
+                )
+            )
+        for range in scenario.ranges:
+            for hand in scenario.ranges[range].hands:
                 img1 = f"card-{hand.first}h.png"
                 img2 = f"card-{hand.second}{'h' if hand.is_suited else 'c'}.png"
                 all_media_files.add(img1)

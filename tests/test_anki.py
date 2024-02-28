@@ -30,15 +30,16 @@ def test_deck_is_created(tmp_path):
     for deck in decks:
         assert isinstance(deck, genanki.Deck)
     assert decks[0].name == "AnkiPokerMaster::Standard"
-    assert len(decks[0].notes) == 1
-    assert decks[0].notes[0].model.name == "Poker Preflop Scenario"
+    assert len(decks[0].notes) == 28
+    for note in decks[0].notes:
+        assert note.model.name in ("Poker Preflop Scenario", "Basic with source")
 
     assert decks[1].name == "AnkiPokerMaster::Detailed"
     assert len(decks[1].notes) == 169
     assert decks[1].notes[0].model.name == "Basic with source"
 
     assert isinstance(media_files, set)
-    assert len(media_files) == 26
+    assert len(media_files) == 28
 
     deck_path = os.path.join(tmp_path, "AnkiPokerMaster.apkg")
     write_deck_to_file(decks[0], media_files, deck_path)
