@@ -114,7 +114,7 @@ def test_ranges_required3():
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
         scenarios = parse_scenario_yml(yml_file)
-    assert "'None' is an invalid range" in excinfo.value.humanize_error()
+    assert "range can't be empty or null" in excinfo.value.humanize_error()
 
 
 def test_custom_colors():
@@ -245,8 +245,7 @@ def test_invalid_ranges(invalid_range):
         parse_scenario_yml(yml_file)
     err_msg = f"'{invalid_range}' is an invalid range"
     if invalid_range == "":
-        # For some reason poker.Range interprets an empty string as None.
-        err_msg = "'None' is an invalid range"
+        err_msg = "range can't be empty or null"
     assert err_msg in str(excinfo.value.humanize_error())
 
 

@@ -213,6 +213,18 @@ def _to_css_class(action: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]", "_", action).lstrip("_").lower().strip()
 
 
+class _RangeSchema:
+    def validate(self, data):
+        if data is None:
+            err_msg = "range can't be empty or null"
+            raise schema.SchemaError(err_msg, err_msg)
+        try:
+            return Range(str(data))
+        except ValueError:
+            err_msg = f"'{data}' is an invalid range"
+            raise schema.SchemaError(err_msg, err_msg)
+
+
 def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
     """
     Parse a YAML string containing scenarios and return a list of PreflopScenario objects.
@@ -228,9 +240,7 @@ def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
                     schema.Optional("game"): str,
                     schema.Optional("position"): str,
                     schema.Optional("scenario"): str,
-                    schema.Optional("ranges"): {
-                        str: schema.Use(Range, error="'{}' is an invalid range")
-                    },
+                    schema.Optional("ranges"): {str: _RangeSchema()},
                     schema.Optional("notes"): str,
                     schema.Optional("source"): str,
                     schema.Optional("range_colors"): {str: str},
