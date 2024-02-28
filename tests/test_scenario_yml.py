@@ -285,6 +285,75 @@ def test_ranges_cant_overlap():
     assert err_msg in excinfo.value.humanize_error()
 
 
+@pytest.mark.parametrize(
+    "valid_source",
+    [
+        "",
+        "23",
+        "https://example.com",
+    ],
+)
+def test_valid_source(valid_source):
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 77+
+  source: {valid_source}
+""".lstrip()
+    print(yml_file)
+    scenarios = parse_scenario_yml(yml_file)
+    assert scenarios[0].source == valid_source
+
+
+def test_valid_multiline_source():
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = """
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 77+
+  source: >-
+    Chapter 16
+    <br>Big Important Poker Book
+    <br>John Smith
+""".lstrip()
+    print(yml_file)
+    scenarios = parse_scenario_yml(yml_file)
+    assert (
+        scenarios[0].source == "Chapter 16 <br>Big Important Poker Book <br>John Smith"
+    )
+
+
+@pytest.mark.parametrize(
+    "valid_notes",
+    [
+        "",
+        "23",
+        "This scenarios is particularly interesting because ...",
+    ],
+)
+def test_valid_notes(valid_notes):
+    from anki_poker_master import parse_scenario_yml
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 77+
+  notes: {valid_notes}
+""".lstrip()
+    print(yml_file)
+    scenarios = parse_scenario_yml(yml_file)
+    assert scenarios[0].notes == valid_notes
+
+
 def test_default_source():
     from anki_poker_master import parse_scenario_yml
 

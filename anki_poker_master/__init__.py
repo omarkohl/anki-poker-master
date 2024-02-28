@@ -241,8 +241,12 @@ def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
                     schema.Optional("position"): str,
                     schema.Optional("scenario"): str,
                     schema.Optional("ranges"): {str: _RangeSchema()},
-                    schema.Optional("notes"): str,
-                    schema.Optional("source"): str,
+                    schema.Optional("notes"): schema.Use(
+                        lambda x: "" if x is None else str(x)
+                    ),
+                    schema.Optional("source"): schema.Use(
+                        lambda x: "" if x is None else str(x)
+                    ),
                     schema.Optional("range_colors"): {str: str},
                 }
             ],
