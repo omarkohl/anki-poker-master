@@ -88,7 +88,8 @@ def main_with_args(args):
         "--tags",
         nargs="*",
         type=str,
-        help="Tags for the Anki decks. Specify multiple tags separated by spaces.",
+        help="Tags for the Anki decks. Specify multiple tags separated by "
+        + "spaces. Default is a single tag: poker.",
     )
     parser.add_argument(
         "--verbose",
@@ -131,9 +132,14 @@ def main_with_args(args):
             traceback.print_exc()
         sys.exit(1)
 
+    if args.tags is None:
+        tags = ["poker"]
+    else:
+        tags = args.tags.copy()
+
     decks = create_decks(
         scenarios,
-        args.tags,
+        tags,
     )
     if args.output.endswith(".apkg"):
         pkg_path = args.output
