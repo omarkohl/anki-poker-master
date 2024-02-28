@@ -11,6 +11,7 @@ python = "^3.8"
 poker = "^0.30.0"
 genanki = "^0.13.1"
 schema = "^0.7.5"
+importlib-resources = "^6.1.2"
 
 
 [tool.poetry.group.dev.dependencies]
