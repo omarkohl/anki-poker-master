@@ -3,10 +3,22 @@
 Python tool to generate one or multiple Anki decks for memorizing Texas Hold'em
 Poker preflop ranges.
 
+Anki is a powerful tool to learn and memorize useful information. It is
+available for Windows, Linux, macOS, Android and iOS. [Official
+website](https://apps.ankiweb.net/) and [inspiring
+examples](https://augmentingcognition.com/ltm.html) of the power of Anki.
+
+You can read some more about Poker preflop ranges
+[here](https://www.splitsuit.com/poker-ranges-reading) and
+[here](https://pokertrainer.se/preflop-introduction/).
+
+
 ## Usage
 
 Write a YAML file to define all scenarios (situations) you want to memorize,
-for example "Opening as Button in a 100BB Cash game".
+for example "Opening as Button in a 100BB Cash game". AnkiPokerMaster will
+generate Anki decks based solely on this scenario.yml file and you will get
+Anki cards like the screenshots below.
 
 See an example for such a config file here:
 [example_scenarios.yml](./example_scenarios.yml)
