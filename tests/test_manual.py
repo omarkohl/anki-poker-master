@@ -7,11 +7,7 @@ import pytest
 import tarfile
 from pathlib import Path
 
-from anki_poker_master.cli import (
-    main_with_args,
-    EXAMPLE_CONFIG_FILE,
-    EXAMPLE_SCENARIO_FILE,
-)
+from anki_poker_master.cli import main_with_args
 
 
 # The following tests are not run by default, as they require Anki to be installed

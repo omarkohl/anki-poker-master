@@ -27,9 +27,8 @@ def test_default_extra_css(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     css = scenario.extra_css()
     assert css == ""
 
@@ -42,13 +41,13 @@ def test_custom_fold_color_css(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {
-        "color": {
-            "Fold": "yellow",
-        }
+    range_colors = {
+        "Fold": "yellow",
     }
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(
+        action_ranges, "CO", "Opening", "Cash 100BB 6P", range_colors
+    )
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -71,8 +70,8 @@ def test_custom_range_css(pytestconfig, golden_dir):
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
         "My special range": Range("K2s+"),
     }
-    config = {}
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -95,12 +94,12 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
         "My special range": Range("K2s+"),
     }
-    config = {
-        "color": {
-            "My special range": "red",
-        }
+    range_colors = {
+        "My special range": "red",
     }
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(
+        action_ranges, "CO", "Opening", "Cash 100BB 6P", range_colors
+    )
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -119,9 +118,8 @@ def test_legend_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -139,9 +137,8 @@ def test_full_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -159,9 +156,8 @@ def test_blank_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -179,9 +175,8 @@ def test_top_left_quadrant_blank_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -199,9 +194,8 @@ def test_top_right_quadrant_blank_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -219,9 +213,8 @@ def test_bottom_left_quadrant_blank_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -239,9 +232,8 @@ def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
     }
-    config = {}
 
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -263,12 +255,12 @@ def test_top_right_quadrant_blank_html_with_custom_ranges(pytestconfig, golden_d
         "Raise": Range("AA, KK, QQ, JJ, TT, 99, 88, 77"),
         "My special range": Range("K2s+"),
     }
-    config = {
-        "color": {
-            "My special range": "red",
-        }
+    range_colors = {
+        "My special range": "red",
     }
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+    scenario = PreflopScenario(
+        action_ranges, "CO", "Opening", "Cash 100BB 6P", range_colors
+    )
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -291,8 +283,8 @@ def test_overlapping_ranges(pytestconfig, golden_dir):
         "ZZZ": Range("AQs"),
         "Raise": Range("A4s+"),
     }
-    config = {}
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
@@ -310,8 +302,8 @@ def test_default_is_fold(pytestconfig, golden_dir):
     from anki_poker_master.const import DEFAULT_CSS, DEFAULT_JS
 
     action_ranges = {}
-    config = {}
-    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P", config)
+
+    scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(DEFAULT_CSS, 4 * " ") + "</style>\n"
     html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"

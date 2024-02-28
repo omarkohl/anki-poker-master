@@ -16,7 +16,7 @@ def test_basics():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios) == 1
     assert scenarios[0].game == "NLHE"
     assert scenarios[0].position == "UTG"
@@ -41,7 +41,7 @@ def test_game_required():
       Raise: 88+
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Missing key: 'game'" in excinfo.value.humanize_error()
 
 
@@ -56,7 +56,7 @@ def test_position_required():
       Raise: 88+
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Missing key: 'position'" in excinfo.value.humanize_error()
 
 
@@ -71,7 +71,7 @@ def test_scenario_required():
       Raise: 88+
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Missing key: 'scenario'" in excinfo.value.humanize_error()
 
 
@@ -84,7 +84,7 @@ def test_ranges_required1():
   position: UTG
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Missing key: 'ranges'" in excinfo.value.humanize_error()
 
 
@@ -98,7 +98,7 @@ def test_ranges_required2():
   ranges:
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Key 'ranges' error" in excinfo.value.humanize_error()
 
 
@@ -113,7 +113,7 @@ def test_ranges_required3():
     Call:
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "'None' is an invalid range" in excinfo.value.humanize_error()
 
 
@@ -134,7 +134,7 @@ def test_custom_colors():
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios) == 1
 
 
@@ -155,7 +155,7 @@ def test_range_color_must_be_str():
   source: "https://example.com"
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Key 'My custom range' error" in excinfo.value.humanize_error()
 
 
@@ -182,7 +182,7 @@ def test_range_color_must_be_str2():
   source: "https://example.com"
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        scenarios = parse_scenario_yml(yml_file, {})
+        scenarios = parse_scenario_yml(yml_file)
     assert "Key 'My custom range' error" in str(excinfo.value.humanize_error())
 
 
@@ -206,7 +206,7 @@ def test_range_colors_must_use_valid_ranges():
   source: "https://example.com"
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        parse_scenario_yml(yml_file, {})
+        parse_scenario_yml(yml_file)
     assert "My custom range" in excinfo.value.humanize_error()
 
 
@@ -225,7 +225,7 @@ def test_range_colors_must_be_valid_color(invalid_color):
     Call: "{invalid_color}"
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        parse_scenario_yml(yml_file, {})
+        parse_scenario_yml(yml_file)
     assert f"'{invalid_color}' is an invalid color" in excinfo.value.humanize_error()
 
 
@@ -242,7 +242,7 @@ def test_invalid_ranges(invalid_range):
     Raise: {invalid_range}
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        parse_scenario_yml(yml_file, {})
+        parse_scenario_yml(yml_file)
     err_msg = f"'{invalid_range}' is an invalid range"
     if invalid_range == "":
         # For some reason poker.Range interprets an empty string as None.
@@ -262,7 +262,7 @@ def test_valid_ranges(valid_range):
     Call: 72s
     Raise: {valid_range}
 """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios[0].ranges["Raise"].hands) > 0
 
 
@@ -278,7 +278,7 @@ def test_ranges_cant_overlap():
     Raise: QQ+
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
-        parse_scenario_yml(yml_file, {})
+        parse_scenario_yml(yml_file)
     err_msg = (
         "Range for action 'Call' overlaps with range for action "
         + "'Raise' in scenario 'NLHE / Opening / UTG'"
@@ -300,7 +300,7 @@ def test_default_source():
     Raise: 88+
     My custom range: 22-77
   """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios) == 1
     assert scenarios[0].source == "https://example.com"
 
@@ -325,7 +325,7 @@ def test_default_several():
   ranges:
     Raise: AT+
   """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios) == 2
     assert scenarios[0].source == "https://example.com"
     assert scenarios[1].source == "https://example.com"
@@ -358,7 +358,7 @@ def test_default_overwrite():
   ranges:
     Raise: AT+
   """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios) == 2
     assert scenarios[0].source == "https://example.com"
     assert scenarios[1].source == "https://example.com"
@@ -396,7 +396,7 @@ def test_default_ranges():
   ranges:
     Call: 98+
   """.lstrip()
-    scenarios = parse_scenario_yml(yml_file, {})
+    scenarios = parse_scenario_yml(yml_file)
     assert len(scenarios) == 3
     for s in scenarios:
         assert s.source == "https://example.com"

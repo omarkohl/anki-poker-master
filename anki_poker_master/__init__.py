@@ -14,12 +14,10 @@ _TOP_RIGHT_QUADRANT = "A8s-, K8s-, Q8s-, J8s-, T8s-, 98s-, 87s-, 88"
 _BOTTOM_LEFT_QUADRANT = "A8o-, K8o-, Q8o-, J8o-, T8o-, 98o-, 87o-, 88"
 _BOTTOM_RIGHT_QUADRANT = "88-, 87-, 76-, 65-, 54-, 43-, 32-"
 
-_DEFAULT_CONFIG = {
-    "color": {
-        "fold": "#D6D2D2",
-        "call": "#4BE488",
-        "raise": "#FF6A6A",
-    }
+_DEFAULT_RANGE_COLORS = {
+    "fold": "#D6D2D2",
+    "call": "#4BE488",
+    "raise": "#FF6A6A",
 }
 
 _EASY_TO_READ_COLORS = [
@@ -43,7 +41,7 @@ class PreflopScenario:
         position: str,
         scenario: str,
         game: str,
-        config: Dict = None,
+        range_colors: Dict = None,
         notes: str = None,
         source: str = None,
     ):
@@ -60,16 +58,12 @@ class PreflopScenario:
         self.position = position
         self.scenario = scenario
         self.game = game
-        self.config = copy.deepcopy(_DEFAULT_CONFIG)
-        if config is not None:
-            for key, value in config.items():
-                if key == "color":
-                    for color_k, color_v in value.items():
-                        self.config["color"][_to_css_class(color_k)] = color_v
-                else:
-                    self.config[key] = value
-        self.source = source
+        self.range_colors = copy.deepcopy(_DEFAULT_RANGE_COLORS)
+        if range_colors is not None:
+            for color_k, color_v in range_colors.items():
+                self.range_colors[_to_css_class(color_k)] = color_v
         self.notes = notes
+        self.source = source
 
     def html_full(self) -> str:
         return _to_html(self.ranges)
@@ -104,24 +98,24 @@ class PreflopScenario:
         for action in self.ranges:
             all_actions.add(_to_css_class(action))
         # Generate colors for actions that don't have a color
-        color = self.config["color"].copy()
+        range_colors = self.range_colors.copy()
         available_colors = _EASY_TO_READ_COLORS.copy()
         for action in sorted(all_actions):
-            if action not in color:
+            if action not in range_colors:
                 if available_colors:
-                    color[action] = available_colors.pop()
+                    range_colors[action] = available_colors.pop()
                 else:
                     random.seed(action)
-                    color[action] = "#%06x" % random.randint(0, 0xFFFFFF)
+                    range_colors[action] = "#%06x" % random.randint(0, 0xFFFFFF)
         # We only need custom CSS if new actions are added or a default color is changed
-        if color == _DEFAULT_CONFIG["color"]:
+        if range_colors == _DEFAULT_RANGE_COLORS:
             return ""
         indent = 0
         css = []
         for action in sorted(all_actions):
             css += [indent * " " + f"td.{action} {{"]
             indent += 4
-            css += [indent * " " + f"background-color: {color[action]};"]
+            css += [indent * " " + f"background-color: {range_colors[action]};"]
             indent -= 4
             css += [indent * " " + "}"]
             css += [indent * " " + f"td.{action}.marked {{"]
@@ -129,7 +123,9 @@ class PreflopScenario:
             css += [indent * " " + "background: repeating-linear-gradient("]
             indent += 4
             css += [indent * " " + "45deg,"]
-            css += [indent * " " + f"{color[action]}, {color[action]} 3px,"]
+            css += [
+                indent * " " + f"{range_colors[action]}, {range_colors[action]} 3px,"
+            ]
             css += [indent * " " + f"#00000070 3px, #00000070 6px"]
             indent -= 4
             css += [indent * " " + ");"]
@@ -217,7 +213,7 @@ def _to_css_class(action: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]", "_", action).lstrip("_").lower().strip()
 
 
-def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]:
+def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
     """
     Parse a YAML string containing scenarios and return a list of PreflopScenario objects.
     The input is assumed to be non-validated.
@@ -313,10 +309,10 @@ def parse_scenario_yml(scenario_yml: str, config: Dict) -> List[PreflopScenario]
                         + f"'{s['game']} / {s['scenario']} / {s['position']}'"
                     )
 
-    return convert_scenarios(v_scenarios2, config)
+    return convert_scenarios(v_scenarios2)
 
 
-def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
+def convert_scenarios(scenarios: Dict) -> List[PreflopScenario]:
     result = []
     for scenario in scenarios:
         game = scenario["game"]
@@ -325,13 +321,14 @@ def convert_scenarios(scenarios: Dict, config: Dict) -> List[PreflopScenario]:
         ranges = scenario["ranges"]
         notes = scenario.get("notes", None)
         source = scenario.get("source", None)
+        range_colors = scenario.get("range_colors", None)
         result.append(
             PreflopScenario(
                 game=game,
                 position=position,
                 scenario=scenario_name,
                 ranges=ranges,
-                config=config,
+                range_colors=range_colors,
                 notes=notes,
                 source=source,
             ),

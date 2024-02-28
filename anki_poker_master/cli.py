@@ -9,17 +9,6 @@ from anki_poker_master import parse_scenario_yml, ValidationError
 from anki_poker_master.anki import create_decks, write_deck_to_file
 
 
-EXAMPLE_CONFIG_FILE = """
-## You can override the default colors for the ranges and specify colors for
-## custom ranges.
-#color:
-#  - Fold: '#D6D2D2'
-#  - Call: '#4BE488'
-#  - Raise: '#FF6A6A'
-#  - My custom range: 'darkblue'
-#
-""".lstrip()
-
 EXAMPLE_SCENARIO_FILE = """
 ## The scenario file is a list of scenarios. Each scenario is a dictionary
 ## with the following keys: game, position, scenario, ranges and
@@ -80,9 +69,6 @@ def main_with_args(args):
         description="AnkiPokerMaster - Create Anki decks for poker ranges"
     )
     parser.add_argument(
-        "-c", "--config", type=str, help="Path to the configuration file"
-    )
-    parser.add_argument(
         "-s", "--scenarios", type=str, help="Path to the scenarios file"
     )
     parser.add_argument(
@@ -96,7 +82,7 @@ def main_with_args(args):
         "-e",
         "--example",
         action="store_true",
-        help="Write example files to the path specified by --config/-c or --scenarios/-s if and only if those files do not exist yet",
+        help="Write example file to the path specified by --scenarios/-s if and only if the file does not exist yet",
     )
     parser.add_argument(
         "--tags",
@@ -118,31 +104,16 @@ def main_with_args(args):
     args = parser.parse_args(args)
 
     if args.example:
-        if not args.config and not args.scenarios:
-            print(
-                "You need to specify either --config/-c or --scenarios/-s to write example files."
-            )
+        if not args.scenarios:
+            print("You need to specify --scenarios/-s to write an exampl file.")
             return
-        if args.config:
-            if os.path.exists(args.config):
-                print(f"The file {args.config} already exists.")
-                sys.exit(1)
-            with open(args.config, "w") as f:
-                f.write(EXAMPLE_CONFIG_FILE)
-            print(f"Example configuration file written to {args.config}")
-        if args.scenarios:
-            if os.path.exists(args.scenarios):
-                print(f"The file {args.scenarios} already exists.")
-                sys.exit(1)
-            with open(args.scenarios, "w") as f:
-                f.write(EXAMPLE_SCENARIO_FILE)
-            print(f"Example scenarios file written to {args.scenarios}")
+        if os.path.exists(args.scenarios):
+            print(f"The file {args.scenarios} already exists.")
+            sys.exit(1)
+        with open(args.scenarios, "w") as f:
+            f.write(EXAMPLE_SCENARIO_FILE)
+        print(f"Example scenarios file written to {args.scenarios}")
         return
-
-    config = {}
-    if args.config:  # parse as yaml
-        with open(args.config, "r") as f:
-            config = yaml.safe_load(f)
 
     if not args.scenarios:
         print(
@@ -152,7 +123,7 @@ def main_with_args(args):
 
     try:
         with open(args.scenarios, "r") as f:
-            scenarios = parse_scenario_yml(f.read(), config)
+            scenarios = parse_scenario_yml(f.read())
     except ValidationError as e:
         print(e.humanize_error())
         if args.verbose:
