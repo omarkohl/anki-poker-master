@@ -11,11 +11,11 @@ from anki_poker_master.anki import create_decks, write_deck_to_file
 
 EXAMPLE_SCENARIO_FILE = """
 ## The scenario file is a list of scenarios. Each scenario is a dictionary
-## with the following keys: game, position, scenario, ranges and
-## notes (optional).
+## with the following keys: game, position, scenario, ranges, range_colors,
+## notes and source.
 ## ranges is a dictionary of ranges you want to differentiate. Most common
 ## is to have Raise, Call and Fold. You can also have custom range names.
-## Everything that is not specified will default to 'Fold'.
+## All hands that are not specified will default to 'Fold'.
 
 - game: "Cash 100BB 6P"
   position: "BTN"
@@ -38,7 +38,13 @@ EXAMPLE_SCENARIO_FILE = """
 #  Chapter 16<br>
 #  Big Important Poker Book<br>
 #  John Smith<br>
-
+#
+## You can specify one default scenario that sets the default values for all
+## fields that are not specified in the other scenarios.
+# - DEFAULT: true
+#   source: "https://example.com/"
+#   game: "Cash 100BB 6P"
+#
 ## As you can see in the following example, you are very flexible in how you
 ## can define the information you care about.
 # - game: "Las Vegas Tournament 22"
@@ -48,8 +54,11 @@ EXAMPLE_SCENARIO_FILE = """
 #     Raise: "A2s+"
 #     Call: "77+"
 #     "Secret range to bluff against Bob": "66-"
-#   notes: "Remember that Bob is a nit and always folds to 3bets."
-
+#   # You can (but don't have to!) specify the color of the ranges.
+#   range_colors:
+#     "Secret range to bluff against Bob": "#A7FF12"
+#   notes: "Remember that Bob always folds to 3bets."
+#
 ## ... and so on
 """.lstrip()
 
