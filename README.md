@@ -13,6 +13,31 @@ See an example for such a config file here:
 
 Execute `anki-poker-master --help` to see usage information.
 
+### Screenshots
+
+How should you play Jack and Ten suited?
+
+![How should you play Jack and Ten suited?](./screenshots/how_play_JTs.jpg)
+
+How should you play Queen and any other suited card?
+
+![How should you play Queen and any other suited card?](./screenshots/how_play_QXs.jpg)
+
+Memorize range tables first by remembering the correct position.
+
+![Memorize range tables first by remembering the correct position.](./screenshots/guess_position.jpg)
+
+Memorize range tables by having 1/4 of the table blank and having to remember it.
+
+![Range table with 1/4 blank](./screenshots/blank_top_left.jpg)
+
+You can mark the answer with the mouse or finger as a memory aid:
+
+![Marking with the mouse](./screenshots/marking_top_left.jpg)
+
+Solution side:
+
+![Solution](./screenshots/solution_top_left.jpg)
 
 ## Develop
 
@@ -57,7 +82,7 @@ APM_MANUAL_TESTS=true poetry run pytest tests/test_manual.py -s
 
 Slightly modified from original source:
 
-Vector Playing Cards 3.2
-https://totalnonsense.com/open-source-vector-playing-cards/
-Copyright 2011,2021 – Chris Aguilar – conjurenation@gmail.com
+Vector Playing Cards 3.2  
+https://totalnonsense.com/open-source-vector-playing-cards/  
+Copyright 2011,2021 – Chris Aguilar – conjurenation@gmail.com  
 Licensed under: LGPL 3.0 - https://www.gnu.org/licenses/lgpl-3.0.html
