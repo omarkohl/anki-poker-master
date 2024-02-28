@@ -90,8 +90,8 @@ _BASIC_MODEL = genanki.Model(
     fields=[
         {"name": "Question"},
         {"name": "Answer"},
-        {"name": "Notes"},
-        {"name": "Source"},
+        {"name": "Notes", "size": 14},
+        {"name": "Source", "size": 14},
     ],
     templates=[
         {
@@ -115,8 +115,8 @@ _SCENARIO_MODEL = genanki.Model(
         {"name": "Scenario"},
         {"name": "Position"},
         {"name": "Ranges"},
-        {"name": "Notes"},
-        {"name": "Source"},
+        {"name": "Notes", "size": 14},
+        {"name": "Source", "size": 14},
         {"name": "Full HTML", "collapsed": True},
         {"name": "Top Left Quadrant Blank HTML", "collapsed": True},
         {"name": "Top Right Quadrant Blank HTML", "collapsed": True},
