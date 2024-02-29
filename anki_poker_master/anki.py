@@ -322,9 +322,11 @@ def create_decks(
             all_media_files.add(img2)
             question = (
                 header
-                + f"How should you play {c}?<br>"
+                + f"How should you play {c}?"
+                + "<div class='row'>"
                 + f'<img src="{img1}">'
                 + f'<img src="{img2}">'
+                + "</div>"
             )
             answer = f"Check the table below.<br><br>" + scenario.html_full() + footer
             deck_standard.add_note(
@@ -347,9 +349,11 @@ def create_decks(
                 all_media_files.add(img2)
                 question = (
                     header
-                    + f"How should you play {hand}?<br>"
+                    + f"How should you play {hand}?"
+                    + "<div class='row'>"
                     + f'<img src="{img1}">'
                     + f'<img src="{img2}">'
+                    + "</div>"
                 )
                 answer = (
                     f"You should <b>{range}</b>.<br><br>"

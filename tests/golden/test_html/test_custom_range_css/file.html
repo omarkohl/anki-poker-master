@@ -16,6 +16,18 @@
         font-size: 11px;
     }
 
+    .row img {
+        max-width: 100%;
+    }
+    .row img + img {
+        margin-left: 5px;
+    }
+    @media (max-width: 600px) {
+        .row img {
+            max-width: 100px;
+        }
+    }
+
     table.range, table.legend {
         border-collapse: collapse;
         font-size: 0.7em;
