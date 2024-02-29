@@ -117,6 +117,31 @@ def test_ranges_required3():
     assert "range can't be empty or null" in excinfo.value.humanize_error()
 
 
+@pytest.mark.parametrize(
+    "range, hands",
+    [
+        ("77+", "77, 88, 99, TT, JJ, QQ, KK, AA"),
+        ("77-", "77, 66, 55, 44, 33, 22"),
+        ("A2s+", "A2s, A3s, A4s, A5s, A6s, A7s, A8s, A9s, ATs, AJs, AQs, AKs"),
+        ("KT+", "KTs, KJs, KQs, KTo, KJo, KQo"),
+        ("23s", "23s"),
+        ("95s-98s", "95s, 96s, 97s, 98s"),
+    ],
+)
+def test_ranges(range, hands):
+    from anki_poker_master import parse_scenario_yml, ValidationError
+
+    yml_file = f"""
+- game: NLHE
+  scenario: Opening
+  position: UTG
+  ranges:
+    Call: {range}
+""".lstrip()
+    scenarios = parse_scenario_yml(yml_file)
+    assert scenarios[0].ranges["Call"].hands == poker.Range(hands).hands
+
+
 def test_custom_colors():
     from anki_poker_master import parse_scenario_yml
 
