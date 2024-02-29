@@ -30,7 +30,7 @@ def test_deck_is_created(tmp_path):
     for deck in decks:
         assert isinstance(deck, genanki.Deck)
     assert decks[0].name == "AnkiPokerMaster::Standard"
-    assert len(decks[0].notes) == 28
+    assert len(decks[0].notes) == 26
     for note in decks[0].notes:
         assert note.model.name in ("APM Preflop", "APM Basic")
 
@@ -45,3 +45,152 @@ def test_deck_is_created(tmp_path):
     write_deck_to_file(decks[0], media_files, deck_path)
     assert os.path.exists(deck_path)
     assert os.path.getsize(deck_path) > 0
+
+
+def test_row_question_cards():
+    """
+    Row questions are the ones that ask "What should you do with KXs?" and
+    similar.
+    """
+    from anki_poker_master.anki import create_decks
+    from anki_poker_master import PreflopScenario
+
+    scenarios = [
+        {
+            "game": "NLHE",
+            "position": "UTG",
+            "scenario": "vs. 3bet",
+            "ranges": {
+                "Raise": Range("JJ+, AJ+, KJ+, QJ"),  # 4x4 top left
+                "Call": Range("ATs-, KTs-, QTs-, ATo-A5o"),
+            },
+        }
+    ]
+    tags = ["test"]
+    decks, media_files = create_decks(
+        [PreflopScenario(**scenarios[0])],
+        tags=tags,
+    )
+
+    deck = None
+    for d in decks:
+        if d.name == "AnkiPokerMaster::Standard":
+            deck = d
+            break
+    assert deck is not None
+    assert len(deck.notes) == 26
+    expected_qa_pairs = [
+        (
+            "How should you play pairs?",
+            "<b>Fold:</b> TT-<br><b>Raise:</b> JJ+<br>",
+        ),
+        (
+            "How should you play AXs (only lower than AA)?",
+            "<b>Call:</b> ATs-<br><b>Raise:</b> AJs+<br>",
+        ),
+        (
+            "How should you play KXs (only lower than KK)?",
+            "<b>Call:</b> KTs-<br><b>Raise:</b> KJs+<br>",
+        ),
+        (
+            "How should you play QXs (only lower than QQ)?",
+            "<b>Call:</b> QTs-<br><b>Raise:</b> QJs<br>",
+        ),
+        (
+            "How should you play JXs (only lower than JJ)?",
+            "<b>Fold:</b> J2s+<br>",
+        ),
+        (
+            "How should you play TXs (only lower than TT)?",
+            "<b>Fold:</b> T2s+<br>",
+        ),
+        (
+            "How should you play 9Xs (only lower than 99)?",
+            "<b>Fold:</b> 92s+<br>",
+        ),
+        (
+            "How should you play 8Xs (only lower than 88)?",
+            "<b>Fold:</b> 82s+<br>",
+        ),
+        (
+            "How should you play 7Xs (only lower than 77)?",
+            "<b>Fold:</b> 72s+<br>",
+        ),
+        (
+            "How should you play 6Xs (only lower than 66)?",
+            "<b>Fold:</b> 62s+<br>",
+        ),
+        (
+            "How should you play 5Xs (only lower than 55)?",
+            "<b>Fold:</b> 52s+<br>",
+        ),
+        (
+            "How should you play 4Xs (only lower than 44)?",
+            "<b>Fold:</b> 42s+<br>",
+        ),
+        (
+            "How should you play 3Xs (only lower than 33)?",
+            "<b>Fold:</b> 32s<br>",
+        ),
+        (
+            "How should you play AXo (only lower than AA)?",
+            "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A4o-<br><b>Raise:</b> AJo+<br>",
+        ),
+        (
+            "How should you play KXo (only lower than KK)?",
+            "<b>Fold:</b> KTo-<br><b>Raise:</b> KJo+<br>",
+        ),
+        (
+            "How should you play QXo (only lower than QQ)?",
+            "<b>Fold:</b> QTo-<br><b>Raise:</b> QJo<br>",
+        ),
+        (
+            "How should you play JXo (only lower than JJ)?",
+            "<b>Fold:</b> J2o+<br>",
+        ),
+        (
+            "How should you play TXo (only lower than TT)?",
+            "<b>Fold:</b> T2o+<br>",
+        ),
+        (
+            "How should you play 9Xo (only lower than 99)?",
+            "<b>Fold:</b> 92o+<br>",
+        ),
+        (
+            "How should you play 8Xo (only lower than 88)?",
+            "<b>Fold:</b> 82o+<br>",
+        ),
+        (
+            "How should you play 7Xo (only lower than 77)?",
+            "<b>Fold:</b> 72o+<br>",
+        ),
+        (
+            "How should you play 6Xo (only lower than 66)?",
+            "<b>Fold:</b> 62o+<br>",
+        ),
+        (
+            "How should you play 5Xo (only lower than 55)?",
+            "<b>Fold:</b> 52o+<br>",
+        ),
+        (
+            "How should you play 4Xo (only lower than 44)?",
+            "<b>Fold:</b> 42o+<br>",
+        ),
+        (
+            "How should you play 3Xo (only lower than 33)?",
+            "<b>Fold:</b> 32o<br>",
+        ),
+    ]
+    was_tested = {q: False for q, a in expected_qa_pairs}
+
+    for note in deck.notes:
+        if note.model.name == "APM Preflop":
+            continue
+        assert note.model.name == "APM Basic"
+        for expected_q, expected_a in expected_qa_pairs:
+            if expected_q in note.fields[0]:
+                assert expected_a in note.fields[1]
+                was_tested[expected_q] = True
+
+    for q, tested in was_tested.items():
+        assert tested, f"Question '{q}' was not tested"

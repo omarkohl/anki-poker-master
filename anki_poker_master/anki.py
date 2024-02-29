@@ -1,6 +1,7 @@
 import random
 import genanki
 from importlib_resources import files
+import poker
 from anki_poker_master import PreflopScenario
 from anki_poker_master.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
 from typing import List, Set, Tuple
@@ -283,6 +284,8 @@ def create_decks(
 {DEFAULT_JS}
 </script>
 """.lstrip()
+        # Note that 2Xs and 2Xo are not included because there are no lower
+        # hands than them
         for c in [
             "AXs",
             "KXs",
@@ -296,7 +299,6 @@ def create_decks(
             "5Xs",
             "4Xs",
             "3Xs",
-            "2Xs",
             "AXo",
             "KXo",
             "QXo",
@@ -309,32 +311,34 @@ def create_decks(
             "5Xo",
             "4Xo",
             "3Xo",
-            "2Xo",
-            "Pairs",
+            "pairs",
         ]:
-            if c == "Pairs":
+            if c == "pairs":
                 img1 = f"apm-card-Xh.png"
                 img2 = f"apm-card-Xc.png"
+                question = "How should you play pairs?"
             else:
                 img1 = f"apm-card-{c[0]}h.png"
                 img2 = f"apm-card-{c[1]}{'h' if c[2] == 's' else 'c'}.png"
+                question = f"How should you play {c} (only lower than {c[0]+c[0]})?"
             all_media_files.add(img1)
             all_media_files.add(img2)
-            question = (
+            full_question = (
                 header
-                + f"How should you play {c}?"
+                + question
                 + "<div class='row'>"
                 + f'<img src="{img1}">'
                 + f'<img src="{img2}">'
                 + "</div>"
             )
-            answer = f"Check the table below.<br><br>" + scenario.html_full() + footer
+            answer = _get_row_question_answer(c, scenario.ranges)
+            answer_full = f"{answer}<br>" + scenario.html_full() + footer
             deck_standard.add_note(
                 genanki.Note(
                     model=_BASIC_MODEL,
                     fields=[
-                        question,
-                        answer,
+                        full_question,
+                        answer_full,
                         scenario.notes if scenario.notes else "",
                         scenario.source if scenario.source else "",
                     ],
@@ -347,7 +351,7 @@ def create_decks(
                 img2 = f"apm-card-{hand.second}{'h' if hand.is_suited else 'c'}.png"
                 all_media_files.add(img1)
                 all_media_files.add(img2)
-                question = (
+                full_question = (
                     header
                     + f"How should you play {hand}?"
                     + "<div class='row'>"
@@ -355,7 +359,7 @@ def create_decks(
                     + f'<img src="{img2}">'
                     + "</div>"
                 )
-                answer = (
+                answer_full = (
                     f"You should <b>{range}</b>.<br><br>"
                     + scenario.html_full()
                     + footer
@@ -364,8 +368,8 @@ def create_decks(
                     genanki.Note(
                         model=_BASIC_MODEL,
                         fields=[
-                            question,
-                            answer,
+                            full_question,
+                            answer_full,
                             scenario.notes if scenario.notes else "",
                             scenario.source if scenario.source else "",
                         ],
@@ -381,3 +385,32 @@ def write_deck_to_file(decks: List[genanki.Deck], media_files: Set[str], filenam
         image_path = files("anki_poker_master").joinpath("images", media_file)
         media_files_full_path.append(image_path)
     genanki.Package(decks, media_files_full_path).write_to_file(filename)
+
+
+def _get_row_question_answer(hand: str, ranges: dict) -> str:
+    """
+    hand is a string like "AXs", "AXo" or "77", that's why it's a "row question"
+    because it refers to a single row (or column) in the table. Note also that
+    we are only interested in the part of the row (column) that lies to the left
+    (below) the pair diagonal.
+    For this row we want to know what the correct action is, given the ranges.
+    """
+    range_keys = sorted([k for k in ranges])
+    ranges_new = {k: set() for k in range_keys}
+    if hand == "pairs":
+        potential_hands = poker.PAIR_HANDS
+    else:
+        # Only lower than the pair e.g. for KXs, only lower than KK
+        limit = poker.Hand(2 * hand[0])
+        potential_hands = [h for h in poker.Range(hand).hands if h < limit]
+    for k in range_keys:
+        for h in potential_hands:
+            if h in ranges[k].hands:
+                ranges_new[k].add(h)
+
+    result = ""
+    for k in range_keys:
+        r_summarized = poker.Range.from_objects(ranges_new[k])
+        if r_summarized.hands:
+            result += f"<b>{k}:</b> {r_summarized}<br>"
+    return result

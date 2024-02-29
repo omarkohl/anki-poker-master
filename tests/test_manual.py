@@ -68,7 +68,7 @@ def test_manual_deck_creation(tmp_path):
             "y",
         ),
         # Browser questions: Standard deck
-        ("Standard deck: How many cards are in it?", "34"),
+        ("Standard deck: How many cards are in it?", "32"),
         (
             "Standard deck: Check one note at random and type the tags here (separated by comma):",
             {"poker", "manual-test"},
