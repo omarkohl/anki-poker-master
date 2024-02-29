@@ -32,11 +32,11 @@ def test_deck_is_created(tmp_path):
     assert decks[0].name == "AnkiPokerMaster::Standard"
     assert len(decks[0].notes) == 28
     for note in decks[0].notes:
-        assert note.model.name in ("Poker Preflop Scenario", "Basic with source")
+        assert note.model.name in ("APM Preflop", "APM Basic")
 
     assert decks[1].name == "AnkiPokerMaster::Detailed"
     assert len(decks[1].notes) == 169
-    assert decks[1].notes[0].model.name == "Basic with source"
+    assert decks[1].notes[0].model.name == "APM Basic"
 
     assert isinstance(media_files, set)
     assert len(media_files) == 28

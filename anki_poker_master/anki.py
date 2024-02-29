@@ -86,7 +86,7 @@ _BASIC_FOOTER = """
 
 _BASIC_MODEL = genanki.Model(
     1708087674509,
-    "Basic with source",
+    "APM Basic",
     fields=[
         {"name": "Question"},
         {"name": "Answer"},
@@ -106,7 +106,7 @@ _BASIC_MODEL = genanki.Model(
 
 _SCENARIO_MODEL = genanki.Model(
     1995683082,  # Random number that should not change in the future
-    "Poker Preflop Scenario",
+    "APM Preflop",
     fields=[
         # The first field is just to avoid the 'Duplicate' warning in Anki
         # that checks for the first field.
