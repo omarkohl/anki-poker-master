@@ -78,6 +78,16 @@ do this if you understand what you are changing.
 poetry run pytest --update-golden
 ```
 
+Occasionally you should delete all golden files and re-generate them to make
+sure there are no orphaned files lying around because a test was renamed or
+deleted:
+
+```bash
+rm -rf tests/golden
+poetry run pytest --update-golden
+```
+
+
 ### Manual tests
 
 Currently some tests are not automated because they would require programatically
