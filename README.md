@@ -20,10 +20,34 @@ for example "Opening as Button in a 100BB Cash game". AnkiPokerMaster will
 generate Anki decks based solely on this scenario.yml file and you will get
 Anki cards like the screenshots below.
 
-See an example for such a config file here:
+```yaml
+- game: "Cash 100BB 6P"
+  position: "LJ"
+  scenario: "Opening"
+  ranges:
+    Raise: "A2s+, K5s+, Q9s+, JTs, T9s, ATo+, KJo+, QJo+, 77+"
+  source: pokertrainer.se
+```
+
+See a more complex example here:
 [example_scenarios.yml](./example_scenarios.yml)
 
 Execute `anki-poker-master --help` to see usage information.
+
+
+### Ranges
+
+Some examples for how ranges can be specified:
+
+* **77+** (All pairs 77 and up i.e. 77, 88, 99, ...)
+* **77-** (All pairs 77 and below i.e. 77, 66, 55, ...)
+* **A2s+** (A2 suited and up excluding pairs i.e. A2s, A3s, A4s, ...)
+* **KT+** (KT and up both suited and offsuit excluding pairs i.e. KTs, KJs, KQs,
+  KTo, KJo and KQo)
+* **23s** (A specific hand i.e. 23s)
+* **95s-98s** (Hands between i.e. 95s, 96s, 97s and 98s)
+* Combining any of the above separated by commas
+
 
 ### Screenshots
 
