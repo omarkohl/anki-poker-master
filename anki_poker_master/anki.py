@@ -157,7 +157,7 @@ _SCENARIO_MODEL = genanki.Model(
         {
             "name": "TL Quadrant",
             "qfmt": _HEADER_FMT
-            + "Fill in the blank<br>"
+            + "<br>Fill in the blank<br>"
             + "{{Top Left Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
@@ -170,7 +170,7 @@ _SCENARIO_MODEL = genanki.Model(
         {
             "name": "TR Quadrant",
             "qfmt": _HEADER_FMT
-            + "Fill in the blank<br>"
+            + "<br>Fill in the blank<br>"
             + "{{Top Right Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
@@ -183,7 +183,7 @@ _SCENARIO_MODEL = genanki.Model(
         {
             "name": "BL Quadrant",
             "qfmt": _HEADER_FMT
-            + "Fill in the blank<br>"
+            + "<br>Fill in the blank<br>"
             + "{{Bottom Left Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
@@ -196,7 +196,7 @@ _SCENARIO_MODEL = genanki.Model(
         {
             "name": "BR Quadrant",
             "qfmt": _HEADER_FMT
-            + "Fill in the blank<br>"
+            + "<br>Fill in the blank<br>"
             + "{{Bottom Right Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
@@ -209,7 +209,7 @@ _SCENARIO_MODEL = genanki.Model(
         {
             "name": "Full",
             "qfmt": _HEADER_FMT
-            + "Fill in the blank (entire table)<br>"
+            + "<br>Fill in the blank (entire table)<br>"
             + BLANK_TABLE
             + "<br>{{Legend}}"
             + "<script>"
