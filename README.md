@@ -98,11 +98,21 @@ interactively guide you.
 APM_MANUAL_TESTS=true poetry run pytest tests/test_manual.py -s
 ```
 
+
+## License
+
+Unless otherwise specified, the code is under the [MIT license](./LICENSE) and
+the card images are published under
+[LGPL 3.0](https://www.gnu.org/licenses/lgpl-3.0.html.en) (see below for original
+source of the card images).
+
+
 ## Credits
 
 ### Playing Cards
 
-Slightly modified from original source:
+Slightly modified (see list of changes in
+[playing-cards.svg](./playing-cards.svg)) from original source:
 
 Vector Playing Cards 3.2  
 https://totalnonsense.com/open-source-vector-playing-cards/  
