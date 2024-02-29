@@ -313,11 +313,11 @@ def create_decks(
             "Pairs",
         ]:
             if c == "Pairs":
-                img1 = f"card-Xh.png"
-                img2 = f"card-Xc.png"
+                img1 = f"apm-card-Xh.png"
+                img2 = f"apm-card-Xc.png"
             else:
-                img1 = f"card-{c[0]}h.png"
-                img2 = f"card-{c[1]}{'h' if c[2] == 's' else 'c'}.png"
+                img1 = f"apm-card-{c[0]}h.png"
+                img2 = f"apm-card-{c[1]}{'h' if c[2] == 's' else 'c'}.png"
             all_media_files.add(img1)
             all_media_files.add(img2)
             question = (
@@ -341,8 +341,8 @@ def create_decks(
             )
         for range in scenario.ranges:
             for hand in scenario.ranges[range].hands:
-                img1 = f"card-{hand.first}h.png"
-                img2 = f"card-{hand.second}{'h' if hand.is_suited else 'c'}.png"
+                img1 = f"apm-card-{hand.first}h.png"
+                img2 = f"apm-card-{hand.second}{'h' if hand.is_suited else 'c'}.png"
                 all_media_files.add(img1)
                 all_media_files.add(img2)
                 question = (

@@ -426,7 +426,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,-709.81853,-441.89353)"
        id="g11425-5-5"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-Ah">
+       inkscape:label="apm-card-Ah">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -486,7 +486,7 @@
        style="stroke-width:0.996169;opacity:0.99400004"
        transform="matrix(-1.071448,0,0,-1.0700894,-681.84489,-829.21142)"
        id="CLUB-1"
-       inkscape:label="card-Ac">
+       inkscape:label="apm-card-Ac">
       <rect
          ry="10.59592"
          rx="10.582484"
@@ -529,7 +529,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,-823.71464,547.80273)"
        id="g8409-3-3"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-As">
+       inkscape:label="apm-card-As">
       <rect
          y="-471.4082"
          x="332.60825"
@@ -572,7 +572,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,-684.59238,1375.7619)"
        id="g6708"
-       inkscape:label="card-Ad">
+       inkscape:label="apm-card-Ad">
       <rect
          y="-30.444927"
          x="463.03534"
@@ -612,7 +612,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,3134.7621,-441.89396)"
        id="g11425-5-5-6"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-Xh">
+       inkscape:label="apm-card-Xh">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -688,7 +688,7 @@
     </g>
     <g
        id="g6"
-       inkscape:label="card-Xc">
+       inkscape:label="apm-card-Xc">
       <rect
          ry="11.338581"
          rx="11.338582"
@@ -750,7 +750,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,3020.866,547.80231)"
        id="g8409-3-3-2"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-Xs">
+       inkscape:label="apm-card-Xs">
       <rect
          y="-471.4082"
          x="332.60825"
@@ -812,7 +812,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,3159.9882,1375.7614)"
        id="g6708-0"
-       inkscape:label="card-Xd">
+       inkscape:label="apm-card-Xd">
       <rect
          y="-30.444927"
          x="463.03534"
@@ -872,7 +872,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,-116.80555,-441.89353)"
        id="g11398-8-7"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-2h">
+       inkscape:label="apm-card-2h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -939,7 +939,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,-188.82486,547.80273)"
        id="g8417-9-8"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-2s">
+       inkscape:label="apm-card-2s">
       <rect
          ry="10.629924"
          rx="10.629917"
@@ -988,7 +988,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.071448,0,0,-1.0700894,-110.63108,-829.21142)"
        id="CLUB-2"
-       inkscape:label="card-2c">
+       inkscape:label="apm-card-2c">
       <g
          style="stroke-width:0.996169"
          id="layer1-33-1-8-0-7"
@@ -1043,7 +1043,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,-114.64184,1375.7619)"
        id="g6716"
-       inkscape:label="card-2d">
+       inkscape:label="apm-card-2d">
       <rect
          ry="10.629922"
          rx="10.629917"
@@ -1088,7 +1088,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,446.06482,547.80273)"
        id="g8426-7-4"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-3s">
+       inkscape:label="apm-card-3s">
       <rect
          y="-471.4082"
          x="982.81952"
@@ -1143,7 +1143,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,476.20745,-441.89353)"
        id="g11369-4-9"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-3h">
+       inkscape:label="apm-card-3h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -1217,7 +1217,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.071448,0,0,-1.0700894,460.58263,-829.21142)"
        id="CLUB-3"
-       inkscape:label="card-3c">
+       inkscape:label="apm-card-3c">
       <g
          style="stroke-width:0.996169"
          id="layer1-33-1-4-5-7"
@@ -1278,7 +1278,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,455.30864,1375.7619)"
        id="g6725"
-       inkscape:label="card-3d">
+       inkscape:label="apm-card-3d">
       <rect
          y="-30.444927"
          x="991.4856"
@@ -1328,7 +1328,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,1069.2204,-441.89353)"
        id="g11338-3-7"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-4h">
+       inkscape:label="apm-card-4h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -1403,7 +1403,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,1080.9546,547.80273)"
        id="g8436-8-0"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-4s">
+       inkscape:label="apm-card-4s">
       <g
          style="stroke-width:0.996169"
          id="g8473-4-9">
@@ -1468,7 +1468,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,1031.7964,-829.21142)"
        id="CLUB-4"
-       inkscape:label="card-4c">
+       inkscape:label="apm-card-4c">
       <rect
          y="-1088.3695"
          x="1256.2086"
@@ -1533,7 +1533,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,1025.259,1375.7619)"
        id="g6735"
-       inkscape:label="card-4d">
+       inkscape:label="apm-card-4d">
       <rect
          ry="10.629922"
          rx="10.629917"
@@ -1588,7 +1588,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,1662.2332,-441.89353)"
        id="g11305-8-4"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-5h">
+       inkscape:label="apm-card-5h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -1676,7 +1676,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.071448,0,0,-1.0700894,1603.0102,-829.21153)"
        id="CLUB-5"
-       inkscape:label="card-5c">
+       inkscape:label="apm-card-5c">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -1753,7 +1753,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,1715.8445,547.80278)"
        id="g8447-5-9"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-5s">
+       inkscape:label="apm-card-5s">
       <g
          style="stroke-width:0.996169"
          transform="rotate(180,1744.6451,-315.50266)"
@@ -1825,7 +1825,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,1595.2096,1375.7619)"
        id="g6746"
-       inkscape:label="card-5d">
+       inkscape:label="apm-card-5d">
       <rect
          y="-30.444927"
          x="1519.9358"
@@ -1885,7 +1885,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,2255.2462,-441.89353)"
        id="g11270-7-7"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-6h">
+       inkscape:label="apm-card-6h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -1980,7 +1980,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,2350.7342,547.80273)"
        id="g8484-9-4"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-6s">
+       inkscape:label="apm-card-6s">
       <rect
          ry="10.629924"
          rx="10.629917"
@@ -2053,7 +2053,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,2174.224,-829.21155)"
        id="CLUB-6"
-       inkscape:label="card-6c">
+       inkscape:label="apm-card-6c">
       <rect
          y="-1088.3696"
          x="1784.6588"
@@ -2132,7 +2132,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,2165.1599,1375.7619)"
        id="g6758"
-       inkscape:label="card-6d">
+       inkscape:label="apm-card-6d">
       <rect
          ry="10.629922"
          rx="10.629917"
@@ -2197,7 +2197,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,2848.2591,-441.89351)"
        id="g11234-8-5"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-7h">
+       inkscape:label="apm-card-7h">
       <rect
          transform="translate(2267.0769,-853.90551)"
          y="-210.0945"
@@ -2294,7 +2294,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,2985.6239,547.80273)"
        id="g8497-6-8"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-7s">
+       inkscape:label="apm-card-7s">
       <rect
          y="-471.4082"
          x="2283.2422"
@@ -2373,7 +2373,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,2745.4379,-829.21155)"
        id="CLUB-7"
-       inkscape:label="card-7c">
+       inkscape:label="apm-card-7c">
       <rect
          y="-1088.3696"
          x="2048.884"
@@ -2458,7 +2458,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,2735.1103,1375.7619)"
        id="g6771"
-       inkscape:label="card-7d">
+       inkscape:label="apm-card-7d">
       <rect
          y="-30.444927"
          x="2048.3857"
@@ -2528,7 +2528,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,3441.2721,-441.89353)"
        id="g11195-3-7"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-8h">
+       inkscape:label="apm-card-8h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -2634,7 +2634,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,3620.5137,547.80273)"
        id="g8511-1-4"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-8s">
+       inkscape:label="apm-card-8s">
       <rect
          ry="10.629924"
          rx="10.629917"
@@ -2719,7 +2719,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,3316.6515,-829.21155)"
        id="CLUB-8"
-       inkscape:label="card-8c">
+       inkscape:label="apm-card-8c">
       <rect
          y="-1088.3696"
          x="2313.1089"
@@ -2810,7 +2810,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,3305.0608,1375.7619)"
        id="g6785"
-       inkscape:label="card-8d">
+       inkscape:label="apm-card-8d">
       <rect
          y="-30.444927"
          x="2312.6108"
@@ -2885,7 +2885,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,4034.2851,-441.89353)"
        id="g11153-5-1"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-9h">
+       inkscape:label="apm-card-9h">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -3000,7 +3000,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,4255.4033,547.80273)"
        id="g8526-6-2"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-9s">
+       inkscape:label="apm-card-9s">
       <rect
          y="-471.4082"
          x="2933.4534"
@@ -3091,7 +3091,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,3887.8653,-829.21155)"
        id="CLUB-9"
-       inkscape:label="card-9c">
+       inkscape:label="apm-card-9c">
       <rect
          y="-1088.3696"
          x="2577.334"
@@ -3194,7 +3194,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,3875.0112,1375.7619)"
        id="g6800"
-       inkscape:label="card-9d">
+       inkscape:label="apm-card-9d">
       <rect
          y="-30.444927"
          x="2576.8359"
@@ -3274,7 +3274,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,4627.2981,-441.89353)"
        id="g11103-4-9"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-Th">
+       inkscape:label="apm-card-Th">
       <g
          style="display:inline;opacity:1;stroke-width:0.996169"
          inkscape:label="5D"
@@ -3430,7 +3430,7 @@
        transform="matrix(-1.0666669,0,0,-1.0666665,4890.293,547.80276)"
        id="g8542-3-6"
        style="display:inline;stroke-width:0.996169"
-       inkscape:label="card-Ts">
+       inkscape:label="apm-card-Ts">
       <g
          style="stroke-width:0.996169"
          transform="translate(-4.1467285e-5,2.9626465e-5)"
@@ -3547,7 +3547,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,4459.079,-829.21142)"
        id="CLUB-10"
-       inkscape:label="card-Tc">
+       inkscape:label="apm-card-Tc">
       <rect
          ry="10.595921"
          rx="10.582483"
@@ -3666,7 +3666,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,4444.9618,1375.7619)"
        id="g6836"
-       inkscape:label="card-Td">
+       inkscape:label="apm-card-Td">
       <g
          style="display:inline;stroke-width:0.99617"
          inkscape:label="5D"
@@ -3777,7 +3777,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,5030.2928,-94.077252)"
        id="g5943"
-       inkscape:label="card-Jh">
+       inkscape:label="apm-card-Jh">
       <rect
          y="-735.56183"
          x="3105.7842"
@@ -3883,7 +3883,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,5030.2928,641.05704)"
        id="g6392"
-       inkscape:label="card-Js">
+       inkscape:label="apm-card-Js">
       <rect
          ry="10.595921"
          rx="10.582483"
@@ -3966,7 +3966,7 @@
        style="stroke-width:0.99617"
        transform="matrix(1.0666669,0,0,1.0666665,-1847.81,1108.1126)"
        id="g7094"
-       inkscape:label="card-Jd">
+       inkscape:label="apm-card-Jd">
       <rect
          ry="10.629922"
          rx="10.629917"
@@ -4041,7 +4041,7 @@
        style="stroke-width:0.996169"
        transform="matrix(1.0714481,0,0,1.0700894,-1858.1838,1167.4957)"
        id="CLUB-12-QUEEN"
-       inkscape:label="card-Qc">
+       inkscape:label="apm-card-Qc">
       <rect
          y="-1088.3696"
          x="3370.0093"
@@ -4129,7 +4129,7 @@
        style="stroke-width:0.996169"
        transform="matrix(1.0714481,0,0,1.0700894,-1858.1838,1147.5582)"
        id="g6073"
-       inkscape:label="card-Qh">
+       inkscape:label="apm-card-Qh">
       <rect
          ry="10.595921"
          rx="10.582483"
@@ -4204,7 +4204,7 @@
        style="stroke-width:0.996169"
        transform="matrix(-1.0714481,0,0,-1.0700894,5601.5066,641.05704)"
        id="g6503"
-       inkscape:label="card-Qs">
+       inkscape:label="apm-card-Qs">
       <rect
          y="-382.75403"
          x="3370.0093"
@@ -4278,7 +4278,7 @@
        style="stroke-width:0.99617"
        transform="matrix(-1.0666669,0,0,-1.0666665,5584.8627,1375.7619)"
        id="g7107"
-       inkscape:label="card-Qd">
+       inkscape:label="apm-card-Qd">
       <rect
          y="-30.444937"
          x="3369.5112"
@@ -4349,7 +4349,7 @@
        style="stroke-width:0.996169"
        transform="matrix(1.0714481,0,0,1.0700894,-1853.1769,1167.4955)"
        id="CLUB-13-KING"
-       inkscape:label="card-Kc">
+       inkscape:label="apm-card-Kc">
       <rect
          y="-1088.3695"
          x="3634.2344"
@@ -4456,7 +4456,7 @@
     </g>
     <g
        id="g1"
-       inkscape:label="card-Ks">
+       inkscape:label="apm-card-Ks">
       <rect
          ry="11.338582"
          rx="11.338582"
@@ -4528,7 +4528,7 @@
        style="stroke-width:0.99617"
        transform="matrix(1.0666669,0,0,1.0666665,-1835.2697,1108.1126)"
        id="g7120"
-       inkscape:label="card-Kd">
+       inkscape:label="apm-card-Kd">
       <rect
          ry="10.629922"
          rx="10.629917"
@@ -4598,7 +4598,7 @@
        style="stroke-width:0.996169"
        id="g7559"
        transform="matrix(-1.0044854,0,0,-1.0032068,4240.8357,1072.8945)"
-       inkscape:label="card-Kh">
+       inkscape:label="apm-card-Kh">
       <rect
          y="378.64066"
          x="1953.2477"
@@ -4671,7 +4671,7 @@
     <g
        transform="rotate(180,1533.5509,169.14215)"
        id="CLUB-11-JACK"
-       inkscape:label="card-Jc">
+       inkscape:label="apm-card-Jc">
       <g
          transform="matrix(1.0044825,0,0,1.0032088,-33.436227,-0.54300117)"
          id="g4254"
