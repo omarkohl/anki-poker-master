@@ -18,11 +18,18 @@ EXAMPLE_SCENARIO_FILE = """
 ## All hands that are not specified will default to 'Fold'.
 
 - game: "Cash 100BB 6P"
-  position: "BTN"
+  position: "LJ"
   scenario: "Opening"
   ranges:
-    Raise: "A2s+, K2s+, Q2s+, J4s+, T6s+, 96s+, 86s+, 75s+, 65s+, 54s+, A3o+, K8o+, Q9o+, J9o+, T9o+, 22+"
-  source: "https://example.com/"
+    Raise: "A2s+, K5s+, Q9s+, JTs, T9s, ATo+, KJo+, QJo+, 77+"
+  source: pokertrainer.se
+
+- game: "Cash 100BB 6P"
+  position: "HJ"
+  scenario: "Opening"
+  ranges:
+    Raise: "A2s+, K5s+, Q8s+, J9s+, T9s, A9o+, KTo+, QTo+, 66+"
+  source: pokertrainer.se
 
 # - game: "Cash 100BB 6P"
 #   position: "CO"
