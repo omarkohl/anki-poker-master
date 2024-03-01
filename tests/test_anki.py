@@ -98,39 +98,39 @@ def test_row_question_cards():
         ),
         (
             "How should you play JXs (where J is higher)?",
-            "<b>Fold:</b> J2s+<br>",
+            "<b>Fold:</b> All (J2s+)<br>",
         ),
         (
             "How should you play TXs (where T is higher)?",
-            "<b>Fold:</b> T2s+<br>",
+            "<b>Fold:</b> All (T2s+)<br>",
         ),
         (
             "How should you play 9Xs (where 9 is higher)?",
-            "<b>Fold:</b> 92s+<br>",
+            "<b>Fold:</b> All (92s+)<br>",
         ),
         (
             "How should you play 8Xs (where 8 is higher)?",
-            "<b>Fold:</b> 82s+<br>",
+            "<b>Fold:</b> All (82s+)<br>",
         ),
         (
             "How should you play 7Xs (where 7 is higher)?",
-            "<b>Fold:</b> 72s+<br>",
+            "<b>Fold:</b> All (72s+)<br>",
         ),
         (
             "How should you play 6Xs (where 6 is higher)?",
-            "<b>Fold:</b> 62s+<br>",
+            "<b>Fold:</b> All (62s+)<br>",
         ),
         (
             "How should you play 5Xs (where 5 is higher)?",
-            "<b>Fold:</b> 52s+<br>",
+            "<b>Fold:</b> All (52s+)<br>",
         ),
         (
             "How should you play 4Xs (where 4 is higher)?",
-            "<b>Fold:</b> 42s+<br>",
+            "<b>Fold:</b> All (42s+)<br>",
         ),
         (
             "How should you play 3Xs (where 3 is higher)?",
-            "<b>Fold:</b> 32s<br>",
+            "<b>Fold:</b> All (32s)<br>",
         ),
         (
             "How should you play AXo?",
@@ -146,39 +146,39 @@ def test_row_question_cards():
         ),
         (
             "How should you play JXo (where J is higher)?",
-            "<b>Fold:</b> J2o+<br>",
+            "<b>Fold:</b> All (J2o+)<br>",
         ),
         (
             "How should you play TXo (where T is higher)?",
-            "<b>Fold:</b> T2o+<br>",
+            "<b>Fold:</b> All (T2o+)<br>",
         ),
         (
             "How should you play 9Xo (where 9 is higher)?",
-            "<b>Fold:</b> 92o+<br>",
+            "<b>Fold:</b> All (92o+)<br>",
         ),
         (
             "How should you play 8Xo (where 8 is higher)?",
-            "<b>Fold:</b> 82o+<br>",
+            "<b>Fold:</b> All (82o+)<br>",
         ),
         (
             "How should you play 7Xo (where 7 is higher)?",
-            "<b>Fold:</b> 72o+<br>",
+            "<b>Fold:</b> All (72o+)<br>",
         ),
         (
             "How should you play 6Xo (where 6 is higher)?",
-            "<b>Fold:</b> 62o+<br>",
+            "<b>Fold:</b> All (62o+)<br>",
         ),
         (
             "How should you play 5Xo (where 5 is higher)?",
-            "<b>Fold:</b> 52o+<br>",
+            "<b>Fold:</b> All (52o+)<br>",
         ),
         (
             "How should you play 4Xo (where 4 is higher)?",
-            "<b>Fold:</b> 42o+<br>",
+            "<b>Fold:</b> All (42o+)<br>",
         ),
         (
             "How should you play 3Xo (where 3 is higher)?",
-            "<b>Fold:</b> 32o<br>",
+            "<b>Fold:</b> All (32o)<br>",
         ),
     ]
     was_tested = {q: False for q, a in expected_qa_pairs}
@@ -187,10 +187,13 @@ def test_row_question_cards():
         if note.model.name == "APM Preflop":
             continue
         assert note.model.name == "APM Basic"
+        a_question_was_found = False
         for expected_q, expected_a in expected_qa_pairs:
             if expected_q in note.fields[0]:
+                a_question_was_found = True
                 assert expected_a in note.fields[1]
                 was_tested[expected_q] = True
+        assert a_question_was_found, f"No question was found in:\n{note.fields[0]}"
 
     for q, tested in was_tested.items():
         assert tested, f"Question '{q}' was not tested"

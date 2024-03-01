@@ -412,9 +412,16 @@ def _get_row_question_answer(hand: str, ranges: dict) -> str:
             if h in ranges[k].hands:
                 ranges_new[k].add(h)
 
-    result = ""
+    answer_ranges = {}
     for k in range_keys:
         r_summarized = poker.Range.from_objects(ranges_new[k])
         if r_summarized.hands:
-            result += f"<b>{k}:</b> {r_summarized}<br>"
+            answer_ranges[k] = r_summarized
+    result = ""
+    if len(answer_ranges) == 1:
+        k = list(answer_ranges.keys())[0]
+        result += f"<b>{k}:</b> All ({answer_ranges[k]})<br>"
+    else:
+        for k in answer_ranges:
+            result += f"<b>{k}:</b> {answer_ranges[k]}<br>"
     return result
