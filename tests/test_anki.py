@@ -85,7 +85,7 @@ def test_row_question_cards():
             "<b>Fold:</b> TT-<br><b>Raise:</b> JJ+<br>",
         ),
         (
-            "How should you play AXs (where A is higher)?",
+            "How should you play AXs?",
             "<b>Call:</b> ATs-<br><b>Raise:</b> AJs+<br>",
         ),
         (
@@ -133,7 +133,7 @@ def test_row_question_cards():
             "<b>Fold:</b> 32s<br>",
         ),
         (
-            "How should you play AXo (where A is higher)?",
+            "How should you play AXo?",
             "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A4o-<br><b>Raise:</b> AJo+<br>",
         ),
         (

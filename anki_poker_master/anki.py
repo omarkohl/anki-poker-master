@@ -320,7 +320,11 @@ def create_decks(
             else:
                 img1 = f"apm-card-{c[0]}h.png"
                 img2 = f"apm-card-{c[1]}{'h' if c[2] == 's' else 'c'}.png"
-                question = f"How should you play {c} (where {c[0]} is higher)?"
+                if c[0] == "A":
+                    # In this case it's obvious that there is no higher card
+                    question = f"How should you play {c}?"
+                else:
+                    question = f"How should you play {c} (where {c[0]} is higher)?"
             all_media_files.add(img1)
             all_media_files.add(img2)
             full_question = (
