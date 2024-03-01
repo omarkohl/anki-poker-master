@@ -85,99 +85,99 @@ def test_row_question_cards():
             "<b>Fold:</b> TT-<br><b>Raise:</b> JJ+<br>",
         ),
         (
-            "How should you play AXs (only lower than AA)?",
+            "How should you play AXs (where A is higher)?",
             "<b>Call:</b> ATs-<br><b>Raise:</b> AJs+<br>",
         ),
         (
-            "How should you play KXs (only lower than KK)?",
+            "How should you play KXs (where K is higher)?",
             "<b>Call:</b> KTs-<br><b>Raise:</b> KJs+<br>",
         ),
         (
-            "How should you play QXs (only lower than QQ)?",
+            "How should you play QXs (where Q is higher)?",
             "<b>Call:</b> QTs-<br><b>Raise:</b> QJs<br>",
         ),
         (
-            "How should you play JXs (only lower than JJ)?",
+            "How should you play JXs (where J is higher)?",
             "<b>Fold:</b> J2s+<br>",
         ),
         (
-            "How should you play TXs (only lower than TT)?",
+            "How should you play TXs (where T is higher)?",
             "<b>Fold:</b> T2s+<br>",
         ),
         (
-            "How should you play 9Xs (only lower than 99)?",
+            "How should you play 9Xs (where 9 is higher)?",
             "<b>Fold:</b> 92s+<br>",
         ),
         (
-            "How should you play 8Xs (only lower than 88)?",
+            "How should you play 8Xs (where 8 is higher)?",
             "<b>Fold:</b> 82s+<br>",
         ),
         (
-            "How should you play 7Xs (only lower than 77)?",
+            "How should you play 7Xs (where 7 is higher)?",
             "<b>Fold:</b> 72s+<br>",
         ),
         (
-            "How should you play 6Xs (only lower than 66)?",
+            "How should you play 6Xs (where 6 is higher)?",
             "<b>Fold:</b> 62s+<br>",
         ),
         (
-            "How should you play 5Xs (only lower than 55)?",
+            "How should you play 5Xs (where 5 is higher)?",
             "<b>Fold:</b> 52s+<br>",
         ),
         (
-            "How should you play 4Xs (only lower than 44)?",
+            "How should you play 4Xs (where 4 is higher)?",
             "<b>Fold:</b> 42s+<br>",
         ),
         (
-            "How should you play 3Xs (only lower than 33)?",
+            "How should you play 3Xs (where 3 is higher)?",
             "<b>Fold:</b> 32s<br>",
         ),
         (
-            "How should you play AXo (only lower than AA)?",
+            "How should you play AXo (where A is higher)?",
             "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A4o-<br><b>Raise:</b> AJo+<br>",
         ),
         (
-            "How should you play KXo (only lower than KK)?",
+            "How should you play KXo (where K is higher)?",
             "<b>Fold:</b> KTo-<br><b>Raise:</b> KJo+<br>",
         ),
         (
-            "How should you play QXo (only lower than QQ)?",
+            "How should you play QXo (where Q is higher)?",
             "<b>Fold:</b> QTo-<br><b>Raise:</b> QJo<br>",
         ),
         (
-            "How should you play JXo (only lower than JJ)?",
+            "How should you play JXo (where J is higher)?",
             "<b>Fold:</b> J2o+<br>",
         ),
         (
-            "How should you play TXo (only lower than TT)?",
+            "How should you play TXo (where T is higher)?",
             "<b>Fold:</b> T2o+<br>",
         ),
         (
-            "How should you play 9Xo (only lower than 99)?",
+            "How should you play 9Xo (where 9 is higher)?",
             "<b>Fold:</b> 92o+<br>",
         ),
         (
-            "How should you play 8Xo (only lower than 88)?",
+            "How should you play 8Xo (where 8 is higher)?",
             "<b>Fold:</b> 82o+<br>",
         ),
         (
-            "How should you play 7Xo (only lower than 77)?",
+            "How should you play 7Xo (where 7 is higher)?",
             "<b>Fold:</b> 72o+<br>",
         ),
         (
-            "How should you play 6Xo (only lower than 66)?",
+            "How should you play 6Xo (where 6 is higher)?",
             "<b>Fold:</b> 62o+<br>",
         ),
         (
-            "How should you play 5Xo (only lower than 55)?",
+            "How should you play 5Xo (where 5 is higher)?",
             "<b>Fold:</b> 52o+<br>",
         ),
         (
-            "How should you play 4Xo (only lower than 44)?",
+            "How should you play 4Xo (where 4 is higher)?",
             "<b>Fold:</b> 42o+<br>",
         ),
         (
-            "How should you play 3Xo (only lower than 33)?",
+            "How should you play 3Xo (where 3 is higher)?",
             "<b>Fold:</b> 32o<br>",
         ),
     ]
