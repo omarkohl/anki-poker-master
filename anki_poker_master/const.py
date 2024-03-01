@@ -24,7 +24,7 @@ small {
 }
 @media (max-width: 600px) {
     .row img {
-        max-width: 100px;
+        max-width: 150px;
     }
 }
 
