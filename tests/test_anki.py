@@ -86,11 +86,11 @@ def test_row_question_cards():
         ),
         (
             "How should you play AXs?",
-            "<b>Call:</b> ATs-<br><b>Raise:</b> AJs+<br>",
+            "<b>Call:</b> ATs-<br><b>Raise:</b> AJs, AQs, AKs<br>",
         ),
         (
             "How should you play KXs (where K is higher)?",
-            "<b>Call:</b> KTs-<br><b>Raise:</b> KJs+<br>",
+            "<b>Call:</b> KTs-<br><b>Raise:</b> KJs, KQs<br>",
         ),
         (
             "How should you play QXs (where Q is higher)?",
@@ -122,11 +122,11 @@ def test_row_question_cards():
         ),
         (
             "How should you play 5Xs (where 5 is higher)?",
-            "<b>Fold:</b> All (52s+)<br>",
+            "<b>Fold:</b> All (52s, 53s, 54s)<br>",
         ),
         (
             "How should you play 4Xs (where 4 is higher)?",
-            "<b>Fold:</b> All (42s+)<br>",
+            "<b>Fold:</b> All (42s, 43s)<br>",
         ),
         (
             "How should you play 3Xs (where 3 is higher)?",
@@ -134,11 +134,11 @@ def test_row_question_cards():
         ),
         (
             "How should you play AXo?",
-            "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A4o-<br><b>Raise:</b> AJo+<br>",
+            "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A2o, A3o, A4o<br><b>Raise:</b> AJo, AQo, AKo<br>",
         ),
         (
             "How should you play KXo (where K is higher)?",
-            "<b>Fold:</b> KTo-<br><b>Raise:</b> KJo+<br>",
+            "<b>Fold:</b> KTo-<br><b>Raise:</b> KJo, KQo<br>",
         ),
         (
             "How should you play QXo (where Q is higher)?",
@@ -170,11 +170,11 @@ def test_row_question_cards():
         ),
         (
             "How should you play 5Xo (where 5 is higher)?",
-            "<b>Fold:</b> All (52o+)<br>",
+            "<b>Fold:</b> All (52o, 53o, 54o)<br>",
         ),
         (
             "How should you play 4Xo (where 4 is higher)?",
-            "<b>Fold:</b> All (42o+)<br>",
+            "<b>Fold:</b> All (42o, 43o)<br>",
         ),
         (
             "How should you play 3Xo (where 3 is higher)?",
