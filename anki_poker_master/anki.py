@@ -164,7 +164,11 @@ _SCENARIO_MODEL = genanki.Model(
             + "<script>"
             + helper.default_js()
             + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "afmt": _HEADER_FMT
+            + "<br>Fill in the blank<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (top left)",
             "bafmt": "(HTML table)",
         },
@@ -177,7 +181,11 @@ _SCENARIO_MODEL = genanki.Model(
             + "<script>"
             + helper.default_js()
             + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "afmt": _HEADER_FMT
+            + "<br>Fill in the blank<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (top right)",
             "bafmt": "(HTML table)",
         },
@@ -190,7 +198,11 @@ _SCENARIO_MODEL = genanki.Model(
             + "<script>"
             + helper.default_js()
             + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "afmt": _HEADER_FMT
+            + "<br>Fill in the blank<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (bottom left)",
             "bafmt": "(HTML table)",
         },
@@ -203,7 +215,11 @@ _SCENARIO_MODEL = genanki.Model(
             + "<script>"
             + helper.default_js()
             + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "afmt": _HEADER_FMT
+            + "<br>Fill in the blank<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (bottom right)",
             "bafmt": "(HTML table)",
         },
@@ -216,7 +232,11 @@ _SCENARIO_MODEL = genanki.Model(
             + "<script>"
             + helper.default_js()
             + "</script>",
-            "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
+            "afmt": _HEADER_FMT
+            + "<br>Fill in the blank (entire table)<br>"
+            + "{{Full HTML}}"
+            + "<br>{{Legend}}"
+            + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (full)",
             "bafmt": "(HTML table)",
         },
