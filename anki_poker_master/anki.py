@@ -265,7 +265,7 @@ def create_decks(
                 tags=tags if tags else [],
             )
         )
-        header = f"""
+        header_basic_model = f"""
 <style>
 {scenario.extra_css()}
 </style>
@@ -277,12 +277,10 @@ def create_decks(
 <br>
 <br>
 """.lstrip()
-        footer = f"""
+
+        footer_basic_model = f"""
 <br>
 {scenario.html_legend()}
-<script>
-{helper.default_js()}
-</script>
 """.lstrip()
         # Note that 2Xs and 2Xo are not included because there are no lower
         # hands than them
@@ -328,7 +326,7 @@ def create_decks(
             all_media_files.add(img1)
             all_media_files.add(img2)
             full_question = (
-                header
+                header_basic_model
                 + question
                 + "<div class='row'>"
                 + f'<img src="{img1}">'
@@ -336,7 +334,7 @@ def create_decks(
                 + "</div>"
             )
             answer = _get_row_question_answer(c, scenario.ranges)
-            answer_full = f"{answer}<br>" + scenario.html_full() + footer
+            answer_full = f"{answer}<br>" + scenario.html_full() + footer_basic_model
             deck_standard.add_note(
                 genanki.Note(
                     model=_BASIC_MODEL,
@@ -356,7 +354,7 @@ def create_decks(
                 all_media_files.add(img1)
                 all_media_files.add(img2)
                 full_question = (
-                    header
+                    header_basic_model
                     + f"How should you play {hand}?"
                     + "<div class='row'>"
                     + f'<img src="{img1}">'
@@ -366,7 +364,7 @@ def create_decks(
                 answer_full = (
                     f"You should <b>{range}</b>.<br><br>"
                     + scenario.html_full()
-                    + footer
+                    + footer_basic_model
                 )
                 deck_detailed.add_note(
                     genanki.Note(
