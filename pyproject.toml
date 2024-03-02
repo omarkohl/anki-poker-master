@@ -4,7 +4,6 @@ version = "0.2.0.dev0"
 description = ""
 authors = ["Omar Kohl <omarkohl@posteo.net>"]
 readme = "README.md"
-include = ["images/*.png"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
