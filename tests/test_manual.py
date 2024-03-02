@@ -97,6 +97,10 @@ def test_manual_deck_creation(tmp_path):
             "Standard deck: Can you mark the ranges on the front but not the back of the cards? (y/n)",
             "y",
         ),
+        (
+            "Standard deck: Do the card images get resized when you resize the window? (y/n)",
+            "y",
+        ),
         ("Detailed deck: Can you study it? (y/n)", "y"),
         # Closing questions
         ("Is there anything else wrong with the decks? (y/n)", "n"),
