@@ -386,7 +386,9 @@ def create_decks(
 def write_deck_to_file(decks: List[genanki.Deck], media_files: Set[str], filename: str):
     media_files_full_path = []
     for media_file in media_files:
-        image_path = files("anki_poker_master").joinpath("images", media_file)
+        image_path = files("anki_poker_master").joinpath(
+            "resources", "images", media_file
+        )
         media_files_full_path.append(image_path)
     genanki.Package(decks, media_files_full_path).write_to_file(filename)
 
