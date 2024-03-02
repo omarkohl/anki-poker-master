@@ -266,9 +266,6 @@ def create_decks(
             )
         )
         header_basic_model = f"""
-<style>
-{scenario.extra_css()}
-</style>
 <b>Game: </b>{scenario.game}
 <br>
 <b>Scenario: </b>{scenario.scenario}
@@ -277,11 +274,12 @@ def create_decks(
 <br>
 <br>
 """.lstrip()
+        if scenario.extra_css():
+            # prepend the extra CSS
+            header_basic_model = (
+                f"<style>\n{scenario.extra_css()}\n</style>" + header_basic_model
+            )
 
-        footer_basic_model = f"""
-<br>
-{scenario.html_legend()}
-""".lstrip()
         # Note that 2Xs and 2Xo are not included because there are no lower
         # hands than them
         for c in [
@@ -334,14 +332,15 @@ def create_decks(
                 + "</div>"
             )
             answer = _get_row_question_answer(c, scenario.ranges)
-            answer_full = f"{answer}<br>" + scenario.html_full() + footer_basic_model
+            notes = (scenario.notes + "<br>") if scenario.notes else ""
+            notes += scenario.html_full() + "<br>" + scenario.html_legend()
             deck_standard.add_note(
                 genanki.Note(
                     model=_BASIC_MODEL,
                     fields=[
                         full_question,
-                        answer_full,
-                        scenario.notes if scenario.notes else "",
+                        answer,
+                        notes,
                         scenario.source if scenario.source else "",
                     ],
                     tags=tags if tags else [],
@@ -361,18 +360,16 @@ def create_decks(
                     + f'<img src="{img2}">'
                     + "</div>"
                 )
-                answer_full = (
-                    f"You should <b>{range}</b>.<br><br>"
-                    + scenario.html_full()
-                    + footer_basic_model
-                )
+                answer = f"You should <b>{range}</b>."
+                notes = (scenario.notes + "<br>") if scenario.notes else ""
+                notes += scenario.html_full() + "<br>" + scenario.html_legend()
                 deck_detailed.add_note(
                     genanki.Note(
                         model=_BASIC_MODEL,
                         fields=[
                             full_question,
-                            answer_full,
-                            scenario.notes if scenario.notes else "",
+                            answer,
+                            notes,
                             scenario.source if scenario.source else "",
                         ],
                         tags=tags if tags else [],
