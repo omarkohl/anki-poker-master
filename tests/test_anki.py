@@ -82,103 +82,103 @@ def test_row_question_cards():
     expected_qa_pairs = [
         (
             "How should you play pairs?",
-            "<b>Fold:</b> TT-<br><b>Raise:</b> JJ+<br>",
+            "<b>Fold:</b> TT-<br><b>Raise:</b> JJ+",
         ),
         (
             "How should you play AXs?",
-            "<b>Call:</b> ATs-<br><b>Raise:</b> AJs, AQs, AKs<br>",
+            "<b>Call:</b> ATs-<br><b>Raise:</b> AJs, AQs, AKs",
         ),
         (
             "How should you play KXs (where K is higher)?",
-            "<b>Call:</b> KTs-<br><b>Raise:</b> KJs, KQs<br>",
+            "<b>Call:</b> KTs-<br><b>Raise:</b> KJs, KQs",
         ),
         (
             "How should you play QXs (where Q is higher)?",
-            "<b>Call:</b> QTs-<br><b>Raise:</b> QJs<br>",
+            "<b>Call:</b> QTs-<br><b>Raise:</b> QJs",
         ),
         (
             "How should you play JXs (where J is higher)?",
-            "<b>Fold:</b> All (J2s+)<br>",
+            "<b>Fold:</b> All (J2s+)",
         ),
         (
             "How should you play TXs (where T is higher)?",
-            "<b>Fold:</b> All (T2s+)<br>",
+            "<b>Fold:</b> All (T2s+)",
         ),
         (
             "How should you play 9Xs (where 9 is higher)?",
-            "<b>Fold:</b> All (92s+)<br>",
+            "<b>Fold:</b> All (92s+)",
         ),
         (
             "How should you play 8Xs (where 8 is higher)?",
-            "<b>Fold:</b> All (82s+)<br>",
+            "<b>Fold:</b> All (82s+)",
         ),
         (
             "How should you play 7Xs (where 7 is higher)?",
-            "<b>Fold:</b> All (72s+)<br>",
+            "<b>Fold:</b> All (72s+)",
         ),
         (
             "How should you play 6Xs (where 6 is higher)?",
-            "<b>Fold:</b> All (62s+)<br>",
+            "<b>Fold:</b> All (62s+)",
         ),
         (
             "How should you play 5Xs (where 5 is higher)?",
-            "<b>Fold:</b> All (52s, 53s, 54s)<br>",
+            "<b>Fold:</b> All (52s, 53s, 54s)",
         ),
         (
             "How should you play 4Xs (where 4 is higher)?",
-            "<b>Fold:</b> All (42s, 43s)<br>",
+            "<b>Fold:</b> All (42s, 43s)",
         ),
         (
             "How should you play 3Xs (where 3 is higher)?",
-            "<b>Fold:</b> All (32s)<br>",
+            "<b>Fold:</b> All (32s)",
         ),
         (
             "How should you play AXo?",
-            "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A2o, A3o, A4o<br><b>Raise:</b> AJo, AQo, AKo<br>",
+            "<b>Call:</b> ATo-A5o<br><b>Fold:</b> A2o, A3o, A4o<br><b>Raise:</b> AJo, AQo, AKo",
         ),
         (
             "How should you play KXo (where K is higher)?",
-            "<b>Fold:</b> KTo-<br><b>Raise:</b> KJo, KQo<br>",
+            "<b>Fold:</b> KTo-<br><b>Raise:</b> KJo, KQo",
         ),
         (
             "How should you play QXo (where Q is higher)?",
-            "<b>Fold:</b> QTo-<br><b>Raise:</b> QJo<br>",
+            "<b>Fold:</b> QTo-<br><b>Raise:</b> QJo",
         ),
         (
             "How should you play JXo (where J is higher)?",
-            "<b>Fold:</b> All (J2o+)<br>",
+            "<b>Fold:</b> All (J2o+)",
         ),
         (
             "How should you play TXo (where T is higher)?",
-            "<b>Fold:</b> All (T2o+)<br>",
+            "<b>Fold:</b> All (T2o+)",
         ),
         (
             "How should you play 9Xo (where 9 is higher)?",
-            "<b>Fold:</b> All (92o+)<br>",
+            "<b>Fold:</b> All (92o+)",
         ),
         (
             "How should you play 8Xo (where 8 is higher)?",
-            "<b>Fold:</b> All (82o+)<br>",
+            "<b>Fold:</b> All (82o+)",
         ),
         (
             "How should you play 7Xo (where 7 is higher)?",
-            "<b>Fold:</b> All (72o+)<br>",
+            "<b>Fold:</b> All (72o+)",
         ),
         (
             "How should you play 6Xo (where 6 is higher)?",
-            "<b>Fold:</b> All (62o+)<br>",
+            "<b>Fold:</b> All (62o+)",
         ),
         (
             "How should you play 5Xo (where 5 is higher)?",
-            "<b>Fold:</b> All (52o, 53o, 54o)<br>",
+            "<b>Fold:</b> All (52o, 53o, 54o)",
         ),
         (
             "How should you play 4Xo (where 4 is higher)?",
-            "<b>Fold:</b> All (42o, 43o)<br>",
+            "<b>Fold:</b> All (42o, 43o)",
         ),
         (
             "How should you play 3Xo (where 3 is higher)?",
-            "<b>Fold:</b> All (32o)<br>",
+            "<b>Fold:</b> All (32o)",
         ),
     ]
     was_tested = {q: False for q, a in expected_qa_pairs}

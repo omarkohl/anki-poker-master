@@ -332,7 +332,7 @@ def create_decks(
                 + "</div>"
             )
             answer = _get_row_question_answer(c, scenario.ranges)
-            notes = (scenario.notes + "<br>") if scenario.notes else ""
+            notes = (scenario.notes + "<br>\n") if scenario.notes else ""
             notes += scenario.html_full() + "<br>" + scenario.html_legend()
             deck_standard.add_note(
                 genanki.Note(
@@ -361,7 +361,7 @@ def create_decks(
                     + "</div>"
                 )
                 answer = f"You should <b>{range}</b>."
-                notes = (scenario.notes + "<br>") if scenario.notes else ""
+                notes = (scenario.notes + "<br>\n") if scenario.notes else ""
                 notes += scenario.html_full() + "<br>" + scenario.html_legend()
                 deck_detailed.add_note(
                     genanki.Note(
@@ -418,11 +418,11 @@ def _get_row_question_answer(hand: str, ranges: dict) -> str:
             answer_ranges[k] = ", ".join(str(h) for h in r_summarized.hands)
         else:
             answer_ranges[k] = r_summarized
-    result = ""
+    result = []
     if len(answer_ranges) == 1:
         k = list(answer_ranges.keys())[0]
-        result += f"<b>{k}:</b> All ({answer_ranges[k]})<br>"
+        result.append(f"<b>{k}:</b> All ({answer_ranges[k]})")
     else:
         for k in answer_ranges:
-            result += f"<b>{k}:</b> {answer_ranges[k]}<br>"
-    return result
+            result.append(f"<b>{k}:</b> {answer_ranges[k]}")
+    return "<br>".join(result)
