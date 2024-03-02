@@ -2,16 +2,20 @@
     .row {
         display: flex;
     }
+
     .column {
         flex: 50%;
         font-size: 12px;
     }
+
     .column_left {
         text-align: left;
     }
+
     .column_right {
         text-align: right;
     }
+
     small {
         font-size: 11px;
     }
@@ -19,21 +23,26 @@
     .row img {
         max-width: 100%;
     }
-    .row img + img {
+
+    .row img+img {
         margin-left: 5px;
     }
+
     @media (max-width: 600px) {
         .row img {
             max-width: 150px;
         }
     }
 
-    table.range, table.legend {
+    table.range,
+    table.legend {
         border-collapse: collapse;
         font-size: 0.7em;
         font-family: monospace;
     }
-    table.range td, table.legend td {
+
+    table.range td,
+    table.legend td {
         border: 1px solid black;
         padding: 1px;
         text-align: center;
@@ -42,80 +51,84 @@
         box-sizing: border-box;
         overflow: hidden;
     }
+
     table.range:hover td {
         cursor: pointer;
     }
+
     td {
         background-color: white;
     }
+
     table.legend th {
         text-align: left;
         padding: 5px;
     }
+
     table.range td.pair {
         border: 2px solid black;
     }
+
     table.range td.center {
         font-weight: bold;
         font-size: 1.3em;
     }
+
     td.fold {
         background-color: #D6D2D2;
     }
+
     td.call {
         background-color: #4BE488;
     }
+
     td.raise {
         background-color: #FF6A6A;
     }
+
     td.marked {
-        background: repeating-linear-gradient(
-            45deg,
-            white,
-            white 3px,
-            #00000070 3px,
-            #00000070 6px
-        );
+        background: repeating-linear-gradient(45deg,
+                white,
+                white 3px,
+                #00000070 3px,
+                #00000070 6px);
     }
+
     td.marked.fold {
-        background: repeating-linear-gradient(
-            45deg,
-            #D6D2D2,
-            #D6D2D2 3px,
-            #00000070 3px,
-            #00000070 6px
-        );
+        background: repeating-linear-gradient(45deg,
+                #D6D2D2,
+                #D6D2D2 3px,
+                #00000070 3px,
+                #00000070 6px);
     }
+
     td.marked.call {
-        background: repeating-linear-gradient(
-            45deg,
-            #4BE488,
-            #4BE488 3px,
-            #00000070 3px,
-            #00000070 6px
-        );
+        background: repeating-linear-gradient(45deg,
+                #4BE488,
+                #4BE488 3px,
+                #00000070 3px,
+                #00000070 6px);
     }
+
     td.marked.raise {
-        background: repeating-linear-gradient(
-            45deg,
-            #FF6A6A,
-            #FF6A6A 3px,
-            #00000070 3px,
-            #00000070 6px
-        );
+        background: repeating-linear-gradient(45deg,
+                #FF6A6A,
+                #FF6A6A 3px,
+                #00000070 3px,
+                #00000070 6px);
     }
+
     td.blank {
         /* Blanking a cell must have priority */
         background-color: white !important;
     }
+
     td.marked.blank {
-        background: repeating-linear-gradient(
-            45deg,
-            white,
-            white 3px,
-            #00000070 3px,
-            #00000070 6px
-        ) !important;
+        background: repeating-linear-gradient(45deg,
+                white,
+                white 3px,
+                #00000070 3px,
+                #00000070 6px) !important;
     }
 </style>
 <style>

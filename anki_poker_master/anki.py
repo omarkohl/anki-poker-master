@@ -3,7 +3,8 @@ import genanki
 from importlib_resources import files
 import poker
 from anki_poker_master import PreflopScenario
-from anki_poker_master.const import BLANK_TABLE, DEFAULT_CSS, DEFAULT_JS
+from anki_poker_master.const import BLANK_TABLE, DEFAULT_JS
+from anki_poker_master import helper
 from typing import List, Set, Tuple
 
 _ALL_CARD_HEADER = """
@@ -101,7 +102,7 @@ _BASIC_MODEL = genanki.Model(
             "afmt": "{{FrontSide}}<hr id='answer'>{{Answer}}<br>" + _BASIC_FOOTER,
         },
     ],
-    css=DEFAULT_CSS,
+    css=helper.default_css(),
 )
 
 
@@ -221,7 +222,7 @@ _SCENARIO_MODEL = genanki.Model(
             "bafmt": "(HTML table)",
         },
     ],
-    css=DEFAULT_CSS,
+    css=helper.default_css(),
 )
 
 
