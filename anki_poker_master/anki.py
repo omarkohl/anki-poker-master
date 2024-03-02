@@ -3,7 +3,6 @@ import genanki
 from importlib_resources import files
 import poker
 from anki_poker_master import PreflopScenario
-from anki_poker_master.const import BLANK_TABLE, DEFAULT_JS
 from anki_poker_master import helper
 from typing import List, Set, Tuple
 
@@ -54,8 +53,8 @@ _ALL_CARD_FOOTER = (
 {{/Source}}
 <script>
 """.lstrip()
-    + DEFAULT_JS
-    + "\n</script>"
+    + helper.default_js()
+    + "</script>"
 )
 
 
@@ -136,7 +135,7 @@ _SCENARIO_MODEL = genanki.Model(
             + "{{Full HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Game}} / {{Scenario}} / ?",
@@ -150,7 +149,7 @@ _SCENARIO_MODEL = genanki.Model(
             + "{{Full HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Game}} / ? / {{Position}}",
@@ -163,7 +162,7 @@ _SCENARIO_MODEL = genanki.Model(
             + "{{Top Left Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (top left)",
@@ -176,7 +175,7 @@ _SCENARIO_MODEL = genanki.Model(
             + "{{Top Right Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (top right)",
@@ -189,7 +188,7 @@ _SCENARIO_MODEL = genanki.Model(
             + "{{Bottom Left Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (bottom left)",
@@ -202,7 +201,7 @@ _SCENARIO_MODEL = genanki.Model(
             + "{{Bottom Right Quadrant Blank HTML}}"
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (bottom right)",
@@ -212,10 +211,10 @@ _SCENARIO_MODEL = genanki.Model(
             "name": "Full",
             "qfmt": _HEADER_FMT
             + "<br>Fill in the blank (entire table)<br>"
-            + BLANK_TABLE
+            + helper.blank_table()
             + "<br>{{Legend}}"
             + "<script>"
-            + DEFAULT_JS
+            + helper.default_js()
             + "</script>",
             "afmt": _HEADER_FMT + "{{Full HTML}}" + "<br>{{Legend}}" + _ALL_CARD_FOOTER,
             "bqfmt": "{{Summary}} (full)",
@@ -282,7 +281,7 @@ def create_decks(
 <br>
 {scenario.html_legend()}
 <script>
-{DEFAULT_JS}
+{helper.default_js()}
 </script>
 """.lstrip()
         # Note that 2Xs and 2Xo are not included because there are no lower
