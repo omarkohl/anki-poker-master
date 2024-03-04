@@ -12,6 +12,7 @@ You can read some more about Poker preflop ranges
 [here](https://www.splitsuit.com/poker-ranges-reading) and
 [here](https://pokertrainer.se/preflop-introduction/).
 
+![PyPI - Version](https://img.shields.io/pypi/v/anki_poker_master)
 
 ## Usage
 
