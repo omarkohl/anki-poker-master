@@ -77,6 +77,10 @@ def test_manual_deck_creation(tmp_path):
             "Standard deck: Check one note at random, does it contain the expected note 'This is a test'? (y/n)",
             "y",
         ),
+        (
+            "Standard deck: Do the cards look nice in the browser? (y/n)",
+            "y",
+        ),
         # Browser questions: Detailed deck
         ("Detailed deck: How many cards are in there?", "169"),
         (
@@ -91,6 +95,10 @@ def test_manual_deck_creation(tmp_path):
             "Detailed deck: Check one note at random, does it contain the expected note 'This is a test'? (y/n)",
             "y",
         ),
+        (
+            "Detailed deck: Do the cards look nice in the browser? (y/n)",
+            "y",
+        ),
         # Studying questions
         ("Standard deck: Can you study it? (y/n)", "y"),
         (
@@ -102,6 +110,10 @@ def test_manual_deck_creation(tmp_path):
             "y",
         ),
         ("Detailed deck: Can you study it? (y/n)", "y"),
+        (
+            "Standard deck: Set the layout to dark mode and check if the cards look nice. (y/n)",
+            "y",
+        ),
         # Closing questions
         ("Is there anything else wrong with the decks? (y/n)", "n"),
     ]
