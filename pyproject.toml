@@ -4,10 +4,10 @@ version = "0.3.0.dev0"
 description = ""
 authors = ["Omar Kohl <omarkohl@posteo.net>"]
 readme = "README.md"
-homepage = "https://github.com/omarkohl/anki-poker-tracker"
+homepage = "https://github.com/omarkohl/anki-poker-master"
 
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/omarkohl/anki-poker-tracker/issues"
+"Bug Tracker" = "https://github.com/omarkohl/anki-poker-master/issues"
 
 [tool.poetry.dependencies]
 python = "^3.8"
