@@ -14,23 +14,22 @@ _TOP_RIGHT_QUADRANT = "A8s-, K8s-, Q8s-, J8s-, T8s-, 98s-, 87s-, 88"
 _BOTTOM_LEFT_QUADRANT = "A8o-, K8o-, Q8o-, J8o-, T8o-, 98o-, 87o-, 88"
 _BOTTOM_RIGHT_QUADRANT = "88-, 87-, 76-, 65-, 54-, 43-, 32-"
 
-_DEFAULT_RANGE_COLORS = {
-    "fold": "#D6D2D2",
-    "call": "#4BE488",
-    "raise": "#FF6A6A",
-}
 
+# These colors are are used in inverted order i.e. the last one will be chosen
+# first.
+# The first color in each tuple is the one to use for light mode the second one
+# is for dark mode.
 _EASY_TO_READ_COLORS = [
-    "#008000",  # Green
-    "#FF0000",  # Red
-    "#00FF00",  # Lime
-    "#0000FF",  # Blue
-    "#FFFF00",  # Yellow
-    "#00FFFF",  # Aqua
-    "#FF00FF",  # Fuchsia
-    "#800000",  # Maroon
-    "#000080",  # Navy
-    "#808000",  # Olive
+    ("#F0AC54", "#8A5317"),  # Orange (light)
+    ("#5E5EF3", "#2E2E9A"),  # Blue (light)
+    ("#C24F4F", "#7A2D2D"),  # Brown (light)
+    ("#008000", "#004000"),  # Green (light)
+    ("#FF0000", "#800000"),  # Red (light)
+    ("#00FF00", "#008000"),  # Lime (light)
+    ("#FFFF00", "#808000"),  # Yellow (light)
+    ("#00FFFF", "#015757"),  # Aqua (light)
+    ("#FF00FF", "#800080"),  # Fuchsia (light)
+    ("#808000", "#404000"),  # Olive (light)
 ]
 
 
@@ -58,10 +57,10 @@ class PreflopScenario:
         self.position = position
         self.scenario = scenario
         self.game = game
-        self.range_colors = copy.deepcopy(_DEFAULT_RANGE_COLORS)
+        self.extra_range_colors = {}
         if range_colors is not None:
             for color_k, color_v in range_colors.items():
-                self.range_colors[_to_css_class(color_k)] = color_v
+                self.extra_range_colors[_to_css_class(color_k)] = color_v
         self.notes = notes
         self.source = source
 
@@ -94,43 +93,70 @@ class PreflopScenario:
         if new actions are added or a default color is changed. Otherwise,
         an empty string is returned.
         """
-        all_actions = {"fold"}
-        for action in self.ranges:
-            all_actions.add(_to_css_class(action))
+        default_actions = {"raise", "fold", "call"}
         # Generate colors for actions that don't have a color
-        range_colors = self.range_colors.copy()
+        range_colors = self.extra_range_colors.copy()
         available_colors = _EASY_TO_READ_COLORS.copy()
-        for action in sorted(all_actions):
-            if action not in range_colors:
+        for action in [_to_css_class(a) for a in self.ranges.keys()]:
+            # if it's a default action and it's not in the range_colors then
+            # nothing needs to be done -> covered by default CSS.
+            # If it's a default action and it's in range_colors then it will
+            # already be overwritten so nothing else needs to be done
+            # If it's not a default action and it's in range colors then it will
+            # also be written to the CSS.
+            # If it's not a default action and it's not in range colors then we
+            # need to choose a color.
+            if action not in default_actions and action not in range_colors:
                 if available_colors:
                     range_colors[action] = available_colors.pop()
                 else:
                     random.seed(action)
-                    range_colors[action] = "#%06x" % random.randint(0, 0xFFFFFF)
+                    color_light = "#%06x" % random.randint(0, 0xFFFFFF)
+                    color_dark = "#%06x" % random.randint(0, 0xFFFFFF)
+                    range_colors[action] = (color_light, color_dark)
         # We only need custom CSS if new actions are added or a default color is changed
-        if range_colors == _DEFAULT_RANGE_COLORS:
+        if not range_colors:
             return ""
         indent = 0
         css = []
-        for action in sorted(all_actions):
+        for action in sorted(range_colors.keys()):
+            color_light, color_dark = range_colors[action]
             css += [indent * " " + f"td.{action} {{"]
             indent += 4
-            css += [indent * " " + f"background-color: {range_colors[action]};"]
+            css += [indent * " " + f"background-color: {color_light};"]
             indent -= 4
             css += [indent * " " + "}"]
+
+            css += [indent * " " + f".nightMode td.{action} {{"]
+            indent += 4
+            css += [indent * " " + f"background-color: {color_dark};"]
+            indent -= 4
+            css += [indent * " " + "}"]
+
             css += [indent * " " + f"td.{action}.marked {{"]
             indent += 4
             css += [indent * " " + "background: repeating-linear-gradient("]
             indent += 4
             css += [indent * " " + "45deg,"]
-            css += [
-                indent * " " + f"{range_colors[action]}, {range_colors[action]} 3px,"
-            ]
+            css += [indent * " " + f"{color_light}, {color_light} 3px,"]
             css += [indent * " " + f"#00000070 3px, #00000070 6px"]
             indent -= 4
             css += [indent * " " + ");"]
             indent -= 4
             css += [indent * " " + "}"]
+
+            css += [indent * " " + f".nightMode td.{action}.marked {{"]
+            indent += 4
+            css += [indent * " " + "background: repeating-linear-gradient("]
+            indent += 4
+            css += [indent * " " + "45deg,"]
+            css += [indent * " " + f"{color_dark}, {color_dark} 3px,"]
+            css += [indent * " " + f"#00000070 3px, #00000070 6px"]
+            indent -= 4
+            css += [indent * " " + ");"]
+            indent -= 4
+            css += [indent * " " + "}"]
+
         return "\n".join(css) + "\n"
 
     def html_legend(self) -> str:

@@ -1,0 +1,984 @@
+<style>
+    .row {
+        display: flex;
+    }
+
+    .column {
+        flex: 50%;
+        font-size: 12px;
+    }
+
+    .column_left {
+        text-align: left;
+    }
+
+    .column_right {
+        text-align: right;
+    }
+
+    small {
+        font-size: 11px;
+    }
+
+    .row img {
+        max-width: 100%;
+    }
+
+    .row img+img {
+        margin-left: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .row img {
+            max-width: 150px;
+        }
+    }
+
+    table.range,
+    table.legend {
+        border-collapse: collapse;
+        font-size: 0.7em;
+        font-family: monospace;
+    }
+
+    .nightMode,
+    .nightMode table.range,
+    .nightMode table.legend {
+        color: #E5FFFF;
+    }
+
+    .nightMode a {
+        color: #09F5F5;
+    }
+
+    table.range td,
+    table.legend td {
+        border: 1px solid black;
+        padding: 1px;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .nightMode table.range td,
+    .nightMode table.legend td {
+        border: 1px solid #E5FFFF;
+    }
+
+    table.range:hover td {
+        cursor: pointer;
+    }
+
+    td {
+        background-color: white;
+    }
+
+    table.legend th {
+        text-align: left;
+        padding: 5px;
+    }
+
+    table.range td.pair {
+        border: 2px solid black;
+    }
+
+    .nightMode table.range td.pair {
+        border: 2px solid #E5FFFF;
+    }
+
+    table.range td.center {
+        font-weight: bold;
+        font-size: 1.3em;
+    }
+
+    td.fold {
+        background-color: #D6D2D2;
+    }
+
+    .nightMode td.fold {
+        background-color: #485153;
+    }
+
+    td.call {
+        background-color: #4be488;
+    }
+
+    .nightMode td.call {
+        background-color: #009594;
+    }
+
+    td.raise {
+        background-color: #FF6A6A;
+    }
+
+    .nightMode td.raise {
+        background-color: #8F0707;
+    }
+
+    td.marked {
+        background: repeating-linear-gradient(45deg,
+                white,
+                white 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    .nightMode td.markded {
+        background: repeating-linear-gradient(45deg,
+                black,
+                black 3px,
+                #00000070 3px,
+                #00000070 6px) !important;
+    }
+
+    td.marked.fold {
+        background: repeating-linear-gradient(45deg,
+                #D6D2D2,
+                #D6D2D2 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    .nightMode td.marked.fold {
+        background: repeating-linear-gradient(45deg,
+                #485153,
+                #485153 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    td.marked.call {
+        background: repeating-linear-gradient(45deg,
+                #4BE488,
+                #4BE488 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    .nightMode td.marked.call {
+        background: repeating-linear-gradient(45deg,
+                #009594,
+                #009594 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    td.marked.raise {
+        background: repeating-linear-gradient(45deg,
+                #FF6A6A,
+                #FF6A6A 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    .nightMode td.marked.raise {
+        background: repeating-linear-gradient(45deg,
+                #8F0707,
+                #8F0707 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    td.blank {
+        /* Blanking a cell must have priority */
+        background-color: white !important;
+    }
+
+    td.marked.blank {
+        background: repeating-linear-gradient(45deg,
+                white,
+                white 3px,
+                #00000070 3px,
+                #00000070 6px) !important;
+    }
+
+    .nightMode td.blank {
+        background-color: black !important;
+    }
+
+    .nightMode td.marked.blank {
+        background: repeating-linear-gradient(45deg,
+                black,
+                black 3px,
+                #CCCCCCA0 3px,
+                #CCCCCCA0 6px) !important;
+    }
+</style>
+<style>
+    td.zcustom_01 {
+        background-color: #808000;
+    }
+    .nightMode td.zcustom_01 {
+        background-color: #404000;
+    }
+    td.zcustom_01.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #808000, #808000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_01.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #404000, #404000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_02 {
+        background-color: #FF00FF;
+    }
+    .nightMode td.zcustom_02 {
+        background-color: #800080;
+    }
+    td.zcustom_02.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #FF00FF, #FF00FF 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_02.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #800080, #800080 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_03 {
+        background-color: #00FFFF;
+    }
+    .nightMode td.zcustom_03 {
+        background-color: #015757;
+    }
+    td.zcustom_03.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #00FFFF, #00FFFF 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_03.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #015757, #015757 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_04 {
+        background-color: #FFFF00;
+    }
+    .nightMode td.zcustom_04 {
+        background-color: #808000;
+    }
+    td.zcustom_04.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #FFFF00, #FFFF00 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_04.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #808000, #808000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_05 {
+        background-color: #00FF00;
+    }
+    .nightMode td.zcustom_05 {
+        background-color: #008000;
+    }
+    td.zcustom_05.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #00FF00, #00FF00 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_05.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #008000, #008000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_06 {
+        background-color: #FF0000;
+    }
+    .nightMode td.zcustom_06 {
+        background-color: #800000;
+    }
+    td.zcustom_06.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #FF0000, #FF0000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_06.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #800000, #800000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_07 {
+        background-color: #008000;
+    }
+    .nightMode td.zcustom_07 {
+        background-color: #004000;
+    }
+    td.zcustom_07.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #008000, #008000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_07.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #004000, #004000 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_08 {
+        background-color: #C24F4F;
+    }
+    .nightMode td.zcustom_08 {
+        background-color: #7A2D2D;
+    }
+    td.zcustom_08.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #C24F4F, #C24F4F 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_08.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #7A2D2D, #7A2D2D 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_09 {
+        background-color: #5E5EF3;
+    }
+    .nightMode td.zcustom_09 {
+        background-color: #2E2E9A;
+    }
+    td.zcustom_09.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #5E5EF3, #5E5EF3 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_09.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #2E2E9A, #2E2E9A 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    td.zcustom_10 {
+        background-color: #F0AC54;
+    }
+    .nightMode td.zcustom_10 {
+        background-color: #8A5317;
+    }
+    td.zcustom_10.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #F0AC54, #F0AC54 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zcustom_10.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #8A5317, #8A5317 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+</style>
+<h1>Light Mode</h1>
+<div>
+<table class="markable range">
+    <tr>
+        <td class="fold pair">AA</td>
+        <td class="call suited">AKs</td>
+        <td class="call suited">AQs</td>
+        <td class="call suited">AJs</td>
+        <td class="call suited">ATs</td>
+        <td class="call suited">A9s</td>
+        <td class="call suited">A8s</td>
+        <td class="call suited">A7s</td>
+        <td class="call suited">A6s</td>
+        <td class="call suited">A5s</td>
+        <td class="call suited">A4s</td>
+        <td class="call suited">A3s</td>
+        <td class="call suited">A2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">AKo</td>
+        <td class="fold pair">KK</td>
+        <td class="raise suited">KQs</td>
+        <td class="raise suited">KJs</td>
+        <td class="raise suited">KTs</td>
+        <td class="raise suited">K9s</td>
+        <td class="raise suited">K8s</td>
+        <td class="raise suited">K7s</td>
+        <td class="raise suited">K6s</td>
+        <td class="raise suited">K5s</td>
+        <td class="raise suited">K4s</td>
+        <td class="raise suited">K3s</td>
+        <td class="raise suited">K2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">AQo</td>
+        <td class="fold offsuit">KQo</td>
+        <td class="fold pair">QQ</td>
+        <td class="zcustom_01 suited">QJs</td>
+        <td class="zcustom_01 suited">QTs</td>
+        <td class="zcustom_01 suited">Q9s</td>
+        <td class="zcustom_01 suited">Q8s</td>
+        <td class="zcustom_01 suited">Q7s</td>
+        <td class="zcustom_01 suited">Q6s</td>
+        <td class="zcustom_01 suited">Q5s</td>
+        <td class="zcustom_01 suited">Q4s</td>
+        <td class="zcustom_01 suited">Q3s</td>
+        <td class="zcustom_01 suited">Q2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">AJo</td>
+        <td class="fold offsuit">KJo</td>
+        <td class="fold offsuit">QJo</td>
+        <td class="fold pair">JJ</td>
+        <td class="zcustom_02 suited">JTs</td>
+        <td class="zcustom_02 suited">J9s</td>
+        <td class="zcustom_02 suited">J8s</td>
+        <td class="zcustom_02 suited">J7s</td>
+        <td class="zcustom_02 suited">J6s</td>
+        <td class="zcustom_02 suited">J5s</td>
+        <td class="zcustom_02 suited">J4s</td>
+        <td class="zcustom_02 suited">J3s</td>
+        <td class="zcustom_02 suited">J2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">ATo</td>
+        <td class="fold offsuit">KTo</td>
+        <td class="fold offsuit">QTo</td>
+        <td class="fold offsuit">JTo</td>
+        <td class="fold pair">TT</td>
+        <td class="zcustom_03 suited">T9s</td>
+        <td class="zcustom_03 suited">T8s</td>
+        <td class="zcustom_03 suited">T7s</td>
+        <td class="zcustom_03 suited">T6s</td>
+        <td class="zcustom_03 suited">T5s</td>
+        <td class="zcustom_03 suited">T4s</td>
+        <td class="zcustom_03 suited">T3s</td>
+        <td class="zcustom_03 suited">T2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A9o</td>
+        <td class="fold offsuit">K9o</td>
+        <td class="fold offsuit">Q9o</td>
+        <td class="fold offsuit">J9o</td>
+        <td class="fold offsuit">T9o</td>
+        <td class="fold pair">99</td>
+        <td class="zcustom_04 suited">98s</td>
+        <td class="zcustom_04 suited">97s</td>
+        <td class="zcustom_04 suited">96s</td>
+        <td class="zcustom_04 suited">95s</td>
+        <td class="zcustom_04 suited">94s</td>
+        <td class="zcustom_04 suited">93s</td>
+        <td class="zcustom_04 suited">92s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A8o</td>
+        <td class="fold offsuit blank">K8o</td>
+        <td class="fold offsuit blank">Q8o</td>
+        <td class="fold offsuit blank">J8o</td>
+        <td class="fold offsuit blank">T8o</td>
+        <td class="fold offsuit blank">98o</td>
+        <td class="fold pair blank center">88</td>
+        <td class="zcustom_05 suited">87s</td>
+        <td class="zcustom_05 suited">86s</td>
+        <td class="zcustom_05 suited">85s</td>
+        <td class="zcustom_05 suited">84s</td>
+        <td class="zcustom_05 suited">83s</td>
+        <td class="zcustom_05 suited">82s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A7o</td>
+        <td class="fold offsuit blank">K7o</td>
+        <td class="fold offsuit blank">Q7o</td>
+        <td class="fold offsuit blank">J7o</td>
+        <td class="fold offsuit blank">T7o</td>
+        <td class="fold offsuit blank">97o</td>
+        <td class="fold offsuit blank">87o</td>
+        <td class="fold pair">77</td>
+        <td class="zcustom_06 suited">76s</td>
+        <td class="zcustom_06 suited">75s</td>
+        <td class="zcustom_06 suited">74s</td>
+        <td class="zcustom_06 suited">73s</td>
+        <td class="zcustom_06 suited">72s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A6o</td>
+        <td class="fold offsuit blank">K6o</td>
+        <td class="fold offsuit blank">Q6o</td>
+        <td class="fold offsuit blank">J6o</td>
+        <td class="fold offsuit blank">T6o</td>
+        <td class="fold offsuit blank">96o</td>
+        <td class="fold offsuit blank">86o</td>
+        <td class="fold offsuit">76o</td>
+        <td class="fold pair">66</td>
+        <td class="zcustom_07 suited">65s</td>
+        <td class="zcustom_07 suited">64s</td>
+        <td class="zcustom_07 suited">63s</td>
+        <td class="zcustom_07 suited">62s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A5o</td>
+        <td class="fold offsuit blank">K5o</td>
+        <td class="fold offsuit blank">Q5o</td>
+        <td class="fold offsuit blank">J5o</td>
+        <td class="fold offsuit blank">T5o</td>
+        <td class="fold offsuit blank">95o</td>
+        <td class="fold offsuit blank">85o</td>
+        <td class="fold offsuit">75o</td>
+        <td class="fold offsuit">65o</td>
+        <td class="fold pair">55</td>
+        <td class="zcustom_08 suited">54s</td>
+        <td class="zcustom_08 suited">53s</td>
+        <td class="zcustom_08 suited">52s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A4o</td>
+        <td class="fold offsuit blank">K4o</td>
+        <td class="fold offsuit blank">Q4o</td>
+        <td class="fold offsuit blank">J4o</td>
+        <td class="fold offsuit blank">T4o</td>
+        <td class="fold offsuit blank">94o</td>
+        <td class="fold offsuit blank">84o</td>
+        <td class="fold offsuit">74o</td>
+        <td class="fold offsuit">64o</td>
+        <td class="fold offsuit">54o</td>
+        <td class="fold pair">44</td>
+        <td class="zcustom_09 suited">43s</td>
+        <td class="zcustom_09 suited">42s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A3o</td>
+        <td class="fold offsuit blank">K3o</td>
+        <td class="fold offsuit blank">Q3o</td>
+        <td class="fold offsuit blank">J3o</td>
+        <td class="fold offsuit blank">T3o</td>
+        <td class="fold offsuit blank">93o</td>
+        <td class="fold offsuit blank">83o</td>
+        <td class="fold offsuit">73o</td>
+        <td class="fold offsuit">63o</td>
+        <td class="fold offsuit">53o</td>
+        <td class="fold offsuit">43o</td>
+        <td class="fold pair">33</td>
+        <td class="zcustom_10 suited">32s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A2o</td>
+        <td class="fold offsuit blank">K2o</td>
+        <td class="fold offsuit blank">Q2o</td>
+        <td class="fold offsuit blank">J2o</td>
+        <td class="fold offsuit blank">T2o</td>
+        <td class="fold offsuit blank">92o</td>
+        <td class="fold offsuit blank">82o</td>
+        <td class="fold offsuit">72o</td>
+        <td class="fold offsuit">62o</td>
+        <td class="fold offsuit">52o</td>
+        <td class="fold offsuit">42o</td>
+        <td class="fold offsuit">32o</td>
+        <td class="fold pair">22</td>
+    </tr>
+</table>
+<table class='legend'>
+    <tr>
+        <th class='row'>Call</th>
+        <td class='call'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>Fold</th>
+        <td class='fold'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>Raise</th>
+        <td class='raise'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 01</th>
+        <td class='zcustom_01'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 02</th>
+        <td class='zcustom_02'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 03</th>
+        <td class='zcustom_03'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 04</th>
+        <td class='zcustom_04'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 05</th>
+        <td class='zcustom_05'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 06</th>
+        <td class='zcustom_06'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 07</th>
+        <td class='zcustom_07'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 08</th>
+        <td class='zcustom_08'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 09</th>
+        <td class='zcustom_09'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 10</th>
+        <td class='zcustom_10'>&nbsp;</td>
+    </tr>
+</table>
+<p>Some text containing a <a href='https://www.example.com'>link</a></p>
+</div>
+<h1>Dark Mode (night mode)</h1>
+<div class="nightMode" style="background-color: black">
+<table class="markable range">
+    <tr>
+        <td class="fold pair">AA</td>
+        <td class="call suited">AKs</td>
+        <td class="call suited">AQs</td>
+        <td class="call suited">AJs</td>
+        <td class="call suited">ATs</td>
+        <td class="call suited">A9s</td>
+        <td class="call suited">A8s</td>
+        <td class="call suited">A7s</td>
+        <td class="call suited">A6s</td>
+        <td class="call suited">A5s</td>
+        <td class="call suited">A4s</td>
+        <td class="call suited">A3s</td>
+        <td class="call suited">A2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">AKo</td>
+        <td class="fold pair">KK</td>
+        <td class="raise suited">KQs</td>
+        <td class="raise suited">KJs</td>
+        <td class="raise suited">KTs</td>
+        <td class="raise suited">K9s</td>
+        <td class="raise suited">K8s</td>
+        <td class="raise suited">K7s</td>
+        <td class="raise suited">K6s</td>
+        <td class="raise suited">K5s</td>
+        <td class="raise suited">K4s</td>
+        <td class="raise suited">K3s</td>
+        <td class="raise suited">K2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">AQo</td>
+        <td class="fold offsuit">KQo</td>
+        <td class="fold pair">QQ</td>
+        <td class="zcustom_01 suited">QJs</td>
+        <td class="zcustom_01 suited">QTs</td>
+        <td class="zcustom_01 suited">Q9s</td>
+        <td class="zcustom_01 suited">Q8s</td>
+        <td class="zcustom_01 suited">Q7s</td>
+        <td class="zcustom_01 suited">Q6s</td>
+        <td class="zcustom_01 suited">Q5s</td>
+        <td class="zcustom_01 suited">Q4s</td>
+        <td class="zcustom_01 suited">Q3s</td>
+        <td class="zcustom_01 suited">Q2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">AJo</td>
+        <td class="fold offsuit">KJo</td>
+        <td class="fold offsuit">QJo</td>
+        <td class="fold pair">JJ</td>
+        <td class="zcustom_02 suited">JTs</td>
+        <td class="zcustom_02 suited">J9s</td>
+        <td class="zcustom_02 suited">J8s</td>
+        <td class="zcustom_02 suited">J7s</td>
+        <td class="zcustom_02 suited">J6s</td>
+        <td class="zcustom_02 suited">J5s</td>
+        <td class="zcustom_02 suited">J4s</td>
+        <td class="zcustom_02 suited">J3s</td>
+        <td class="zcustom_02 suited">J2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">ATo</td>
+        <td class="fold offsuit">KTo</td>
+        <td class="fold offsuit">QTo</td>
+        <td class="fold offsuit">JTo</td>
+        <td class="fold pair">TT</td>
+        <td class="zcustom_03 suited">T9s</td>
+        <td class="zcustom_03 suited">T8s</td>
+        <td class="zcustom_03 suited">T7s</td>
+        <td class="zcustom_03 suited">T6s</td>
+        <td class="zcustom_03 suited">T5s</td>
+        <td class="zcustom_03 suited">T4s</td>
+        <td class="zcustom_03 suited">T3s</td>
+        <td class="zcustom_03 suited">T2s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A9o</td>
+        <td class="fold offsuit">K9o</td>
+        <td class="fold offsuit">Q9o</td>
+        <td class="fold offsuit">J9o</td>
+        <td class="fold offsuit">T9o</td>
+        <td class="fold pair">99</td>
+        <td class="zcustom_04 suited">98s</td>
+        <td class="zcustom_04 suited">97s</td>
+        <td class="zcustom_04 suited">96s</td>
+        <td class="zcustom_04 suited">95s</td>
+        <td class="zcustom_04 suited">94s</td>
+        <td class="zcustom_04 suited">93s</td>
+        <td class="zcustom_04 suited">92s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A8o</td>
+        <td class="fold offsuit blank">K8o</td>
+        <td class="fold offsuit blank">Q8o</td>
+        <td class="fold offsuit blank">J8o</td>
+        <td class="fold offsuit blank">T8o</td>
+        <td class="fold offsuit blank">98o</td>
+        <td class="fold pair blank center">88</td>
+        <td class="zcustom_05 suited">87s</td>
+        <td class="zcustom_05 suited">86s</td>
+        <td class="zcustom_05 suited">85s</td>
+        <td class="zcustom_05 suited">84s</td>
+        <td class="zcustom_05 suited">83s</td>
+        <td class="zcustom_05 suited">82s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A7o</td>
+        <td class="fold offsuit blank">K7o</td>
+        <td class="fold offsuit blank">Q7o</td>
+        <td class="fold offsuit blank">J7o</td>
+        <td class="fold offsuit blank">T7o</td>
+        <td class="fold offsuit blank">97o</td>
+        <td class="fold offsuit blank">87o</td>
+        <td class="fold pair">77</td>
+        <td class="zcustom_06 suited">76s</td>
+        <td class="zcustom_06 suited">75s</td>
+        <td class="zcustom_06 suited">74s</td>
+        <td class="zcustom_06 suited">73s</td>
+        <td class="zcustom_06 suited">72s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A6o</td>
+        <td class="fold offsuit blank">K6o</td>
+        <td class="fold offsuit blank">Q6o</td>
+        <td class="fold offsuit blank">J6o</td>
+        <td class="fold offsuit blank">T6o</td>
+        <td class="fold offsuit blank">96o</td>
+        <td class="fold offsuit blank">86o</td>
+        <td class="fold offsuit">76o</td>
+        <td class="fold pair">66</td>
+        <td class="zcustom_07 suited">65s</td>
+        <td class="zcustom_07 suited">64s</td>
+        <td class="zcustom_07 suited">63s</td>
+        <td class="zcustom_07 suited">62s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A5o</td>
+        <td class="fold offsuit blank">K5o</td>
+        <td class="fold offsuit blank">Q5o</td>
+        <td class="fold offsuit blank">J5o</td>
+        <td class="fold offsuit blank">T5o</td>
+        <td class="fold offsuit blank">95o</td>
+        <td class="fold offsuit blank">85o</td>
+        <td class="fold offsuit">75o</td>
+        <td class="fold offsuit">65o</td>
+        <td class="fold pair">55</td>
+        <td class="zcustom_08 suited">54s</td>
+        <td class="zcustom_08 suited">53s</td>
+        <td class="zcustom_08 suited">52s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A4o</td>
+        <td class="fold offsuit blank">K4o</td>
+        <td class="fold offsuit blank">Q4o</td>
+        <td class="fold offsuit blank">J4o</td>
+        <td class="fold offsuit blank">T4o</td>
+        <td class="fold offsuit blank">94o</td>
+        <td class="fold offsuit blank">84o</td>
+        <td class="fold offsuit">74o</td>
+        <td class="fold offsuit">64o</td>
+        <td class="fold offsuit">54o</td>
+        <td class="fold pair">44</td>
+        <td class="zcustom_09 suited">43s</td>
+        <td class="zcustom_09 suited">42s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A3o</td>
+        <td class="fold offsuit blank">K3o</td>
+        <td class="fold offsuit blank">Q3o</td>
+        <td class="fold offsuit blank">J3o</td>
+        <td class="fold offsuit blank">T3o</td>
+        <td class="fold offsuit blank">93o</td>
+        <td class="fold offsuit blank">83o</td>
+        <td class="fold offsuit">73o</td>
+        <td class="fold offsuit">63o</td>
+        <td class="fold offsuit">53o</td>
+        <td class="fold offsuit">43o</td>
+        <td class="fold pair">33</td>
+        <td class="zcustom_10 suited">32s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit blank">A2o</td>
+        <td class="fold offsuit blank">K2o</td>
+        <td class="fold offsuit blank">Q2o</td>
+        <td class="fold offsuit blank">J2o</td>
+        <td class="fold offsuit blank">T2o</td>
+        <td class="fold offsuit blank">92o</td>
+        <td class="fold offsuit blank">82o</td>
+        <td class="fold offsuit">72o</td>
+        <td class="fold offsuit">62o</td>
+        <td class="fold offsuit">52o</td>
+        <td class="fold offsuit">42o</td>
+        <td class="fold offsuit">32o</td>
+        <td class="fold pair">22</td>
+    </tr>
+</table>
+<table class='legend'>
+    <tr>
+        <th class='row'>Call</th>
+        <td class='call'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>Fold</th>
+        <td class='fold'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>Raise</th>
+        <td class='raise'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 01</th>
+        <td class='zcustom_01'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 02</th>
+        <td class='zcustom_02'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 03</th>
+        <td class='zcustom_03'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 04</th>
+        <td class='zcustom_04'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 05</th>
+        <td class='zcustom_05'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 06</th>
+        <td class='zcustom_06'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 07</th>
+        <td class='zcustom_07'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 08</th>
+        <td class='zcustom_08'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 09</th>
+        <td class='zcustom_09'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>ZCustom 10</th>
+        <td class='zcustom_10'>&nbsp;</td>
+    </tr>
+</table>
+<p>Some text containing a <a href='https://www.example.com'>link</a></p>
+</div><script>
+    /*
+    For all td cells within the table.range we want to do the following
+    - When clicking a cell the 'marked' class should be toggled.
+    - When clicking and dragging it should also be toggled but only
+      depending on the first cell (i.e. either mark or unmark all of them).
+    */
+    function setupDragging() {
+        function handleStart(e) {
+            if ((e instanceof MouseEvent && e.button !== 0) || (e.touches && e.touches.length > 1)) {
+                return;  // Not the primary button or single touch, ignore the event
+            }
+            e.preventDefault();
+            dragging = true;
+            if (!this.classList.contains('marked')) {
+                this.classList.add('marked');
+                isMarking = true;
+            } else {
+                this.classList.remove('marked');
+                isMarking = false;
+            }
+        }
+
+        function handleMove(e) {
+            if (dragging) {
+                let target;
+                if (e instanceof MouseEvent) {
+                    target = e.target;
+                } else if (e instanceof TouchEvent && e.touches.length > 0) {
+                    target = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                }
+                if (target && target.nodeName === 'TD' && target.closest('table.range')) {
+                    if (isMarking) {
+                        target.classList.add('marked');
+                    } else {
+                        target.classList.remove('marked');
+                    }
+                }
+            }
+        }
+
+        function handleEnd(e) {
+            if ((e instanceof MouseEvent && e.button === 0) || e instanceof TouchEvent) {
+                dragging = false;
+            }
+        }
+
+        let dragging = false;
+        let isMarking = true;
+        document.querySelectorAll('table.range.markable td').forEach(cell => {
+            cell.addEventListener('mousedown', handleStart);
+            cell.addEventListener('touchstart', handleStart);
+            cell.addEventListener('mousemove', handleMove);
+            cell.addEventListener('touchmove', handleMove);
+        });
+        document.addEventListener('mouseup', handleEnd);
+        document.addEventListener('touchend', handleEnd);
+    }
+
+    if (typeof onUpdateHook !== 'undefined') {
+        onUpdateHook.push(setupDragging);
+    } else {
+        setupDragging();
+    }
+</script>

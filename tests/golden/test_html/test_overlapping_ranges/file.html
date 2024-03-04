@@ -41,6 +41,16 @@
         font-family: monospace;
     }
 
+    .nightMode,
+    .nightMode table.range,
+    .nightMode table.legend {
+        color: #E5FFFF;
+    }
+
+    .nightMode a {
+        color: #09F5F5;
+    }
+
     table.range td,
     table.legend td {
         border: 1px solid black;
@@ -50,6 +60,11 @@
         height: 25px;
         box-sizing: border-box;
         overflow: hidden;
+    }
+
+    .nightMode table.range td,
+    .nightMode table.legend td {
+        border: 1px solid #E5FFFF;
     }
 
     table.range:hover td {
@@ -69,6 +84,10 @@
         border: 2px solid black;
     }
 
+    .nightMode table.range td.pair {
+        border: 2px solid #E5FFFF;
+    }
+
     table.range td.center {
         font-weight: bold;
         font-size: 1.3em;
@@ -78,12 +97,24 @@
         background-color: #D6D2D2;
     }
 
+    .nightMode td.fold {
+        background-color: #485153;
+    }
+
     td.call {
-        background-color: #4BE488;
+        background-color: #4be488;
+    }
+
+    .nightMode td.call {
+        background-color: #009594;
     }
 
     td.raise {
         background-color: #FF6A6A;
+    }
+
+    .nightMode td.raise {
+        background-color: #8F0707;
     }
 
     td.marked {
@@ -94,10 +125,26 @@
                 #00000070 6px);
     }
 
+    .nightMode td.markded {
+        background: repeating-linear-gradient(45deg,
+                black,
+                black 3px,
+                #00000070 3px,
+                #00000070 6px) !important;
+    }
+
     td.marked.fold {
         background: repeating-linear-gradient(45deg,
                 #D6D2D2,
                 #D6D2D2 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    .nightMode td.marked.fold {
+        background: repeating-linear-gradient(45deg,
+                #485153,
+                #485153 3px,
                 #00000070 3px,
                 #00000070 6px);
     }
@@ -110,10 +157,26 @@
                 #00000070 6px);
     }
 
+    .nightMode td.marked.call {
+        background: repeating-linear-gradient(45deg,
+                #009594,
+                #009594 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
     td.marked.raise {
         background: repeating-linear-gradient(45deg,
                 #FF6A6A,
                 #FF6A6A 3px,
+                #00000070 3px,
+                #00000070 6px);
+    }
+
+    .nightMode td.marked.raise {
+        background: repeating-linear-gradient(45deg,
+                #8F0707,
+                #8F0707 3px,
                 #00000070 3px,
                 #00000070 6px);
     }
@@ -130,10 +193,25 @@
                 #00000070 3px,
                 #00000070 6px) !important;
     }
+
+    .nightMode td.blank {
+        background-color: black !important;
+    }
+
+    .nightMode td.marked.blank {
+        background: repeating-linear-gradient(45deg,
+                black,
+                black 3px,
+                #CCCCCCA0 3px,
+                #CCCCCCA0 6px) !important;
+    }
 </style>
 <style>
     td.aaa {
         background-color: #808000;
+    }
+    .nightMode td.aaa {
+        background-color: #404000;
     }
     td.aaa.marked {
         background: repeating-linear-gradient(
@@ -142,43 +220,30 @@
             #00000070 3px, #00000070 6px
         );
     }
-    td.call {
-        background-color: #4BE488;
-    }
-    td.call.marked {
+    .nightMode td.aaa.marked {
         background: repeating-linear-gradient(
             45deg,
-            #4BE488, #4BE488 3px,
-            #00000070 3px, #00000070 6px
-        );
-    }
-    td.fold {
-        background-color: #D6D2D2;
-    }
-    td.fold.marked {
-        background: repeating-linear-gradient(
-            45deg,
-            #D6D2D2, #D6D2D2 3px,
-            #00000070 3px, #00000070 6px
-        );
-    }
-    td.raise {
-        background-color: #FF6A6A;
-    }
-    td.raise.marked {
-        background: repeating-linear-gradient(
-            45deg,
-            #FF6A6A, #FF6A6A 3px,
+            #404000, #404000 3px,
             #00000070 3px, #00000070 6px
         );
     }
     td.zzz {
-        background-color: #000080;
+        background-color: #FF00FF;
+    }
+    .nightMode td.zzz {
+        background-color: #800080;
     }
     td.zzz.marked {
         background: repeating-linear-gradient(
             45deg,
-            #000080, #000080 3px,
+            #FF00FF, #FF00FF 3px,
+            #00000070 3px, #00000070 6px
+        );
+    }
+    .nightMode td.zzz.marked {
+        background: repeating-linear-gradient(
+            45deg,
+            #800080, #800080 3px,
             #00000070 3px, #00000070 6px
         );
     }
