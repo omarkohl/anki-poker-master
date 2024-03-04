@@ -15,6 +15,12 @@ You can read some more about Poker preflop ranges
 
 ## Usage
 
+Install using pip:
+
+```bash
+pip install anki_poker_master
+```
+
 Write a YAML file to define all scenarios (situations) you want to memorize,
 for example "Opening as Button in a 100BB Cash game". AnkiPokerMaster will
 generate Anki decks based solely on this scenario.yml file and you will get
