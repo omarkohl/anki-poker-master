@@ -51,7 +51,7 @@ Some examples for how ranges can be specified:
 
 ### Screenshots
 
-When opening as the small blind, how should you play King Three suited?
+When opening as the small blind, how should you play King Three offsuit?
 
 <img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/k3_q.jpg?raw=true" width="200">
 
