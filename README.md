@@ -42,7 +42,13 @@ Anki cards like the screenshots below.
 See a more complex example here:
 [example_scenarios.yml](https://github.com/omarkohl/anki-poker-master/blob/main/example_scenarios.yml)
 
-Execute `anki-poker-master --help` to see usage information.
+```bash
+anki-poker-master -s scenarios.yml -o Poker.apkg
+```
+
+`Poker.apkg` is a regular Anki package file and can be imported into Anki.
+
+Execute `anki-poker-master --help` to see more usage information.
 
 
 ### Ranges
