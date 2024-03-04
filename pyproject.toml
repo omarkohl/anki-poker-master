@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "anki_poker_master"
-version = "0.2.0.dev0"
+version = "0.2.0"
 description = ""
 authors = ["Omar Kohl <omarkohl@posteo.net>"]
 readme = "README.md"
