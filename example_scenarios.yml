@@ -52,6 +52,11 @@
 #   # You can (but don't have to!) specify the color of the ranges.
 #   range_colors:
 #     "Secret range to bluff against Bob": "#A7FF12"
+#     Raise:
+#       # You can specify two colors, the first to use for light mode and the
+#       # second for dark mode.
+#       - lightblue
+#       - darkblue
 #   notes: "Remember that Bob always folds to 3bets."
 #
 ## ... and so on

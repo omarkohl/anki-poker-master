@@ -257,6 +257,14 @@ def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
     The input is assumed to be non-validated.
     """
 
+    color_schema = schema.And(
+        str,
+        schema.Regex(
+            r"(^#[0-9A-Fa-f]{6}$)|(^[a-zA-Z]+$)",
+            error="'{}' is an invalid color",
+        ),
+    )
+
     initial_schema = schema.Schema(
         schema.And(
             schema.Use(yaml.safe_load),
@@ -273,7 +281,12 @@ def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
                     schema.Optional("source"): schema.Use(
                         lambda x: "" if x is None else str(x)
                     ),
-                    schema.Optional("range_colors"): {str: str},
+                    schema.Optional("range_colors"): {
+                        str: schema.Or(
+                            color_schema,
+                            schema.And([color_schema], lambda x: len(x) == 2),
+                        )
+                    },
                 }
             ],
         )
@@ -309,15 +322,7 @@ def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
                 "ranges": {str: Range},
                 schema.Optional("notes"): str,
                 schema.Optional("source"): str,
-                schema.Optional("range_colors"): {
-                    str: schema.And(
-                        str,
-                        schema.Regex(
-                            r"(^#[0-9A-Fa-f]{6}$)|(^[a-zA-Z]+$)",
-                            error="'{}' is an invalid color",
-                        ),
-                    )
-                },
+                schema.Optional("range_colors"): object,
             }
         ]
     )
@@ -361,7 +366,15 @@ def convert_scenarios(scenarios: Dict) -> List[PreflopScenario]:
         ranges = scenario["ranges"]
         notes = scenario.get("notes", None)
         source = scenario.get("source", None)
-        range_colors = scenario.get("range_colors", None)
+        range_colors = {}
+        for k in scenario.get("range_colors", {}):
+            if isinstance(scenario["range_colors"][k], str):
+                range_colors[k] = (
+                    scenario["range_colors"][k],
+                    scenario["range_colors"][k],
+                )
+            else:
+                range_colors[k] = scenario["range_colors"][k]
         result.append(
             PreflopScenario(
                 game=game,

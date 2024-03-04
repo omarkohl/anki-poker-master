@@ -163,7 +163,7 @@ def test_custom_colors():
     assert len(scenarios) == 1
 
 
-def test_range_color_must_be_str():
+def test_range_color_must_be_list_of_two():
     from anki_poker_master import parse_scenario_yml, ValidationError
 
     yml_file = """
@@ -184,7 +184,7 @@ def test_range_color_must_be_str():
     assert "Key 'My custom range' error" in excinfo.value.humanize_error()
 
 
-def test_range_color_must_be_str2():
+def test_range_color_must_be_list_of_two():
     """
     Basic validation test. range_colors must be a mapping from string to
     string.
@@ -203,6 +203,7 @@ def test_range_color_must_be_str2():
     My custom range:
       - red
       - green
+      - yellow
   notes: This is a test
   source: "https://example.com"
 """.lstrip()
@@ -248,6 +249,28 @@ def test_range_colors_must_be_valid_color(invalid_color):
     Raise: 88+
   range_colors:
     Call: "{invalid_color}"
+""".lstrip()
+    with pytest.raises(ValidationError) as excinfo:
+        parse_scenario_yml(yml_file)
+    assert f"'{invalid_color}' is an invalid color" in excinfo.value.humanize_error()
+
+
+@pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
+def test_colors_in_range_color_list_must_be_valid(invalid_color):
+    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master import parse_scenario_yml, ValidationError
+
+    yml_file = f"""
+- game: NLHE
+  position: UTG
+  scenario: Opening
+  ranges:
+    Call: 98+, A8+, K8+, Q8+, J8+, T8+
+    Raise: 88+
+  range_colors:
+    Call:
+      - green
+      - "{invalid_color}"
 """.lstrip()
     with pytest.raises(ValidationError) as excinfo:
         parse_scenario_yml(yml_file)
