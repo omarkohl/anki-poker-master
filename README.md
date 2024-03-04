@@ -30,7 +30,7 @@ Anki cards like the screenshots below.
 ```
 
 See a more complex example here:
-[example_scenarios.yml](./example_scenarios.yml)
+[example_scenarios.yml](https://github.com/omarkohl/anki-poker-master/blob/main/example_scenarios.yml)
 
 Execute `anki-poker-master --help` to see usage information.
 
@@ -100,6 +100,8 @@ Answer:
 
 ## Develop
 
+Check the repository on GitHub: https://github.com/omarkohl/anki-poker-master
+
 ```bash
 poetry install
 poetry run anki-poker-master
@@ -146,9 +148,14 @@ APM_MANUAL_TESTS=true poetry run pytest tests/test_manual.py -s
 ```
 
 
+## Support
+
+Raise any issues on [GitHub](https://github.com/omarkohl/anki-poker-master/issues/new/choose).
+
+
 ## License
 
-Unless otherwise specified, the code is under the [MIT license](./LICENSE) and
+Unless otherwise specified, the code is under the [MIT license](https://github.com/omarkohl/anki-poker-master/blob/main/LICENSE) and
 the card images are published under
 [LGPL 3.0](https://www.gnu.org/licenses/lgpl-3.0.html.en) (see below for original
 source of the card images).
@@ -159,7 +166,7 @@ source of the card images).
 ### Playing Cards
 
 Slightly modified (see list of changes in
-[playing-cards.svg](./playing-cards.svg)) from original source:
+[playing-cards.svg](https://github.com/omarkohl/anki-poker-master/blob/main/playing-cards.svg)) from original source:
 
 Vector Playing Cards 3.2  
 https://totalnonsense.com/open-source-vector-playing-cards/  
