@@ -99,6 +99,8 @@ _BASIC_MODEL = genanki.Model(
             "name": "QA",
             "qfmt": _BASIC_HEADER + "{{Question}}",
             "afmt": "{{FrontSide}}<hr id='answer'>{{Answer}}<br>" + _BASIC_FOOTER,
+            "bqfmt": "{{Question}}",
+            "bafmt": "{{Answer}}",
         },
     ],
     css=helper.default_css(),
