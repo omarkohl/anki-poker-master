@@ -124,6 +124,8 @@ poetry run anki-poker-master
 # poetry shell
 ```
 
+See [IDEAS.md](IDEAS.md) for ideas what could be improved.
+
 ## Tests
 
 ```bash
