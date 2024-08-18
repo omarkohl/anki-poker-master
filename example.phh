@@ -1,0 +1,55 @@
+variant = "NT"
+antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+blinds_or_straddles = [2, 4, 0, 0, 0, 0, 0, 0, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450, 340, 280, 400, 570, 100, 990]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 ????",
+  "d dh p3 ????",
+  "d dh p4 ????",
+  "d dh p5 ????",
+  "d dh p6 ????",
+  "d dh p7 Th8c",
+  "d dh p8 ????",
+  "d dh p9 ????",
+  "p3 f",
+  "p4 f",
+  "p5 f",
+  "p6 f # APM", # 13
+  "p7 cbr 12",
+  "p8 cc",
+  "p9 f",
+  "p1 cc",
+  "p2 cc",
+  # Flop
+  "d db Jc7c7d",
+  "p1 cc",
+  "p2 cc # APM", # 21
+  "p7 cbr 16",
+  "p8 f",
+  "p1 cc",
+  "p2 cc",
+  # Turn
+  "d db Tc",
+  "p1 cc",
+  "p2 cc # APM", # 28
+  "p7 cc",
+  # River
+  "d db 5c",
+  "p1 cc",
+  "p2 cc # APM", # 32
+  "p7 cc",
+]
+author = "Omar"
+event = "Harrington"
+year = 2008
+players = ["SB", "BB", "A", "B", "C", "D", "E", "F", "G"]
+currency = "USD"
+_apm_answers = [
+  "You should raise.",
+  "TODO",
+  "TODO",
+  "TODO",
+]
