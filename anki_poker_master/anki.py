@@ -2,7 +2,7 @@ import random
 import genanki
 from importlib_resources import files
 import poker
-from anki_poker_master import PreflopScenario
+from anki_poker_master.preflop_scenario import PreflopScenario
 from anki_poker_master import helper
 from typing import List, Set, Tuple
 

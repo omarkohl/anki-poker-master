@@ -4,7 +4,7 @@ import schema
 
 
 def test_basics():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -31,7 +31,8 @@ def test_basics():
 
 
 def test_game_required():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - position: UTG
@@ -46,7 +47,8 @@ def test_game_required():
 
 
 def test_position_required():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -61,7 +63,8 @@ def test_position_required():
 
 
 def test_scenario_required():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -76,7 +79,8 @@ def test_scenario_required():
 
 
 def test_ranges_required1():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -89,7 +93,8 @@ def test_ranges_required1():
 
 
 def test_ranges_required2():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -103,7 +108,8 @@ def test_ranges_required2():
 
 
 def test_ranges_required3():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -129,7 +135,8 @@ def test_ranges_required3():
     ],
 )
 def test_ranges(range, hands):
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -143,7 +150,7 @@ def test_ranges(range, hands):
 
 
 def test_custom_colors():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -164,7 +171,8 @@ def test_custom_colors():
 
 
 def test_range_color_must_be_list_of_two():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -189,7 +197,8 @@ def test_range_color_must_be_list_of_two():
     Basic validation test. range_colors must be a mapping from string to
     string.
     """
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -216,7 +225,8 @@ def test_range_colors_must_use_valid_ranges():
     """
     'My custom range' is not a valid range name here.
     """
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -238,7 +248,8 @@ def test_range_colors_must_use_valid_ranges():
 
 @pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
 def test_range_colors_must_be_valid_color(invalid_color):
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -257,8 +268,10 @@ def test_range_colors_must_be_valid_color(invalid_color):
 
 @pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
 def test_colors_in_range_color_list_must_be_valid(invalid_color):
-    from anki_poker_master import parse_scenario_yml, ValidationError
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -279,7 +292,8 @@ def test_colors_in_range_color_list_must_be_valid(invalid_color):
 
 @pytest.mark.parametrize("invalid_range", ["", "GG", "AAA", "-12"])
 def test_invalid_ranges(invalid_range):
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -299,7 +313,7 @@ def test_invalid_ranges(invalid_range):
 
 @pytest.mark.parametrize("valid_range", ["22+", "88+; AK", "A4s-ATs", "AK, AQ, AJ"])
 def test_valid_ranges(valid_range):
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -314,7 +328,8 @@ def test_valid_ranges(valid_range):
 
 
 def test_ranges_cant_overlap():
-    from anki_poker_master import parse_scenario_yml, ValidationError
+    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -342,7 +357,7 @@ def test_ranges_cant_overlap():
     ],
 )
 def test_valid_source(valid_source):
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -358,7 +373,7 @@ def test_valid_source(valid_source):
 
 
 def test_valid_multiline_source():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - game: NLHE
@@ -387,7 +402,7 @@ def test_valid_multiline_source():
     ],
 )
 def test_valid_notes(valid_notes):
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -403,7 +418,7 @@ def test_valid_notes(valid_notes):
 
 
 def test_default_source():
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - DEFAULT: true
@@ -425,7 +440,7 @@ def test_default_several():
     """
     Verify that several values can be set as default.
     """
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - DEFAULT: true
@@ -457,7 +472,7 @@ def test_default_overwrite():
     """
     Verify that a default value can be overwritten.
     """
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - DEFAULT: true
@@ -493,7 +508,7 @@ def test_default_ranges():
     If necessary, this could be implemented but it's not for simplicity right
     now.
     """
-    from anki_poker_master import parse_scenario_yml
+    from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
 - DEFAULT: true

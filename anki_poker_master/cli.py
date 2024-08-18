@@ -4,7 +4,7 @@ import traceback
 import argparse
 from importlib.metadata import version, PackageNotFoundError
 
-from anki_poker_master import parse_scenario_yml, ValidationError
+from anki_poker_master.preflop_scenario import parse_scenario_yml, ValidationError
 from anki_poker_master.anki import create_decks, write_deck_to_file
 
 
