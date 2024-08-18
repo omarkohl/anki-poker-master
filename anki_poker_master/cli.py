@@ -2,7 +2,6 @@ import os
 import sys
 import traceback
 import argparse
-import yaml
 from importlib.metadata import version, PackageNotFoundError
 
 from anki_poker_master import parse_scenario_yml, ValidationError
