@@ -124,7 +124,7 @@ poetry run anki-poker-master
 # poetry shell
 ```
 
-See the [doc/](doc/) directory for some additional documentation.
+See the [docs/](docs/) directory for some additional documentation.
 
 
 ## Tests
