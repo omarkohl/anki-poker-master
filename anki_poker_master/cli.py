@@ -76,21 +76,10 @@ def main_with_args(args):
         )
         sys.exit(1)
 
-    try:
-        with open(args.scenarios, "r") as f:
-            scenarios = parse_scenario_yml(f.read())
-    except ValidationError as e:
-        print(e.humanize_error())
-        if args.verbose:
-            print()
-            traceback.print_exc()
-        sys.exit(1)
-
     if args.tags is None:
         tags = ["poker"]
     else:
         tags = args.tags.copy()
-
     if args.output.endswith(".apkg"):
         pkg_path = args.output
     else:
@@ -99,6 +88,19 @@ def main_with_args(args):
         print(f"The file {pkg_path} already exists.")
         sys.exit(1)
 
+    _create_preflop_scenario_deck(args.scenarios, tags, args.verbose, pkg_path)
+
+
+def _create_preflop_scenario_deck(scenarios, tags, verbose, pkg_path):
+    try:
+        with open(scenarios, "r") as f:
+            scenarios = parse_scenario_yml(f.read())
+    except ValidationError as e:
+        print(e.humanize_error())
+        if verbose:
+            print()
+            traceback.print_exc()
+        sys.exit(1)
     decks, media_files = create_decks(
         scenarios,
         tags,
