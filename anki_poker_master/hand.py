@@ -1,10 +1,18 @@
 from pathlib import Path
 from pokerkit import HandHistory
 from pokerkit import HoleDealing, BoardDealing, CheckingOrCalling, CompletionBettingOrRaisingTo, Folding
+from tomllib import loads
 
 def parse_phh(path: Path) -> None:
     with open(path, "rb") as file:
         hh = HandHistory.load(file)
+
+    with open(path, "rt") as file:
+        raw_file = loads(file.read())
+
+    answers = []
+    if "_apm_answers" in raw_file:
+        answers = raw_file["_apm_answers"]
 
     game = hh.create_game()
     state = hh.create_state()
@@ -14,21 +22,17 @@ def parse_phh(path: Path) -> None:
     print("---------")
     print()
 
-    # starting with 1 in both cases
-    QUESTION_INDEX = 28  # after which line do you want to ask a question?
+    # starting with 1
     HERO = 7
+
+    question_counter = 0
 
     operation_index = 0
     hero_cards = ['', '']
     my_status = "SETUP"
     hole_dealing_counter = 0
-    action_counter = 0
-    for state, action in hh.iter_state_actions():  # I'm assuming number of states always matches number of actions
-        if action:
-            action_counter += 1
-            if action_counter > QUESTION_INDEX:
-                print("What do you do?")
-                break
+    # TODO modify again to only iterate over states since I don't need the actions
+    for state, _ in hh.iter_state_actions():  # I'm assuming number of states always matches number of actions
         while operation_index < len(state.operations):
             operation = state.operations[operation_index]
             operation_index += 1
@@ -78,6 +82,12 @@ def parse_phh(path: Path) -> None:
                 else:
                     print(operation.__class__.__name__)
                     print()
+                if operation.commentary == "APM":
+                    print("What do you do?")
+                    if len(answers) > question_counter:
+                        print("Answer:", answers[question_counter])
+                    question_counter += 1
+                    print()
             if my_status == "START_FLOP":
                 print("Starting the flop with cards:", operation.cards)
                 print("And pots:", list(state.pot_amounts))
@@ -108,6 +118,12 @@ def parse_phh(path: Path) -> None:
                     print()
                 else:
                     print(operation.__class__.__name__)
+                    print()
+                if operation.commentary == "APM":
+                    print("What do you do?")
+                    if len(answers) > question_counter:
+                        print("Answer:", answers[question_counter])
+                    question_counter += 1
                     print()
             if my_status == "START_TURN":
                 print("Starting the turn with cards:", operation.cards)
@@ -140,6 +156,12 @@ def parse_phh(path: Path) -> None:
                 else:
                     print(operation.__class__.__name__)
                     print()
+                if operation.commentary == "APM":
+                    print("What do you do?")
+                    if len(answers) > question_counter:
+                        print("Answer:", answers[question_counter])
+                    question_counter += 1
+                    print()
             if my_status == "START_RIVER":
                 print("Starting the river with cards:", operation.cards)
                 print("And pots:", list(state.pot_amounts))
@@ -168,4 +190,10 @@ def parse_phh(path: Path) -> None:
                     print()
                 else:
                     print(operation.__class__.__name__)
+                    print()
+                if operation.commentary == "APM":
+                    print("What do you do?")
+                    if len(answers) > question_counter:
+                        print("Answer:", answers[question_counter])
+                    question_counter += 1
                     print()

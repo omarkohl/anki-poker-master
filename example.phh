@@ -17,7 +17,7 @@ actions = [
   "p3 f",
   "p4 f",
   "p5 f",
-  "p6 f # APM", # 13
+  "p6 f # APM",
   "p7 cbr 12",
   "p8 cc",
   "p9 f",
@@ -26,7 +26,7 @@ actions = [
   # Flop
   "d db Jc7c7d",
   "p1 cc",
-  "p2 cc # APM", # 21
+  "p2 cc # APM",
   "p7 cbr 16",
   "p8 f",
   "p1 cc",
@@ -34,12 +34,12 @@ actions = [
   # Turn
   "d db Tc",
   "p1 cc",
-  "p2 cc # APM", # 28
+  "p2 cc # APM",
   "p7 cc",
   # River
   "d db 5c",
   "p1 cc",
-  "p2 cc # APM", # 32
+  "p2 cc # APM",
   "p7 cc",
 ]
 author = "Omar"
