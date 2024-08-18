@@ -60,7 +60,7 @@ def main_with_args(args):
 
     if args.example:
         if not args.scenarios:
-            print("You need to specify --scenarios/-s to write an exampl file.")
+            print("You need to specify --scenarios/-s to write an example file.")
             return
         if os.path.exists(args.scenarios):
             print(f"The file {args.scenarios} already exists.")
