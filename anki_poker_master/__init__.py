@@ -1,6 +1,5 @@
 import re
 import random
-import copy
 from typing import Dict, List
 from poker.hand import Range, Hand, Rank
 import schema
