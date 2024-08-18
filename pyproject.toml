@@ -10,11 +10,12 @@ homepage = "https://github.com/omarkohl/anki-poker-master"
 "Bug Tracker" = "https://github.com/omarkohl/anki-poker-master/issues"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.11"
 poker = "^0.30.0"
 genanki = "^0.13.1"
 schema = "^0.7.5"
 importlib-resources = "^6.1.2"
+pokerkit = "^0.5.2"
 
 
 [tool.poetry.group.dev.dependencies]
