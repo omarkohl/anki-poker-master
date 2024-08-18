@@ -124,7 +124,8 @@ poetry run anki-poker-master
 # poetry shell
 ```
 
-See [IDEAS.md](IDEAS.md) for ideas what could be improved.
+See the [doc/](doc/) directory for some additional documentation.
+
 
 ## Tests
 
