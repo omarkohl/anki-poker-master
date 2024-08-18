@@ -28,7 +28,8 @@ def test_version(capsys):
 
 
 def test_example_scenarios(capsys, tmp_path):
-    from anki_poker_master.cli import main_with_args, EXAMPLE_SCENARIO_FILE
+    from anki_poker_master.cli import main_with_args
+    from anki_poker_master.preflop_scenario import EXAMPLE_SCENARIO_FILE
 
     scenarios_file = tmp_path / "scenarios.yml"
     main_with_args(["-s", str(scenarios_file), "-e"])
@@ -40,7 +41,8 @@ def test_example_scenarios(capsys, tmp_path):
 
 
 def test_example_scenarios_only_if_doesnt_exist(capsys, tmp_path):
-    from anki_poker_master.cli import main_with_args, EXAMPLE_SCENARIO_FILE
+    from anki_poker_master.cli import main_with_args
+    from anki_poker_master.preflop_scenario import EXAMPLE_SCENARIO_FILE
 
     scenarios_file = tmp_path / "scenarios.yml"
     scenarios_file.write_text("existing file")

@@ -397,3 +397,69 @@ class ValidationError(ValueError):
         if self.__cause__ and type(self.__cause__) == schema.SchemaError:
             err_msg += ": " + self.__cause__.code
         return err_msg
+
+
+EXAMPLE_SCENARIO_FILE = """
+## The scenario file is a list of scenarios. Each scenario is a dictionary
+## with the following keys: game, position, scenario, ranges, range_colors,
+## notes and source.
+## ranges is a dictionary of ranges you want to differentiate. Most common
+## is to have Raise, Call and Fold. You can also have custom range names.
+## All hands that are not specified will default to 'Fold'.
+
+- game: "Cash 100BB 6P"
+  position: "LJ"
+  scenario: "Opening"
+  ranges:
+    Raise: "A2s+, K5s+, Q9s+, JTs, T9s, ATo+, KJo+, QJo+, 77+"
+  source: pokertrainer.se
+
+- game: "Cash 100BB 6P"
+  position: "HJ"
+  scenario: "Opening"
+  ranges:
+    Raise: "A2s+, K5s+, Q8s+, J9s+, T9s, A9o+, KTo+, QTo+, 66+"
+  source: pokertrainer.se
+
+# - game: "Cash 100BB 6P"
+#   position: "CO"
+#   scenario: "raise from LJ"
+#   ranges:
+#     Raise: "A9s+, KTs+, QJs, A5s, A4s, AQo+, KQo, TT+"
+#   notes: "This is a note for the scenario. You can write anything here."
+## You can specify the source of you Poker ranges. The default is empty.
+## This can be useful if after a few months you want to check the source
+## again or if you encounter contradictory information somewhere. Use HTML
+## to format the source.
+#source: >
+#  Chapter 16<br>
+#  Big Important Poker Book<br>
+#  John Smith<br>
+#
+## You can specify one default scenario that sets the default values for all
+## fields that are not specified in the other scenarios.
+# - DEFAULT: true
+#   source: "https://example.com/"
+#   game: "Cash 100BB 6P"
+#
+## As you can see in the following example, you are very flexible in how you
+## can define the information you care about.
+# - game: "Las Vegas Tournament 22"
+#   position: "Under the gun"
+#   scenario: "Facing a 3bet"
+#   ranges:
+#     Raise: "A2s+"
+#     Call: "77+"
+#     "Secret range to bluff against Bob": "66-"
+#   # You can (but don't have to!) specify the color of the ranges.
+#   range_colors:
+#     "Secret range to bluff against Bob": "#A7FF12"
+#     Raise:
+#       # You can specify two colors, the first to use for light mode and the
+#       # second for dark mode.
+#       - lightblue
+#       - darkblue
+#   notes: "Remember that Bob always folds to 3bets."
+#
+## ... and so on
+""".lstrip()
