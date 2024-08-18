@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * Example HTML for CSS Playing Cards
+ *
+ * @author   Anika Henke <anika@selfthinker.org>
+ * @license  CC BY-SA [http://creativecommons.org/licenses/by-sa/3.0]
+ * @version  2011-06-14
+ * @link     http://selfthinker.github.com/CSS-Playing-Cards/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>CSS Playing Cards</title>
+    <!-- inline CSS to simulate nightMode -->
+    <style type="text/css">
+        .nightMode { background-color: #000; color: #fff; }
+    </style>
+    <link rel="stylesheet" type="text/css" href="cards.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="custom.css" media="screen" />
+</head>
+<!-- Set class 'mobile' to test. This is the order it is nested in Anki. -->
+<body class="mobile">
+<!-- Set class 'nightMode' to test -->
+<div class="nightMode">
+
+<div class="playingCards inText fourColours">
+	<h1>NL 2/4</h1>
+	<p>Online game. Fairly tight. The blinds have only played a few hands each.</p>
+    <!-- hand Ad Ac -->
+    <ul class="hand">
+        <li>
+            <div class="card rank-a diams">
+                <span class="rank">A</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-a clubs">
+                <span class="rank">A</span>
+                <span class="suit">&clubs;</span>
+            </div>
+        </li>
+    </ul>
+    
+	<h2>Preflop</h2>
+	<table class="players">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Stack</th>
+            </tr>
+        </thead>
+		<tbody>
+			<tr>
+				<td>A</td>
+				<td>160</td>
+			</tr>
+            <tr>
+                <td>B</td>
+                <td>170</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>120</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>240</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td>200</td>
+            </tr>
+            <tr class="hero">
+                <td>F</td>
+                <td>260</td>
+            </tr>
+            <tr>
+                <td>G <span class="dealerbtn">D</span></td>
+                <td>450</td>
+            </tr>
+            <tr>
+                <td>SB</td>
+                <td>420</td>
+            </tr>
+            <tr>
+                <td>BB</td>
+                <td>400</td>
+            </tr>
+        </tbody>
+	</table>
+
+	<h3>Actions</h3>
+	<ul>
+		<li>A folds</li>
+        <li>B calls 4</li>
+        <li>C - E fold</li>
+        <li>F raises to 20</li>
+        <li>G and SB fold</li>
+        <li>BB calls 16</li>
+	</ul>
+
+	<h2>Flop</h2>
+    <p>Pot: 62</p>
+    <ul class="table">
+        <!-- Ah 9d 3s -->
+        <li>
+            <div class="card rank-a hearts">
+                <span class="rank">A</span>
+                <span class="suit">&hearts;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-9 diams">
+                <span class="rank">9</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-3 spades">
+                <span class="rank">3</span>
+                <span class="suit">&spades;</span>
+            </div>
+        </li>
+    </ul>
+	<table class="players">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Stack</th>
+            </tr>
+        </thead>
+		<tbody>
+			<tr class="not-playing">
+                <td>SB</td>
+                <td>418</td>
+            </tr>
+            <tr>
+                <td>BB</td>
+                <td>380</td>
+            </tr>
+            <tr class="not-playing">
+                <td>A</td>
+                <td>160</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>150</td>
+            </tr>
+            <tr class="not-playing">
+                <td>C</td>
+                <td>120</td>
+            </tr>
+            <tr class="not-playing">
+                <td>D</td>
+                <td>240</td>
+            </tr>
+            <tr class="not-playing">
+                <td>E</td>
+                <td>200</td>
+            </tr>
+            <tr class="hero">
+                <td>F</td>
+                <td>240</td>
+            </tr>
+            <tr class="not-playing">
+                <td>G <span class="dealerbtn">D</span></td>
+                <td>450</td>
+            </tr>
+        </tbody>
+	</table>
+
+    <h3>Actions</h3>
+    <ul>
+        <li>All players check</li>
+    </ul>
+
+    <h2>Turn</h2>
+    <p>Pot: 62</p>
+    <ul class="table">
+        <!-- Ah 9d 3s Kd -->
+        <li>
+            <div class="card rank-a hearts">
+                <span class="rank">A</span>
+                <span class="suit">&hearts;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-9 diams">
+                <span class="rank">9</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-3 spades">
+                <span class="rank">3</span>
+                <span class="suit">&spades;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-k diams">
+                <span class="rank">K</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+    </ul>
+
+    <table class="players">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Stack</th>
+            </tr>
+        </thead>
+		<tbody>
+			<tr class="not-playing">
+                <td>SB</td>
+                <td>418</td>
+            </tr>
+            <tr>
+                <td>BB</td>
+                <td>380</td>
+            </tr>
+            <tr class="not-playing">
+                <td>A</td>
+                <td>160</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>150</td>
+            </tr>
+            <tr class="not-playing">
+                <td>C</td>
+                <td>120</td>
+            </tr>
+            <tr class="not-playing">
+                <td>D</td>
+                <td>240</td>
+            </tr>
+            <tr class="not-playing">
+                <td>E</td>
+                <td>200</td>
+            </tr>
+            <tr class="hero">
+                <td>F</td>
+                <td>240</td>
+            </tr>
+            <tr class="not-playing">
+                <td>G <span class="dealerbtn">D</span></td>
+                <td>450</td>
+            </tr>
+        </tbody>
+	</table>
+
+    <h3>Actions</h3>
+    <ul>
+        <li>BB and B check</li>
+        <li>F bets 28</li>
+        <li>BB folds</li>
+        <li>B calls 28</li>
+    </ul>
+
+    <h2>River</h2>
+    <p>Pot: 118</p>
+    <ul class="table">
+        <!-- Ah 9d 3s Kd 3d -->
+        <li>
+            <div class="card rank-a hearts">
+                <span class="rank">A</span>
+                <span class="suit">&hearts;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-9 diams">
+                <span class="rank">9</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-3 spades">
+                <span class="rank">3</span>
+                <span class="suit">&spades;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-k diams">
+                <span class="rank">K</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+        <li>
+            <div class="card rank-3 diams">
+                <span class="rank">3</span>
+                <span class="suit">&diams;</span>
+            </div>
+        </li>
+    </ul>
+
+    <table class="players">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Stack</th>
+            </tr>
+        </thead>
+		<tbody>
+			<tr class="not-playing">
+                <td>SB</td>
+                <td>418</td>
+            </tr>
+            <tr class="not-playing">
+                <td>BB</td>
+                <td>380</td>
+            </tr>
+            <tr class="not-playing">
+                <td>A</td>
+                <td>160</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>122</td>
+            </tr>
+            <tr class="not-playing">
+                <td>C</td>
+                <td>120</td>
+            </tr>
+            <tr class="not-playing">
+                <td>D</td>
+                <td>240</td>
+            </tr>
+            <tr class="not-playing">
+                <td>E</td>
+                <td>200</td>
+            </tr>
+            <tr class="hero">
+                <td>F</td>
+                <td>212</td>
+            </tr>
+            <tr class="not-playing">
+                <td>G <span class="dealerbtn">D</span></td>
+                <td>450</td>
+            </tr>
+        </tbody>
+	</table>
+
+    <h3>Actions</h3>
+    <ul>
+        <li>B checks</li>
+    </ul>
+
+    <strong>What do you do?</strong>
+</div>
+
+<h1>Answer</h1>
+<p>
+    Bet 30-40.<br>
+    He has to be worried about the A on the board and you having hit a flush so he won't call much.<br>
+    There was no reason to suspect he had the flush draw and his final check indicates he doesn't have the flush.
+</p>
+
+<p>
+    <strong>Notes:</strong><br>
+    Hand 7-8, page 138
+</p>
+
+<p>
+    <strong>Source:</strong><br>
+    Part Seven: Tight-Aggressive River Play<br>
+    Harrington on Cash Games<br>
+    March 2008<br>
+    Dan Harrington and Bill Robertie
+</p>
+
+
+</div>
+</body>
+</html>

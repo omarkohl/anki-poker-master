@@ -2,7 +2,8 @@
 
 Ideas for things that could be improved about this project.
 
-## Study hands
+
+## Study hand history
 
 Allow studying a specific spot. For example NL $1/$2 6-max cash game. All players
 are tight. All players have 100BB. You are in the SB with 6s6h. LJ raises to $6,
@@ -64,3 +65,5 @@ skip it in the beginning in the spirit of KISS.
 
 It's probably desirable to keep the PHH parsing code decoupled from the rest in
 order to support other formats in the future.
+
+See some HTML mockups under [experiment_hand_history](experiment_hand_history).

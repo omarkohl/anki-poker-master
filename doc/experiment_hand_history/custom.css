@@ -1,0 +1,156 @@
+table.players {
+    margin-top: 10px;
+    width: 100%;
+}
+
+table.players td {
+    padding: 5px;
+}
+
+table.players thead tr th {
+    background: white;
+    color: black;
+    text-align: left;
+}
+
+.nightMode table.players thead tr th {
+    background: #333;
+    color: white;
+}
+
+table.players thead tr:hover {
+    background: white;
+}
+
+table.players tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.nightMode table.players tr:nth-child(odd) {
+    background: #444;
+}
+
+table.players tr:nth-child(even) {
+    background: #f0f0f0;
+}
+
+.nightMode table.players tr:nth-child(even) {
+    background: #333;
+}
+
+table.players tr:hover {
+    background: #e0e0e0;
+}
+
+.nightMode table.players tr:hover {
+    background: #555;
+}
+
+table.players tr.hero {
+    background: #fcecc1;
+}
+
+.nightMode table.players tr.hero {
+    background: #8a6b2b;
+}
+
+table.players tr.hero:hover {
+    background: #f7e087;
+}
+
+.nightMode table.players tr.hero:hover {
+    background: #c49f54;
+}
+
+table.players .dealerbtn {
+    background: green;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 5px;
+    font-size: 12px;
+    color: white;
+    /* align the text vertically */
+    line-height: 20px;
+    /* add a shadown */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+table.players tr.not-playing {
+    font-size: 7px;
+    color: gray;
+}
+
+.nightMode table.players tr.not-playing {
+    color: #c2c0c0;
+}
+
+table.players tr.not-playing .dealerbtn {
+    font-size: 7px;
+    line-height: 10px;
+    width: 10px;
+    height: 10px;
+}
+
+.playingCards ul.hand {
+    height: 2.6em;
+    margin-bottom: 0;
+}
+
+.nightMode .playingCards .card {
+    -moz-box-shadow: .2em .2em .5em #999;
+    -webkit-box-shadow: .2em .2em .5em #999;
+    box-shadow: .2em .2em .5em #999;
+}
+
+/* Android is displaying the suits as emojis, which are too big */
+.mobile .playingCards.inText .card .rank {
+    font-size: 2.5em;
+}
+.mobile .playingCards.inText .card .suit {
+    font-size: 1.5em;
+    line-height: 1.2;
+}
+
+/* Avoid confusing the card with clubs when using the fourColours deck */
+.mobile .playingCards .card.back {
+    background-color: #ccc !important;
+    background-image: none !important;
+}
+.mobile .nightMode .playingCards .card.back {
+    background-color: #222 !important;
+}
+
+.mobile .playingCards.fourColours.inText .card.clubs {
+    background-color: #007700 !important;
+    color: white !important;
+}
+
+.mobile .playingCards.fourColours.inText .card.hearts {
+    background-color: #970000 !important;
+    color: white !important;
+}
+
+.mobile .playingCards.fourColours.inText .card.diams {
+    background-color: #0000a1 !important;
+    color: white !important;
+}
+
+.mobile .playingCards.fourColours.inText .card.spades {
+    background-color: #000 !important;
+    color: white !important;
+}
+
+.mobile .nightMode .playingCards.fourColours.inText .card.clubs {
+    background-color: #005f00 !important;
+}
+
+.mobile .nightMode .playingCards.fourColours.inText .card.hearts {
+    background-color: #7e0000 !important;
+}
+
+.mobile .nightMode .playingCards.fourColours.inText .card.diams {
+    background-color: #00008a !important;
+}
