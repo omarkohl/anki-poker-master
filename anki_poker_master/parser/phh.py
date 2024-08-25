@@ -55,8 +55,10 @@ def parse_phh(content: str) -> Hand:
     for cards in state.hole_cards:
         hole_cards_are_known.append(all(not c.unknown_status for c in cards))
     if '_apm_hero' in custom_fields:
-        if hole_cards_are_known[custom_fields['_apm_hero']-1]:
-            my_hand.players[custom_fields['_apm_hero']-1].is_hero = True
+        if hole_cards_are_known[custom_fields['_apm_hero'] - 1]:
+            my_hand.players[custom_fields['_apm_hero'] - 1].is_hero = True
+            for i, card in enumerate(state.hole_cards[custom_fields['_apm_hero'] - 1]):
+                my_hand.hero_cards[i] = repr(card)
         else:
             raise ValidationError("The hole cards of the hero must be known.")
     elif hole_cards_are_known.count(True) == 0:
@@ -65,6 +67,8 @@ def parse_phh(content: str) -> Hand:
         raise ValidationError("The hole cards of only one player must be known.")
     else:
         my_hand.players[hole_cards_are_known.index(True)].is_hero = True
+        for i, card in enumerate(state.hole_cards[hole_cards_are_known.index(True)]):
+            my_hand.hero_cards[i] = repr(card)
 
     return my_hand
 

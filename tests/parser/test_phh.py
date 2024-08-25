@@ -26,6 +26,7 @@ actions = [
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
+    assert hand.hero_cards == ['Th', '8c']
 
 
 def test_phh_parser_hero_hole_cards_must_be_known():
@@ -108,6 +109,7 @@ _apm_hero = {apm_hero}
     with pytest.raises(ValidationError) as excinfo:
         parse_phh(content)
     assert "must be a number" in excinfo.value.humanize_error()
+
 
 def test_phh_parser_emtpy_file():
     from anki_poker_master.parser.phh import parse_phh
