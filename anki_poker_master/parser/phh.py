@@ -23,7 +23,6 @@ def parse_phh(content: str) -> Hand:
     state = hh.create_state()
 
     custom_fields = _get_and_validate_custom_fields(content, state.player_count)
-    # TODO validate these with a schema e.g. type and length
 
     my_hand = Hand()
     for i in range(state.player_count):
@@ -78,6 +77,7 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
             ),
             schema.Optional("_apm_source"): str,
             schema.Optional("_apm_notes"): str,
+            schema.Optional("_apm_answers"): [str],
         }
     )
 

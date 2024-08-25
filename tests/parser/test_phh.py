@@ -182,6 +182,54 @@ _apm_notes = {apm_notes}
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
+@pytest.mark.parametrize(
+    'apm_answers',
+    ['true', '10']
+)
+def test_phh_parse_invalid_apm_answers_1(apm_answers):
+    from anki_poker_master.parser.phh import parse_phh
+    content = f"""variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th7s",
+  "d dh p3 AsAc",
+]
+_apm_answers = {apm_answers}
+"""
+    with pytest.raises(ValidationError) as excinfo:
+        parse_phh(content)
+    assert "should be instance of 'list'" in excinfo.value.humanize_error()
+
+
+@pytest.mark.parametrize(
+    'apm_answers',
+    ['[2]', '[true, 3]']
+)
+def test_phh_parse_invalid_apm_answers_2(apm_answers):
+    from anki_poker_master.parser.phh import parse_phh
+    content = f"""variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th7s",
+  "d dh p3 AsAc",
+]
+_apm_answers = {apm_answers}
+"""
+    with pytest.raises(ValidationError) as excinfo:
+        parse_phh(content)
+    assert "should be instance of 'str'" in excinfo.value.humanize_error()
+
+
 def test_phh_parser_emtpy_file():
     from anki_poker_master.parser.phh import parse_phh
     with pytest.raises(ValidationError) as excinfo:
