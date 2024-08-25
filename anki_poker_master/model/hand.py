@@ -47,6 +47,14 @@ class Player:
     def __repr__(self):
         return f'Player("{self.name}", is_dealer={self.is_dealer}, is_hero={self.is_hero})'
 
+    def __eq__(self, other):
+        return (
+            isinstance(self, other.__class__) and
+            self.name == other.name and
+            self.is_dealer == other.is_dealer and
+            self.is_hero == other.is_hero
+        )
+
 
 class Hand:
     # last one is the dealer

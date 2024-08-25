@@ -3,7 +3,6 @@ from typing import Any
 import pytest
 
 from anki_poker_master.model import ValidationError
-from anki_poker_master.model.hand import Street
 
 
 def test_phh_parser_basic():
@@ -49,6 +48,35 @@ The SB is very tight.
         [[], [], []]
     )
     assert hand.streets[0] == expected_preflop
+
+
+def test_phh_parser_player_names():
+    """
+    If players are specified, their names are used.
+    """
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model.hand import Player
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+]
+
+players = ["Tom", "Naima", "Carlos"]
+"""
+    hand = parse(content)
+    assert hand.players == [
+        Player("Tom", False, False),
+        Player("Naima", False, True),
+        Player("Carlos", True, False),
+    ]
 
 
 def test_phh_parser_hero_hole_cards_must_be_known():
