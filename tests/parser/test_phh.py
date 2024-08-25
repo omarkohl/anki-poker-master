@@ -27,6 +27,7 @@ actions = [
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
     assert hand.hero_cards == ['Th', '8c']
+    assert len(hand.streets) == 1
 
 
 def test_phh_parser_hero_hole_cards_must_be_known():
@@ -292,3 +293,31 @@ def test_phh_parser_invalid_poker_variant(variant):
     with pytest.raises(ValidationError) as excinfo:
         parse_phh(content)
     assert f"the variant '{variant}' is not supported" in excinfo.value.humanize_error()
+
+
+def test_phh_parser_with_preflop():
+    from anki_poker_master.parser.phh import parse_phh
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+  "p3 cbr 12",
+  "p1 f",
+  "p2 cc",
+]
+"""
+    hand = parse_phh(content)
+    assert hand is not None
+    assert len(hand.players) == 3
+    assert hand.players[1].name == "p2"
+    assert [p.is_dealer for p in hand.players] == [False, False, True]
+    assert [p.is_hero for p in hand.players] == [False, True, False]
+    assert hand.hero_cards == ['Th', '8c']
+    assert len(hand.streets) == 1

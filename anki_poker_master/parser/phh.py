@@ -1,3 +1,4 @@
+import enum
 import tomllib
 from typing import Dict, Any, List, Optional
 
@@ -5,8 +6,13 @@ import schema
 from pokerkit import HandHistory, HoleDealing, Card
 
 from anki_poker_master.model import ValidationError
-from anki_poker_master.model.hand import Hand, Player
+from anki_poker_master.model.hand import Hand, Player, Street
 
+
+class _GameState(enum.Enum):
+    SETUP = enum.auto()
+    END_SETUP = enum.auto()
+    PREFLOP = enum.auto()
 
 def parse_phh(content: str) -> Hand:
     if not content:
@@ -24,28 +30,51 @@ def parse_phh(content: str) -> Hand:
         # TODO Validate whether other variants work with little additional effort, but for now focus on NLHE
         raise ValidationError(f"the variant '{hh.variant}' is not supported")
 
-    state = hh.create_state()
+    pk_state = hh.create_state()
 
-    custom_fields = _get_and_validate_custom_fields(content, state.player_count)
+    custom_fields = _get_and_validate_custom_fields(content, pk_state.player_count)
 
     my_hand = Hand()
-    for i in range(state.player_count):
+    for i in range(pk_state.player_count):
         name = f'p{i + 1}'
         if hh.players:
             name = hh.players[i]
-        is_dealer = (i == state.player_count - 1)
+        is_dealer = (i == pk_state.player_count - 1)
         my_hand.players.append(Player(name, is_dealer, False))
 
+    state = _GameState.SETUP
+    dealing_counter = 0
     operation_index = 0
-    for state in hh:
-        while operation_index < len(state.operations):
-            operation = state.operations[operation_index]
+    for pk_state in hh:
+        while operation_index < len(pk_state.operations):
+            operation = pk_state.operations[operation_index]
             operation_index += 1
-            if isinstance(operation, HoleDealing):
-                True
-
-    hero_index, my_hand.hero_cards = _get_hero(state.hole_cards, custom_fields.get("_apm_hero", None))
-    my_hand.players[hero_index].is_hero = True
+            if state is _GameState.SETUP:
+                if isinstance(operation, HoleDealing):
+                    dealing_counter += 1
+                    if dealing_counter == pk_state.player_count:
+                        state = _GameState.END_SETUP
+            if state is _GameState.END_SETUP:
+                hero_index, my_hand.hero_cards = _get_hero(pk_state.hole_cards, custom_fields.get("_apm_hero", None))
+                my_hand.players[hero_index].is_hero = True
+                blinds = sum(pk_state.blinds_or_straddles)
+                pot_amounts = list(pk_state.pot_amounts)
+                if not pot_amounts:
+                    pot_amounts = [0]
+                pot_amounts[0] += blinds
+                my_hand.streets.append(
+                    Street(
+                        "Preflop",
+                        [],
+                        pot_amounts,
+                        [True for _ in range(pk_state.player_count)],
+                        pk_state.stacks.copy(),
+                        2,
+                        [[] for _ in range(pk_state.player_count)],
+                    )
+                )
+                state = _GameState.PREFLOP
+                continue
 
     return my_hand
 
