@@ -14,6 +14,7 @@ class _GameState(enum.Enum):
     SETUP = enum.auto()
     END_SETUP = enum.auto()
     PREFLOP = enum.auto()
+    END_PREFLOP = enum.auto()
     DONE = enum.auto()
 
 
@@ -40,18 +41,21 @@ class _StateMachine:
             self._hand.players.append(Player(name, is_dealer, False))
 
     def get_hand(self) -> Hand:
+        advance = True
         while self._machine_state != _GameState.DONE:
             # why do I need the current_state, only for player_count?
-            try:
-                self._pk_current_state, self._pk_current_operation = next(self._pk_operation_iterator)
-            except StopIteration:
-                self._machine_state = _GameState.DONE
+            if advance:
+                try:
+                    self._pk_current_state, self._pk_current_operation = next(self._pk_operation_iterator)
+                except StopIteration:
+                    self._machine_state = _GameState.DONE
+
             if self._machine_state == _GameState.SETUP:
-                self._state_setup()
+                advance = self._state_setup()
             elif self._machine_state == _GameState.END_SETUP:
-                pass
+                advance = self._state_end_setup()
             elif self._machine_state == _GameState.PREFLOP:
-                pass
+                advance = self._state_preflop()
         return self._hand
 
     @staticmethod
@@ -63,30 +67,40 @@ class _StateMachine:
                 yield s, s.operations[index]
                 index += 1
 
-    def _state_setup(self):
+    def _state_setup(self) -> bool:
         if isinstance(self._pk_current_operation, HoleDealing):
             self._nr_players_dealt += 1
             if self._nr_players_dealt == self._pk_current_state.player_count:
-                hero_index, self._hand.hero_cards = _get_hero(self._pk_current_state.hole_cards,
-                                                              self._custom_fields.get("_apm_hero", None))
-                self._hand.players[hero_index].is_hero = True
-                blinds = sum(self._pk_current_state.blinds_or_straddles)
-                pot_amounts = list(self._pk_current_state.pot_amounts)
-                if not pot_amounts:
-                    pot_amounts = [0]
-                pot_amounts[0] += blinds
-                self._hand.streets.append(
-                    Street(
-                        "Preflop",
-                        [],
-                        pot_amounts,
-                        [True for _ in range(self._pk_current_state.player_count)],
-                        self._pk_current_state.stacks.copy(),
-                        2,
-                        [[] for _ in range(self._pk_current_state.player_count)],
-                    )
-                )
-                self._machine_state = _GameState.PREFLOP
+                self._machine_state = _GameState.END_SETUP
+                return False
+        return True
+
+    def _state_end_setup(self) -> bool:
+        hero_index, self._hand.hero_cards = _get_hero(self._pk_current_state.hole_cards,
+                                                      self._custom_fields.get("_apm_hero", None))
+        self._hand.players[hero_index].is_hero = True
+        blinds = sum(self._pk_current_state.blinds_or_straddles)
+        pot_amounts = list(self._pk_current_state.pot_amounts)
+        if not pot_amounts:
+            pot_amounts = [0]
+        pot_amounts[0] += blinds
+        self._hand.streets.append(
+            Street(
+                "Preflop",
+                [],
+                pot_amounts,
+                [True for _ in range(self._pk_current_state.player_count)],
+                self._pk_current_state.stacks.copy(),
+                2,
+                [[] for _ in range(self._pk_current_state.player_count)],
+            )
+        )
+        self._machine_state = _GameState.PREFLOP
+        return True
+
+    def _state_preflop(self):
+        return True
+
 
 
 def parse_phh(content: str) -> Hand:
