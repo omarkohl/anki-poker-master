@@ -3,6 +3,7 @@ from typing import Any
 import pytest
 
 from anki_poker_master.model import ValidationError
+from anki_poker_master.model.hand import Street
 
 
 def test_phh_parser_basic():
@@ -364,6 +365,9 @@ actions = [
   "p1 f",
   "p2 cc",
   "d db AhTs8h",
+  "p2 cc",
+  "p3 cbr 20",
+  "p2 cc",
 ]
 """
     hand = parse_phh(content)
@@ -381,7 +385,7 @@ actions = [
         [False, True, True],
         [108, 408, 438],
         0,
-        [[], [], []]
+        [[], ["X", "C"], ["B 20"]]
     )
 
     assert hand.streets[1] == expected_flop

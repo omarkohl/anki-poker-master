@@ -1,6 +1,8 @@
 import os
 import pytest
 
+from anki_poker_master.model.hand import Street
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -22,3 +24,18 @@ def golden_dir(request):
     if not os.path.exists(golden_dir_path):
         os.makedirs(golden_dir_path)
     return golden_dir_path
+
+
+def pytest_assertrepr_compare(op, left, right):
+    if isinstance(left, Street) and isinstance(right, Street) and op == "==":
+        return [
+            "Comparing Street instances:",
+            "      LEFT   |   RIGHT",
+            f"  name: {left.name}   |   {right.name}",
+            f"  board: {left.board}   |   {right.board}",
+            f"  initial_pots: {left.initial_pots}   |   {right.initial_pots}",
+            f"  initial_players: {left.initial_players}   |   {right.initial_players}",
+            f"  initial_stacks: {left.initial_stacks}   |   {right.initial_stacks}",
+            f"  first_player: {left.first_player}   |   {right.first_player}",
+            f"  actions: {left.actions}   |   {right.actions}",
+        ]

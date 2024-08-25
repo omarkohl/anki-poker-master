@@ -4,8 +4,13 @@ from typing import Dict, Any, List, Optional, Generator, Tuple
 
 import pokerkit
 import schema
-from pokerkit import HandHistory, HoleDealing, Card, BoardDealing, CheckingOrCalling, CompletionBettingOrRaisingTo, \
-    Folding
+from pokerkit import (HandHistory,
+                      HoleDealing,
+                      Card,
+                      BoardDealing,
+                      CheckingOrCalling,
+                      CompletionBettingOrRaisingTo,
+                      Folding)
 
 from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import Hand, Player, Street
@@ -18,6 +23,10 @@ class _GameState(enum.Enum):
     END_PREFLOP = enum.auto()
     FLOP = enum.auto()
     END_FLOP = enum.auto()
+    TURN = enum.auto()
+    END_TURN = enum.auto()
+    RIVER = enum.auto()
+    END_RIVER = enum.auto()
     DONE = enum.auto()
 
 
@@ -62,6 +71,10 @@ class _StateMachine:
                 advance = self._state_preflop()
             elif self._machine_state == _GameState.END_PREFLOP:
                 advance = self._state_end_preflop()
+            elif self._machine_state == _GameState.FLOP:
+                advance = self._state_flop()
+            elif self._machine_state == _GameState.END_FLOP:
+                advance = self._state_end_flop()
         return self._hand
 
     @staticmethod
@@ -105,18 +118,7 @@ class _StateMachine:
         return True
 
     def _state_preflop(self):
-        if isinstance(self._pk_current_operation, BoardDealing):
-            self._machine_state = _GameState.END_PREFLOP
-            return False
-        elif isinstance(self._pk_current_operation, CheckingOrCalling):
-            self._hand.streets[0].actions[self._pk_current_operation.player_index].append("C" if self._current_street_had_a_bet else "X")
-        elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
-            self._hand.streets[0].actions[self._pk_current_operation.player_index].append(
-                f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}')
-            self._current_street_had_a_bet = True
-        elif isinstance(self._pk_current_operation, Folding):
-            self._hand.streets[0].actions[self._pk_current_operation.player_index].append("F")
-        return True
+        return self._street_state_helper(0, _GameState.END_PREFLOP)
 
     def _state_end_preflop(self) -> bool:
         self._current_street_had_a_bet = False
@@ -136,6 +138,33 @@ class _StateMachine:
         )
         self._machine_state = _GameState.FLOP
         return True
+
+    def _state_flop(self) -> bool:
+        return self._street_state_helper(1, _GameState.END_FLOP)
+
+    def _state_end_flop(self):
+        self._current_street_had_a_bet = False
+        self._machine_state = _GameState.TURN
+        return True
+
+    def _street_state_helper(self, current_street_index: int, next_state: _GameState) -> bool:
+        """
+        Method to process a specific street i.e. preflop, flop, turn and river.
+        """
+        if isinstance(self._pk_current_operation, BoardDealing):
+            self._machine_state = next_state
+            return False
+        elif isinstance(self._pk_current_operation, CheckingOrCalling):
+            self._hand.streets[current_street_index].actions[self._pk_current_operation.player_index].append(
+                "C" if self._current_street_had_a_bet else "X")
+        elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
+            self._hand.streets[current_street_index].actions[self._pk_current_operation.player_index].append(
+                f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}')
+            self._current_street_had_a_bet = True
+        elif isinstance(self._pk_current_operation, Folding):
+            self._hand.streets[current_street_index].actions[self._pk_current_operation.player_index].append("F")
+        return True
+
 
 
 def parse_phh(content: str) -> Hand:
