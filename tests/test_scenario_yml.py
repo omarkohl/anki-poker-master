@@ -31,7 +31,7 @@ def test_basics():
 
 
 def test_game_required():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -47,7 +47,7 @@ def test_game_required():
 
 
 def test_position_required():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -63,7 +63,7 @@ def test_position_required():
 
 
 def test_scenario_required():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -79,7 +79,7 @@ def test_scenario_required():
 
 
 def test_ranges_required1():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -93,7 +93,7 @@ def test_ranges_required1():
 
 
 def test_ranges_required2():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -108,7 +108,7 @@ def test_ranges_required2():
 
 
 def test_ranges_required3():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -135,7 +135,7 @@ def test_ranges_required3():
     ],
 )
 def test_ranges(range, hands):
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
@@ -171,7 +171,7 @@ def test_custom_colors():
 
 
 def test_range_color_must_be_list_of_two():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -197,7 +197,7 @@ def test_range_color_must_be_list_of_two():
     Basic validation test. range_colors must be a mapping from string to
     string.
     """
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -225,7 +225,7 @@ def test_range_colors_must_use_valid_ranges():
     """
     'My custom range' is not a valid range name here.
     """
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = """
@@ -248,7 +248,7 @@ def test_range_colors_must_use_valid_ranges():
 
 @pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
 def test_range_colors_must_be_valid_color(invalid_color):
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
@@ -268,9 +268,9 @@ def test_range_colors_must_be_valid_color(invalid_color):
 
 @pytest.mark.parametrize("invalid_color", ["23", "", "#AAAAAAAA"])
 def test_colors_in_range_color_list_must_be_valid(invalid_color):
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
@@ -292,7 +292,7 @@ def test_colors_in_range_color_list_must_be_valid(invalid_color):
 
 @pytest.mark.parametrize("invalid_range", ["", "GG", "AAA", "-12"])
 def test_invalid_ranges(invalid_range):
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
@@ -328,7 +328,7 @@ def test_valid_ranges(valid_range):
 
 
 def test_ranges_cant_overlap():
-    from anki_poker_master.preflop_scenario import ValidationError
+    from anki_poker_master.model import ValidationError
     from anki_poker_master.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""

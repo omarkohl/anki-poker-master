@@ -5,6 +5,7 @@ from poker.hand import Range, Hand, Rank
 import schema
 import yaml
 
+from anki_poker_master.model import ValidationError
 
 # Note that there is overlap between the quadrants since the grid is 13x13.
 # Each quadrant is 7x7.
@@ -386,17 +387,6 @@ def convert_scenarios(scenarios: Dict) -> List[PreflopScenario]:
             ),
         )
     return result
-
-
-class ValidationError(ValueError):
-    def __init__(self, message):
-        super().__init__(message)
-
-    def humanize_error(self) -> str:
-        err_msg = f"{self.args[0]}"
-        if self.__cause__ and type(self.__cause__) == schema.SchemaError:
-            err_msg += ": " + self.__cause__.code
-        return err_msg
 
 
 EXAMPLE_SCENARIO_FILE = """
