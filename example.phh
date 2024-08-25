@@ -42,14 +42,24 @@ actions = [
   "p2 cc # APM",
   "p7 cc",
 ]
+
 author = "Omar"
 event = "Harrington"
 year = 2008
+# note that this field is optional, I need to take that into account
 players = ["SB", "BB", "A", "B", "C", "D", "E", "F", "G"]
 currency = "USD"
+
 _apm_answers = [
   "You should raise.",
   "TODO",
   "TODO",
   "TODO",
 ]
+_apm_hero = 7
+_apm_source = """
+Harrington on Cash<br>
+2008"""
+_apm_notes = """
+Just some commentary..."""
+
