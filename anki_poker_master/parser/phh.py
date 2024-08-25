@@ -1,8 +1,8 @@
 import tomllib
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 
 import schema
-from pokerkit import HandHistory, HoleDealing
+from pokerkit import HandHistory, HoleDealing, Card
 
 from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import Hand, Player
@@ -44,24 +44,8 @@ def parse_phh(content: str) -> Hand:
             if isinstance(operation, HoleDealing):
                 True
 
-    hole_cards_are_known = []
-    for cards in state.hole_cards:
-        hole_cards_are_known.append(all(not c.unknown_status for c in cards))
-    if '_apm_hero' in custom_fields:
-        if hole_cards_are_known[custom_fields['_apm_hero'] - 1]:
-            my_hand.players[custom_fields['_apm_hero'] - 1].is_hero = True
-            for i, card in enumerate(state.hole_cards[custom_fields['_apm_hero'] - 1]):
-                my_hand.hero_cards[i] = repr(card)
-        else:
-            raise ValidationError("The hole cards of the hero must be known.")
-    elif hole_cards_are_known.count(True) == 0:
-        raise ValidationError("The hole cards of the hero must be known.")
-    elif hole_cards_are_known.count(True) > 1:
-        raise ValidationError("The hole cards of only one player must be known.")
-    else:
-        my_hand.players[hole_cards_are_known.index(True)].is_hero = True
-        for i, card in enumerate(state.hole_cards[hole_cards_are_known.index(True)]):
-            my_hand.hero_cards[i] = repr(card)
+    hero_index, my_hand.hero_cards = _get_hero(state.hole_cards, custom_fields.get("_apm_hero", None))
+    my_hand.players[hero_index].is_hero = True
 
     return my_hand
 
@@ -90,3 +74,22 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
         return custom_fields_schema.validate(custom_fields)
     except schema.SchemaError as e:
         raise ValidationError(f'Error validating user-defined "_apm" fields') from e
+
+
+def _get_hero(hole_cards: List[List[Card]], apm_hero: Optional[int]) -> (int, List[str]):
+    hole_cards_are_known = []
+    for cards in hole_cards:
+        hole_cards_are_known.append(all(not c.unknown_status for c in cards))
+    if apm_hero is not None:
+        index = apm_hero - 1
+        if hole_cards_are_known[index]:
+            return index, [repr(c) for c in hole_cards[index]]
+        else:
+            raise ValidationError("The hole cards of the hero must be known.")
+    elif hole_cards_are_known.count(True) == 0:
+        raise ValidationError("The hole cards of the hero must be known.")
+    elif hole_cards_are_known.count(True) > 1:
+        raise ValidationError("The hole cards of only one player must be known.")
+    else:
+        index = hole_cards_are_known.index(True)
+        return index, [repr(c) for c in hole_cards[index]]
