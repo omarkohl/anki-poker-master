@@ -32,7 +32,16 @@ def parse_phh(content: str) -> Hand:
             operation = state.operations[operation_index]
             operation_index += 1
             if isinstance(operation, HoleDealing):
-                if all(not c.unknown_status for c in operation.cards):
-                    my_hand.players[operation.player_index].is_hero = True
+                True
+
+    hole_cards_are_known = []
+    for cards in state.hole_cards:
+        hole_cards_are_known.append(all(not c.unknown_status for c in cards))
+    if hole_cards_are_known.count(True) == 0:
+        raise ValidationError("The hole cards of the hero must be known.")
+    elif hole_cards_are_known.count(True) > 1:
+        raise ValidationError("The hole cards of only one player must be known.")
+    else:
+        my_hand.players[hole_cards_are_known.index(True)].is_hero = True
 
     return my_hand
