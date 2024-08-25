@@ -21,6 +21,12 @@ actions = [
   "d dh p2 Th8c",
   "d dh p3 ????",
 ]
+
+_apm_source = "https://example.com"
+_apm_notes = "The point of this hand is to demonstrate correct play against TAGs."
+_apm_context = \"""Online game. You have been playing for 2 hours.
+The SB is very tight.
+\"""
 """
     hand = parse(content)
     assert hand is not None
@@ -29,6 +35,9 @@ actions = [
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
     assert hand.hero_cards == ['Th', '8c']
+    assert hand.source == "https://example.com"
+    assert hand.notes == "The point of this hand is to demonstrate correct play against TAGs."
+    assert hand.context == "Online game. You have been playing for 2 hours.\nThe SB is very tight.\n"
     assert len(hand.streets) == 1
     expected_preflop = Street(
         "Preflop",
@@ -265,6 +274,34 @@ _apm_answers = {apm_answers}
     with pytest.raises(ValidationError) as excinfo:
         parse(content)
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
+
+
+def test_phh_parser_empty_apm_source_notes_context_are_ignored():
+    """
+    _apm_source and _apm_context are set to an empty string and _apm_notes is missing. In all
+    cases the result is an empty string in the final hand object.
+    """
+    from anki_poker_master.parser.phh import parse
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+]
+
+_apm_source = ""
+_apm_context = ""
+"""
+    hand = parse(content)
+    assert hand.source == ""
+    assert hand.notes == ""
+    assert hand.context == ""
 
 
 def test_phh_parser_emtpy_file():

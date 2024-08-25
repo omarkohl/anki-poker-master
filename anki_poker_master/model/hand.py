@@ -53,11 +53,17 @@ class Hand:
     players: List[Player]
     hero_cards: List[str]
     streets: List[Street]
+    notes: str
+    source: str
+    context: str
 
     def __init__(self):
         self.players: List[Player] = []
         self.hero_cards: List[str] = ['', '']
         self.streets: List[Street] = []
+        self.notes: str = ''
+        self.source: str = ''
+        self.context: str = ''
 
     def __str__(self):
-        return f'{self.players} {self.hero_cards} {self.streets}'
+        return f'{self.players} {self.hero_cards} {self.streets} {self.notes} {self.source} {self.context}'

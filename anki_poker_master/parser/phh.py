@@ -58,6 +58,12 @@ class _Parser:
         self._nr_players_dealt = 0
         self._custom_fields = custom_fields
         self._hand = Hand()
+        if custom_fields.get("_apm_notes", None):
+            self._hand.notes = custom_fields["_apm_notes"]
+        if custom_fields.get("_apm_source", None):
+            self._hand.source = custom_fields["_apm_source"]
+        if custom_fields.get("_apm_context", None):
+            self._hand.context = custom_fields["_apm_context"]
         self._current_street_had_a_bet = False
         player_count = hh.create_state().player_count
         for i in range(player_count):
