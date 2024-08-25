@@ -1,6 +1,7 @@
 import tomllib
 from typing import Dict, Any
 
+import schema
 from pokerkit import HandHistory, HoleDealing
 
 from anki_poker_master.model import ValidationError
@@ -19,21 +20,10 @@ def parse_phh(content: str) -> Hand:
             content_for_err = content
         raise ValidationError(f'Error parsing PHH with content:\n{content_for_err}') from e
 
-    custom_fields = _get_custom_fields(content)
-    # TODO validate these with a schema e.g. type and length
-
     state = hh.create_state()
 
-    if '_apm_hero' in custom_fields:
-        fail = False
-        try:
-            apm_hero = int(custom_fields['_apm_hero'])
-            if not (0 < apm_hero <= state.player_count):
-                fail = True
-        except ValueError:
-            fail = True
-        if fail:
-            raise ValidationError(f"'_apm_hero' must be a number between 1 and {state.player_count}")
+    custom_fields = _get_and_validate_custom_fields(content, state.player_count)
+    # TODO validate these with a schema e.g. type and length
 
     my_hand = Hand()
     for i in range(state.player_count):
@@ -73,10 +63,24 @@ def parse_phh(content: str) -> Hand:
     return my_hand
 
 
-def _get_custom_fields(content: str) -> Dict[str, Any]:
+def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str, Any]:
     custom_fields = dict()
     raw_hh = tomllib.loads(content)
     for key, val in raw_hh.items():
         if key.startswith("_apm"):
             custom_fields[key] = val
-    return custom_fields
+
+    custom_fields_schema = schema.Schema(
+        {
+            schema.Optional("_apm_hero"): schema.And(
+                int,
+                schema.Schema(lambda n: 0 < n <= player_count, error=f"must be between 1 and {player_count}"),
+            ),
+            schema.Optional("_apm_source"): str,
+        }
+    )
+
+    try:
+        return custom_fields_schema.validate(custom_fields)
+    except schema.SchemaError as e:
+        raise ValidationError(f'Error validating user-defined "_apm" fields') from e
