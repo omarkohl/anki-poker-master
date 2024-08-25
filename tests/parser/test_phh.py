@@ -7,7 +7,7 @@ from anki_poker_master.model.hand import Street
 
 
 def test_phh_parser_basic():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
@@ -22,7 +22,7 @@ actions = [
   "d dh p3 ????",
 ]
 """
-    hand = parse_phh(content)
+    hand = parse(content)
     assert hand is not None
     assert len(hand.players) == 3
     assert hand.players[1].name == "p2"
@@ -43,7 +43,7 @@ actions = [
 
 
 def test_phh_parser_hero_hole_cards_must_be_known():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -57,12 +57,12 @@ actions = [
 ]
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "The hole cards of the hero must be known." in excinfo.value.humanize_error()
 
 
 def test_phh_parser_only_one_players_hole_cards_must_be_known():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -76,12 +76,12 @@ actions = [
 ]
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "The hole cards of only one player must be known." in excinfo.value.humanize_error()
 
 
 def test_phh_parser_multiple_hole_cards_can_be_known_with_apm_hero():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -95,7 +95,7 @@ actions = [
 ]
 _apm_hero = 2
 """
-    hand = parse_phh(content)
+    hand = parse(content)
     assert [p.is_hero for p in hand.players] == [False, True, False]
 
 
@@ -104,7 +104,7 @@ _apm_hero = 2
     [-10, -1, 0, 4, 7]
 )
 def test_phh_parse_invalid_apm_hero_1(apm_hero: Any):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -119,7 +119,7 @@ actions = [
 _apm_hero = {apm_hero}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "must be between 1 and 3" in excinfo.value.humanize_error()
 
 
@@ -128,7 +128,7 @@ _apm_hero = {apm_hero}
     ['true', '"asdf"', '[]']
 )
 def test_phh_parse_invalid_apm_hero_2(apm_hero: Any):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -143,7 +143,7 @@ actions = [
 _apm_hero = {apm_hero}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "should be instance of 'int'" in excinfo.value.humanize_error()
 
 
@@ -152,7 +152,7 @@ _apm_hero = {apm_hero}
     ['true', '10', '[]']
 )
 def test_phh_parse_invalid_apm_source(apm_source):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -167,7 +167,7 @@ actions = [
 _apm_source = {apm_source}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
@@ -176,7 +176,7 @@ _apm_source = {apm_source}
     ['true', '10', '[]']
 )
 def test_phh_parse_invalid_apm_notes(apm_notes):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -191,7 +191,7 @@ actions = [
 _apm_notes = {apm_notes}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
@@ -200,7 +200,7 @@ _apm_notes = {apm_notes}
     ['true', '10', '[]']
 )
 def test_phh_parse_invalid_apm_context(apm_context):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -215,7 +215,7 @@ actions = [
 _apm_context = {apm_context}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
@@ -224,7 +224,7 @@ _apm_context = {apm_context}
     ['true', '10']
 )
 def test_phh_parse_invalid_apm_answers_1(apm_answers):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -239,7 +239,7 @@ actions = [
 _apm_answers = {apm_answers}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "should be instance of 'list'" in excinfo.value.humanize_error()
 
 
@@ -248,7 +248,7 @@ _apm_answers = {apm_answers}
     ['[2]', '[true, 3]']
 )
 def test_phh_parse_invalid_apm_answers_2(apm_answers):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -263,30 +263,30 @@ actions = [
 _apm_answers = {apm_answers}
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
 def test_phh_parser_emtpy_file():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh("")
+        parse("")
     assert "Invalid PHH (empty)" in excinfo.value.humanize_error()
 
 
 def test_phh_parser_incomplete_file():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     content = """variant = "NT"
 antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert "Error parsing PHH with content:" in excinfo.value.humanize_error()
 
 
 @pytest.mark.parametrize("variant", ["FT", "NS", "PO"])
 def test_phh_parser_invalid_poker_variant(variant):
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
 
     content = f"""variant = "{variant}"
     antes = [0, 0, 0]
@@ -303,12 +303,12 @@ def test_phh_parser_invalid_poker_variant(variant):
     ]
     """
     with pytest.raises(ValidationError) as excinfo:
-        parse_phh(content)
+        parse(content)
     assert f"the variant '{variant}' is not supported" in excinfo.value.humanize_error()
 
 
 def test_phh_parser_with_preflop():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
@@ -326,7 +326,7 @@ actions = [
   "p2 cc",
 ]
 """
-    hand = parse_phh(content)
+    hand = parse(content)
     assert hand is not None
     assert len(hand.players) == 3
     assert hand.players[1].name == "p2"
@@ -348,7 +348,7 @@ actions = [
 
 
 def test_phh_parser_with_flop():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
@@ -370,7 +370,7 @@ actions = [
   "p2 cc",
 ]
 """
-    hand = parse_phh(content)
+    hand = parse(content)
     assert hand is not None
     assert len(hand.players) == 3
     assert hand.players[1].name == "p2"
@@ -392,7 +392,7 @@ actions = [
 
 
 def test_phh_parser_with_turn():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
@@ -417,7 +417,7 @@ actions = [
   "p3 cc",
 ]
 """
-    hand = parse_phh(content)
+    hand = parse(content)
     assert hand is not None
     assert len(hand.players) == 3
     assert hand.players[1].name == "p2"
@@ -439,7 +439,7 @@ actions = [
 
 
 def test_phh_parser_with_river():
-    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
@@ -467,7 +467,7 @@ actions = [
   "p3 f",
 ]
 """
-    hand = parse_phh(content)
+    hand = parse(content)
     assert hand is not None
     assert len(hand.players) == 3
     assert hand.players[1].name == "p2"
