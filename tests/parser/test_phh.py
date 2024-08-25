@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from anki_poker_master.model import ValidationError
@@ -63,6 +65,49 @@ actions = [
         parse_phh(content)
     assert "The hole cards of only one player must be known." in excinfo.value.humanize_error()
 
+
+def test_phh_parser_multiple_hole_cards_can_be_known_with_apm_hero():
+    from anki_poker_master.parser.phh import parse_phh
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th7s",
+  "d dh p3 AsAc",
+]
+_apm_hero = 2
+"""
+    hand = parse_phh(content)
+    assert [p.is_hero for p in hand.players] == [False, True, False]
+
+
+@pytest.mark.parametrize(
+    'apm_hero',
+    [-10, -1, 0, 4, 7, '"asdf"']
+)
+def test_phh_parse_invalid_apm_hero(apm_hero: Any):
+    from anki_poker_master.parser.phh import parse_phh
+    content = f"""variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th7s",
+  "d dh p3 AsAc",
+]
+_apm_hero = {apm_hero}
+"""
+
+    with pytest.raises(ValidationError) as excinfo:
+        parse_phh(content)
+    assert "must be a number" in excinfo.value.humanize_error()
 
 def test_phh_parser_emtpy_file():
     from anki_poker_master.parser.phh import parse_phh
