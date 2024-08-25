@@ -340,7 +340,7 @@ actions = [
         [True, True, True],
         [108, 416, 450],
         2,
-        [[], [], []]
+        [["F"], ["C"], ["B 12"]]
     )
 
     assert hand.streets[0] == expected_preflop

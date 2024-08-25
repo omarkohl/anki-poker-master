@@ -4,7 +4,8 @@ from typing import Dict, Any, List, Optional, Generator, Tuple
 
 import pokerkit
 import schema
-from pokerkit import HandHistory, HoleDealing, Card
+from pokerkit import HandHistory, HoleDealing, Card, BoardDealing, CheckingOrCalling, CompletionBettingOrRaisingTo, \
+    Folding
 
 from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import Hand, Player, Street
@@ -32,6 +33,7 @@ class _StateMachine:
         self._nr_players_dealt = 0
         self._custom_fields = custom_fields
         self._hand = Hand()
+        self._current_street_had_a_bet = False
         player_count = hh.create_state().player_count
         for i in range(player_count):
             name = f'p{i + 1}'
@@ -99,8 +101,18 @@ class _StateMachine:
         return True
 
     def _state_preflop(self):
+        if isinstance(self._pk_current_operation, BoardDealing):
+            self._machine_state = _GameState.END_PREFLOP
+            return False
+        elif isinstance(self._pk_current_operation, CheckingOrCalling):
+            self._hand.streets[0].actions[self._pk_current_operation.player_index].append("C" if self._current_street_had_a_bet else "X")
+        elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
+            self._hand.streets[0].actions[self._pk_current_operation.player_index].append(
+                f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}')
+            self._current_street_had_a_bet = True
+        elif isinstance(self._pk_current_operation, Folding):
+            self._hand.streets[0].actions[self._pk_current_operation.player_index].append("F")
         return True
-
 
 
 def parse_phh(content: str) -> Hand:
