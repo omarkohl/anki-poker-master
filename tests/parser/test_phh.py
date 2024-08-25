@@ -245,3 +245,26 @@ antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     with pytest.raises(ValidationError) as excinfo:
         parse_phh(content)
     assert "Error parsing PHH with content:" in excinfo.value.humanize_error()
+
+
+@pytest.mark.parametrize("variant", ["FT", "NS", "PO"])
+def test_phh_parser_invalid_poker_variant(variant):
+    from anki_poker_master.parser.phh import parse_phh
+
+    content = f"""variant = "{variant}"
+    antes = [0, 0, 0]
+    blinds_or_straddles = [2, 4, 0]
+    min_bet = 2
+    small_bet = 2
+    big_bet = 4
+    starting_stacks = [110, 420, 450]
+    actions = [
+      # Pre-flop
+      "d dh p1 ????",
+      "d dh p2 Th8c",
+      "d dh p3 ????",
+    ]
+    """
+    with pytest.raises(ValidationError) as excinfo:
+        parse_phh(content)
+    assert f"the variant '{variant}' is not supported" in excinfo.value.humanize_error()
