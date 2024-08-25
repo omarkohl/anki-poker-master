@@ -27,6 +27,7 @@ class _GameState(enum.Enum):
     END_TURN = enum.auto()
     RIVER = enum.auto()
     END_RIVER = enum.auto()
+    FINALIZE = enum.auto()
     DONE = enum.auto()
 
 
@@ -54,27 +55,29 @@ class _StateMachine:
             self._hand.players.append(Player(name, is_dealer, False))
 
     def get_hand(self) -> Hand:
+        state_handler_mapping = {
+            _GameState.SETUP: self._state_setup,
+            _GameState.END_SETUP: self._state_end_setup,
+            _GameState.PREFLOP: self._state_preflop,
+            _GameState.END_PREFLOP: self._state_end_preflop,
+            _GameState.FLOP: self._state_flop,
+            _GameState.END_FLOP: self._state_end_flop,
+            _GameState.TURN: self._state_turn,
+            _GameState.END_TURN: self._state_end_turn,
+            _GameState.RIVER: self._state_river,
+            _GameState.END_RIVER: self._state_end_river,
+            _GameState.FINALIZE: lambda: True,
+            _GameState.DONE: lambda: True,
+        }
+
         advance = True
         while self._machine_state != _GameState.DONE:
-            # why do I need the current_state, only for player_count?
             if advance:
                 try:
                     self._pk_current_state, self._pk_current_operation = next(self._pk_operation_iterator)
                 except StopIteration:
                     self._machine_state = _GameState.DONE
-
-            if self._machine_state == _GameState.SETUP:
-                advance = self._state_setup()
-            elif self._machine_state == _GameState.END_SETUP:
-                advance = self._state_end_setup()
-            elif self._machine_state == _GameState.PREFLOP:
-                advance = self._state_preflop()
-            elif self._machine_state == _GameState.END_PREFLOP:
-                advance = self._state_end_preflop()
-            elif self._machine_state == _GameState.FLOP:
-                advance = self._state_flop()
-            elif self._machine_state == _GameState.END_FLOP:
-                advance = self._state_end_flop()
+            advance = state_handler_mapping[self._machine_state]()
         return self._hand
 
     @staticmethod
@@ -144,7 +147,37 @@ class _StateMachine:
 
     def _state_end_flop(self):
         self._current_street_had_a_bet = False
+        pot_amounts = list(self._pk_current_state.pot_amounts)
+        if not pot_amounts:
+            pot_amounts = [0]
+        self._hand.streets.append(
+            Street(
+                "Turn",
+                [repr(c[0]) for c in self._pk_current_state.board_cards],
+                pot_amounts,
+                self._pk_current_state.statuses.copy(),
+                self._pk_current_state.stacks.copy(),
+                0,
+                [[] for _ in range(self._pk_current_state.player_count)],
+            )
+        )
         self._machine_state = _GameState.TURN
+        return True
+
+    def _state_turn(self) -> bool:
+        return self._street_state_helper(2, _GameState.END_TURN)
+
+    def _state_end_turn(self) -> bool:
+        self._current_street_had_a_bet = False
+        self._machine_state = _GameState.RIVER
+        return True
+
+    def _state_river(self) -> bool:
+        return self._street_state_helper(3, _GameState.END_RIVER)
+
+    def _state_end_river(self) -> bool:
+        self._current_street_had_a_bet = False
+        self._machine_state = _GameState.FINALIZE
         return True
 
     def _street_state_helper(self, current_street_index: int, next_state: _GameState) -> bool:
