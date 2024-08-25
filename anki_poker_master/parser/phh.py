@@ -169,6 +169,20 @@ class _StateMachine:
 
     def _state_end_turn(self) -> bool:
         self._current_street_had_a_bet = False
+        pot_amounts = list(self._pk_current_state.pot_amounts)
+        if not pot_amounts:
+            pot_amounts = [0]
+        self._hand.streets.append(
+            Street(
+                "River",
+                [repr(c[0]) for c in self._pk_current_state.board_cards],
+                pot_amounts,
+                self._pk_current_state.statuses.copy(),
+                self._pk_current_state.stacks.copy(),
+                0,
+                [[] for _ in range(self._pk_current_state.player_count)],
+            )
+        )
         self._machine_state = _GameState.RIVER
         return True
 
