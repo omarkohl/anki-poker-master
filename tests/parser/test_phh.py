@@ -109,6 +109,7 @@ _apm_hero = {apm_hero}
         parse_phh(content)
     assert "must be between 1 and 3" in excinfo.value.humanize_error()
 
+
 @pytest.mark.parametrize(
     'apm_hero',
     ['true', '"asdf"', '[]']
@@ -133,7 +134,11 @@ _apm_hero = {apm_hero}
     assert "should be instance of 'int'" in excinfo.value.humanize_error()
 
 
-def test_phh_parse_invalid_apm_source():
+@pytest.mark.parametrize(
+    'apm_source',
+    ['true', '10', '[]']
+)
+def test_phh_parse_invalid_apm_source(apm_source):
     from anki_poker_master.parser.phh import parse_phh
     content = f"""variant = "NT"
 antes = [0, 0, 0]
@@ -146,7 +151,31 @@ actions = [
   "d dh p2 Th7s",
   "d dh p3 AsAc",
 ]
-_apm_source = 10
+_apm_source = {apm_source}
+"""
+    with pytest.raises(ValidationError) as excinfo:
+        parse_phh(content)
+    assert "should be instance of 'str'" in excinfo.value.humanize_error()
+
+
+@pytest.mark.parametrize(
+    'apm_notes',
+    ['true', '10', '[]']
+)
+def test_phh_parse_invalid_apm_notes(apm_notes):
+    from anki_poker_master.parser.phh import parse_phh
+    content = f"""variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th7s",
+  "d dh p3 AsAc",
+]
+_apm_notes = {apm_notes}
 """
     with pytest.raises(ValidationError) as excinfo:
         parse_phh(content)

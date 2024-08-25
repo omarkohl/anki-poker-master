@@ -77,6 +77,7 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
                 schema.Schema(lambda n: 0 < n <= player_count, error=f"must be between 1 and {player_count}"),
             ),
             schema.Optional("_apm_source"): str,
+            schema.Optional("_apm_notes"): str,
         }
     )
 
