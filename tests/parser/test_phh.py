@@ -3,7 +3,7 @@ from typing import Any
 import pytest
 
 
-def test_phh_parser_basic():
+def test_parser_basic():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
@@ -48,7 +48,7 @@ The SB is very tight.
     assert hand.streets[0] == expected_preflop
 
 
-def test_phh_parser_player_names():
+def test_parser_player_names():
     """
     If players are specified, their names are used.
     """
@@ -77,7 +77,7 @@ players = ["Tom", "Naima", "Carlos"]
     ]
 
 
-def test_phh_parser_hero_hole_cards_must_be_known():
+def test_parser_hero_hole_cards_must_be_known():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
     content = """variant = "NT"
@@ -97,7 +97,7 @@ actions = [
     assert "The hole cards of the hero must be known." in excinfo.value.humanize_error()
 
 
-def test_phh_parser_only_one_players_hole_cards_must_be_known():
+def test_parser_only_one_players_hole_cards_must_be_known():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
     content = """variant = "NT"
@@ -117,7 +117,7 @@ actions = [
     assert "The hole cards of only one player must be known." in excinfo.value.humanize_error()
 
 
-def test_phh_parser_multiple_hole_cards_can_be_known_with_apm_hero():
+def test_parser_multiple_hole_cards_can_be_known_with_apm_hero():
     from anki_poker_master.parser.phh import parse
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -311,7 +311,7 @@ _apm_answers = {apm_answers}
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
-def test_phh_parser_empty_apm_source_notes_context_are_ignored():
+def test_parser_empty_apm_source_notes_context_are_ignored():
     """
     _apm_source and _apm_context are set to an empty string and _apm_notes is missing. In all
     cases the result is an empty string in the final hand object.
@@ -339,7 +339,7 @@ _apm_context = ""
     assert hand.context == ""
 
 
-def test_phh_parser_emtpy_file():
+def test_parser_emtpy_file():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
 
@@ -348,7 +348,7 @@ def test_phh_parser_emtpy_file():
     assert "Invalid PHH (empty)" in excinfo.value.humanize_error()
 
 
-def test_phh_parser_incomplete_file():
+def test_parser_incomplete_file():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
 
@@ -361,7 +361,7 @@ antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
 @pytest.mark.parametrize("variant", ["FT", "NS", "PO"])
-def test_phh_parser_invalid_poker_variant(variant):
+def test_parser_invalid_poker_variant(variant):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
 
@@ -384,7 +384,7 @@ def test_phh_parser_invalid_poker_variant(variant):
     assert f"the variant '{variant}' is not supported" in excinfo.value.humanize_error()
 
 
-def test_phh_parser_with_preflop():
+def test_parser_with_preflop():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
@@ -424,7 +424,7 @@ actions = [
     assert hand.streets[0] == expected_preflop
 
 
-def test_phh_parser_with_flop():
+def test_parser_with_flop():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
@@ -468,7 +468,7 @@ actions = [
     assert hand.streets[1] == expected_flop
 
 
-def test_phh_parser_with_turn():
+def test_parser_with_turn():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
@@ -515,7 +515,7 @@ actions = [
     assert hand.streets[2] == expected_turn
 
 
-def test_phh_parser_with_river():
+def test_parser_with_river():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Street
 
