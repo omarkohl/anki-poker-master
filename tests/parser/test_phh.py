@@ -2,8 +2,6 @@ from typing import Any
 
 import pytest
 
-from anki_poker_master.model import ValidationError
-
 
 def test_phh_parser_basic():
     from anki_poker_master.parser.phh import parse
@@ -81,6 +79,7 @@ players = ["Tom", "Naima", "Carlos"]
 
 def test_phh_parser_hero_hole_cards_must_be_known():
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -100,6 +99,7 @@ actions = [
 
 def test_phh_parser_only_one_players_hole_cards_must_be_known():
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -142,6 +142,7 @@ _apm_hero = 2
 )
 def test_phh_parse_invalid_apm_hero_1(apm_hero: Any):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -166,6 +167,7 @@ _apm_hero = {apm_hero}
 )
 def test_phh_parse_invalid_apm_hero_2(apm_hero: Any):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -190,6 +192,7 @@ _apm_hero = {apm_hero}
 )
 def test_phh_parse_invalid_apm_source(apm_source):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -214,6 +217,7 @@ _apm_source = {apm_source}
 )
 def test_phh_parse_invalid_apm_notes(apm_notes):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -238,6 +242,7 @@ _apm_notes = {apm_notes}
 )
 def test_phh_parse_invalid_apm_context(apm_context):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -262,6 +267,7 @@ _apm_context = {apm_context}
 )
 def test_phh_parse_invalid_apm_answers_1(apm_answers):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -286,6 +292,7 @@ _apm_answers = {apm_answers}
 )
 def test_phh_parse_invalid_apm_answers_2(apm_answers):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -334,6 +341,8 @@ _apm_context = ""
 
 def test_phh_parser_emtpy_file():
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
+
     with pytest.raises(ValidationError) as excinfo:
         parse("")
     assert "Invalid PHH (empty)" in excinfo.value.humanize_error()
@@ -341,6 +350,8 @@ def test_phh_parser_emtpy_file():
 
 def test_phh_parser_incomplete_file():
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
+
     content = """variant = "NT"
 antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 """
@@ -352,6 +363,7 @@ antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 @pytest.mark.parametrize("variant", ["FT", "NS", "PO"])
 def test_phh_parser_invalid_poker_variant(variant):
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
 
     content = f"""variant = "{variant}"
     antes = [0, 0, 0]
