@@ -28,8 +28,8 @@ actions = [
     assert hand is not None
     assert len(hand.players) == 9
     assert hand.players[1].name == "p2"
-    assert hand.players[8].is_dealer
-
+    assert [p.is_dealer for p in hand.players] == [False, False, False, False, False, False, False, False, True]
+    assert [p.is_hero for p in hand.players] == [False, False, False, False, False, False, True, False, False]
 
 
 def test_phh_parser_emtpy_file():
