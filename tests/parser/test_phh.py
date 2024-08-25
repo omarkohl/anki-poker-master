@@ -7,6 +7,7 @@ from anki_poker_master.model import ValidationError
 
 def test_phh_parser_basic():
     from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -28,6 +29,16 @@ actions = [
     assert [p.is_hero for p in hand.players] == [False, True, False]
     assert hand.hero_cards == ['Th', '8c']
     assert len(hand.streets) == 1
+    expected_preflop = Street(
+        "Preflop",
+        [],
+        [6],
+        [True, True, True],
+        [108, 416, 450],
+        2,
+        [[], [], []]
+    )
+    assert hand.streets[0] == expected_preflop
 
 
 def test_phh_parser_hero_hole_cards_must_be_known():
@@ -297,6 +308,7 @@ def test_phh_parser_invalid_poker_variant(variant):
 
 def test_phh_parser_with_preflop():
     from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.model.hand import Street
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -321,3 +333,14 @@ actions = [
     assert [p.is_hero for p in hand.players] == [False, True, False]
     assert hand.hero_cards == ['Th', '8c']
     assert len(hand.streets) == 1
+    expected_preflop = Street(
+        "Preflop",
+        [],
+        [6],
+        [True, True, True],
+        [108, 416, 450],
+        2,
+        [[], [], []]
+    )
+
+    assert hand.streets[0] == expected_preflop

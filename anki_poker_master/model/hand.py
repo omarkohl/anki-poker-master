@@ -21,6 +21,18 @@ class Street:
         self.first_player = first_player
         self.actions = actions
 
+    def __eq__(self, other):
+        return (
+                isinstance(self, other.__class__) and
+                self.name == other.name and
+                self.board == other.board and
+                self.initial_pots == other.initial_pots and
+                self.initial_players == other.initial_players and
+                self.initial_stacks == other.initial_stacks and
+                self.first_player == other.first_player and
+                self.actions == other.actions
+        )
+
 
 class Player:
     name: str
