@@ -16,6 +16,8 @@ class _GameState(enum.Enum):
     END_SETUP = enum.auto()
     PREFLOP = enum.auto()
     END_PREFLOP = enum.auto()
+    FLOP = enum.auto()
+    END_FLOP = enum.auto()
     DONE = enum.auto()
 
 
@@ -58,6 +60,8 @@ class _StateMachine:
                 advance = self._state_end_setup()
             elif self._machine_state == _GameState.PREFLOP:
                 advance = self._state_preflop()
+            elif self._machine_state == _GameState.END_PREFLOP:
+                advance = self._state_end_preflop()
         return self._hand
 
     @staticmethod
@@ -112,6 +116,25 @@ class _StateMachine:
             self._current_street_had_a_bet = True
         elif isinstance(self._pk_current_operation, Folding):
             self._hand.streets[0].actions[self._pk_current_operation.player_index].append("F")
+        return True
+
+    def _state_end_preflop(self) -> bool:
+        self._current_street_had_a_bet = False
+        pot_amounts = list(self._pk_current_state.pot_amounts)
+        if not pot_amounts:
+            pot_amounts = [0]
+        self._hand.streets.append(
+            Street(
+                "Flop",
+                [repr(c[0]) for c in self._pk_current_state.board_cards],
+                pot_amounts,
+                self._pk_current_state.statuses.copy(),
+                self._pk_current_state.stacks.copy(),
+                0,
+                [[] for _ in range(self._pk_current_state.player_count)],
+            )
+        )
+        self._machine_state = _GameState.FLOP
         return True
 
 

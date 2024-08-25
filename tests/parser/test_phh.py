@@ -344,3 +344,44 @@ actions = [
     )
 
     assert hand.streets[0] == expected_preflop
+
+
+def test_phh_parser_with_flop():
+    from anki_poker_master.parser.phh import parse_phh
+    from anki_poker_master.model.hand import Street
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+  "p3 cbr 12",
+  "p1 f",
+  "p2 cc",
+  "d db AhTs8h",
+]
+"""
+    hand = parse_phh(content)
+    assert hand is not None
+    assert len(hand.players) == 3
+    assert hand.players[1].name == "p2"
+    assert [p.is_dealer for p in hand.players] == [False, False, True]
+    assert [p.is_hero for p in hand.players] == [False, True, False]
+    assert hand.hero_cards == ['Th', '8c']
+    assert len(hand.streets) == 2
+    expected_flop = Street(
+        "Flop",
+        ['Ah', 'Ts', '8h'],
+        [26],
+        [False, True, True],
+        [108, 408, 438],
+        0,
+        [[], [], []]
+    )
+
+    assert hand.streets[1] == expected_flop
