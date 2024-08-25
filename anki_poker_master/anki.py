@@ -18,6 +18,7 @@ _ALL_CARD_HEADER = """
 {{CSS}}
 </style>
 """.lstrip()
+# CSS above is duplicate, no??
 
 _HEADER_FMT = (
     _ALL_CARD_HEADER
