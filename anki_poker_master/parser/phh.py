@@ -81,6 +81,7 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
             ),
             schema.Optional("_apm_source"): str,
             schema.Optional("_apm_notes"): str,
+            schema.Optional("_apm_context"): str,
             schema.Optional("_apm_answers"): [str],
         }
     )

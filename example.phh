@@ -62,4 +62,5 @@ Harrington on Cash<br>
 2008"""
 _apm_notes = """
 Just some commentary..."""
-
+_apm_context = """
+The player in the SB is very loose. You have been playing for 2 hours."""

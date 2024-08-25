@@ -183,6 +183,30 @@ _apm_notes = {apm_notes}
 
 
 @pytest.mark.parametrize(
+    'apm_context',
+    ['true', '10', '[]']
+)
+def test_phh_parse_invalid_apm_context(apm_context):
+    from anki_poker_master.parser.phh import parse_phh
+    content = f"""variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th7s",
+  "d dh p3 AsAc",
+]
+_apm_context = {apm_context}
+"""
+    with pytest.raises(ValidationError) as excinfo:
+        parse_phh(content)
+    assert "should be instance of 'str'" in excinfo.value.humanize_error()
+
+
+@pytest.mark.parametrize(
     'apm_answers',
     ['true', '10']
 )
