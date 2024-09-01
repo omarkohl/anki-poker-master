@@ -99,7 +99,7 @@ actions = [
     assert "The hole cards of the hero must be known." in excinfo.value.humanize_error()
 
 
-def test_parser_only_one_players_hole_cards_must_be_known():
+def test_parser_multiple_players_could_be_hero_error():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
     content = """variant = "NT"
@@ -116,7 +116,7 @@ actions = [
 """
     with pytest.raises(ValidationError) as excinfo:
         parse(content)
-    assert "The hole cards of only one player must be known." in excinfo.value.humanize_error()
+    assert "It is unclear who the hero is." in excinfo.value.humanize_error()
 
 
 def test_parser_multiple_hole_cards_can_be_known_with_apm_hero():

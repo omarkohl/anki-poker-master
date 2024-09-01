@@ -373,7 +373,7 @@ def _get_hero(hole_cards: List[List[Card]], apm_hero: Optional[int]) -> (int, Li
     elif hole_cards_are_known.count(True) == 0:
         raise ValidationError("The hole cards of the hero must be known.")
     elif hole_cards_are_known.count(True) > 1:
-        raise ValidationError("The hole cards of only one player must be known.")
+        raise ValidationError("It is unclear who the hero is. You may need to specify _apm_hero .")
     else:
         index = hole_cards_are_known.index(True)
         return index, [repr(c) for c in hole_cards[index]]
