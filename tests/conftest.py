@@ -26,6 +26,19 @@ def golden_dir(request):
     return golden_dir_path
 
 
+@pytest.fixture
+def testdata_dir(request):
+    testdata_dir_path = os.path.join(
+        os.path.dirname(__file__),
+        "testdata",
+        request.node.module.__name__.split(".")[-1],
+        request.node.function.__name__,
+    )
+    if not os.path.exists(testdata_dir_path):
+        os.makedirs(testdata_dir_path)
+    return testdata_dir_path
+
+
 def pytest_assertrepr_compare(op, left, right):
     if isinstance(left, Street) and isinstance(right, Street) and op == "==":
         return [

@@ -1,3 +1,5 @@
+import os
+import pathlib
 from typing import Any
 
 import pytest
@@ -758,3 +760,21 @@ def test_parser_questions_default_all_hero_actions():
         "Go all in.",
         (1, 0),
     )
+
+
+@pytest.mark.parametrize(
+    "file_name, expected_initial_stacks_last_street",
+    [
+        ("00-18-39.phh", [7750000, 4125000, 8525000, 4550000, 4050000])
+    ]
+)
+def test_parser_example_files_success(testdata_dir, file_name, expected_initial_stacks_last_street):
+    """
+    Parse same example .phh files and perform some minimal verification.
+    """
+    from anki_poker_master.parser.phh import parse
+
+    content = (pathlib.Path(testdata_dir) / file_name).read_text('utf8')
+    hand = parse(content)
+    assert hand.streets
+    assert hand.streets[-1].initial_stacks == expected_initial_stacks_last_street
