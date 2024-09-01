@@ -1,4 +1,6 @@
 import os
+import pathlib
+
 import pytest
 
 from anki_poker_master.model.hand import Street
@@ -14,7 +16,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture
-def golden_dir(request):
+def golden_dir(request: pytest.FixtureRequest) -> pathlib.Path:
     """
     Return the path to the golden directory for the test currently being executed. The directory
     will be created if it does not exist. A golden file is a file that contains the output that
@@ -36,20 +38,19 @@ def golden_dir(request):
     update all golden files).
     """
     modules = request.node.module.__name__.split(".")[1:]  # excluding initial "tests"
-    golden_dir_path = os.path.join(
+    golden_dir_path = pathlib.Path(
         os.path.dirname(__file__),
         *modules[:-1],
         "golden",
         modules[-1],
         request.node.function.__name__,
     )
-    if not os.path.exists(golden_dir_path):
-        os.makedirs(golden_dir_path)
+    golden_dir_path.mkdir(exist_ok=True, parents=True)
     return golden_dir_path
 
 
 @pytest.fixture
-def testdata_dir(request):
+def testdata_dir(request: pytest.FixtureRequest) -> pathlib.Path:
     """
     Return the path to the test data directory for any data the test may need. The directory will
     be created if it does not exist.
@@ -64,15 +65,14 @@ def testdata_dir(request):
     The test can access any file within that directory. Those files must be created.
     """
     modules = request.node.module.__name__.split(".")[1:]  # excluding initial "tests"
-    testdata_dir_path = os.path.join(
+    testdata_dir_path = pathlib.Path(
         os.path.dirname(__file__),
         *modules[:-1],
         "testdata",
         modules[-1],
         request.node.function.__name__,
     )
-    if not os.path.exists(testdata_dir_path):
-        os.makedirs(testdata_dir_path)
+    testdata_dir_path.mkdir(exist_ok=True, parents=True)
     return testdata_dir_path
 
 
