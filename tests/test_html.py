@@ -1,18 +1,8 @@
 import os
 import textwrap
-from poker.hand import Range, Hand, Rank
+from poker.hand import Range
 
-
-def compare_or_update_golden(pytestconfig, golden_file_path, actual_output):
-    # If the --update-golden option was set, update the golden file
-    if pytestconfig.getoption("update_golden"):
-        with open(golden_file_path, "w") as file:
-            file.write(actual_output)
-    else:
-        # Otherwise, read the golden file and compare it to the actual output
-        with open(golden_file_path, "r") as file:
-            golden_output = file.read()
-        assert actual_output == golden_output
+from tests.utils import compare_or_update_golden
 
 
 def test_default_extra_css(pytestconfig, golden_dir):
@@ -21,8 +11,6 @@ def test_default_extra_css(pytestconfig, golden_dir):
     or change any colors.
     """
     from anki_poker_master.preflop_scenario import PreflopScenario
-
-    from anki_poker_master import helper
 
     action_ranges = {
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
@@ -67,7 +55,6 @@ def test_custom_range_css(pytestconfig, golden_dir):
     from anki_poker_master.preflop_scenario import PreflopScenario
 
     from anki_poker_master import helper
-    from anki_poker_master import helper
 
     action_ranges = {
         "Call": Range("A3s+"),
@@ -92,7 +79,6 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
     """
     from anki_poker_master.preflop_scenario import PreflopScenario
 
-    from anki_poker_master import helper
     from anki_poker_master import helper
 
     action_ranges = {
