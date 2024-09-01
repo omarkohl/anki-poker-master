@@ -362,7 +362,7 @@ antes = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     assert "Error parsing PHH with content:" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize("variant", ["FT", "NS", "PO"])
+@pytest.mark.parametrize("variant", ["NS", "PO"])
 def test_parser_invalid_poker_variant(variant):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
@@ -803,7 +803,18 @@ def test_parser_questions_default_all_hero_actions():
                     1997500,
                     1109500,
                 ]
-        )
+        ),
+        (
+                # This is a FT (limit hold'em) hand, to demonstrate that it's possible
+                "01-51-27.phh",
+                [
+                    14325000,
+                    7250000,
+                    2850000,
+                    2500000,
+                    475000,
+                ]
+        ),
     ]
 )
 def test_parser_example_files_success(testdata_dir, file_name, expected_initial_stacks_last_street):

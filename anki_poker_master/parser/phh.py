@@ -303,7 +303,7 @@ def parse(content: str) -> Hand:
             content_for_err = content
         raise ValidationError(f'Error parsing PHH with content:\n{content_for_err}') from e
 
-    if hh.variant != "NT":
+    if hh.variant not in ("NT", "FT"):
         # TODO Validate whether other variants work with little additional effort, but for now focus on NLHE
         raise ValidationError(f"the variant '{hh.variant}' is not supported")
 
