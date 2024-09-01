@@ -219,6 +219,24 @@ class _Parser:
                 answer,
                 (player_i_for_action_table, next_action_i),
             ))
+        elif self._hand.players[self._pk_current_operation.player_index].is_hero:
+            # Collect the default questions for any action performed by the hero since we can't
+            # know until the very end whether any "apm study" commentary exists. The default
+            # questions would then be the fallback.
+            answer = action
+            number_previous_questions = 0
+            for i in range(len(self._hand.streets)):
+                if i <= current_street_index:
+                    number_previous_questions += len(self._hand.streets[i].default_questions)
+            if (number_previous_questions < len(self._hand.answers) and
+                    self._hand.answers[number_previous_questions]):
+                answer = self._hand.answers[number_previous_questions]
+            next_action_i = len(self._hand.streets[current_street_index].actions[player_i_for_action_table])
+            self._hand.streets[current_street_index].default_questions.append(Question(
+                "What do you do?",
+                answer,
+                (player_i_for_action_table, next_action_i),
+            ))
         self._hand.streets[current_street_index].actions[player_i_for_action_table].append(action)
         return True
 
@@ -251,7 +269,14 @@ class _Parser:
         """
         # Validate that the number of answers in _apm_answers matches the number of questions.
         # This can't be done without parsing all the actions, so it's easiest to do it at the end.
+        # If necessary, replace the questions with the default questions.
         number_questions = sum(len(s.questions) for s in self._hand.streets)
+        if number_questions == 0:
+            number_questions = sum(len(s.default_questions) for s in self._hand.streets)
+            for s in self._hand.streets:
+                s.questions = s.default_questions
+        for s in self._hand.streets:
+            s.default_questions = []
         if self._hand.answers and len(self._hand.answers) != number_questions:
             raise ValidationError(
                 f"_apm_answers contains {len(self._hand.answers)} answers "

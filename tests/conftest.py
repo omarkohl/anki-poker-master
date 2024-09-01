@@ -38,4 +38,6 @@ def pytest_assertrepr_compare(op, left, right):
             f"  initial_stacks: {left.initial_stacks}   |   {right.initial_stacks}",
             f"  first_player: {left.first_player}   |   {right.first_player}",
             f"  actions: {left.actions}   |   {right.actions}",
+            f"  questions: {left.questions}   |   {right.questions}",
+            f"  default_questions: {left.default_questions}   |   {right.default_questions}",
         ]

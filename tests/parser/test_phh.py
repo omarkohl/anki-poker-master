@@ -386,7 +386,7 @@ def test_parser_invalid_poker_variant(variant):
 
 def test_parser_with_preflop():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street
+    from anki_poker_master.model.hand import Street, Question
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -418,7 +418,8 @@ actions = [
         [True, True, True],
         [108, 416, 450],
         2,
-        [["B 12"], ["F"], ["C"]]
+        [["B 12"], ["F"], ["C"]],
+        [Question("What do you do?", "C", (2, 0))],
     )
 
     assert hand.streets[0] == expected_preflop
@@ -426,7 +427,7 @@ actions = [
 
 def test_parser_with_flop():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street
+    from anki_poker_master.model.hand import Street, Question
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -462,7 +463,11 @@ actions = [
         [False, True, True],
         [108, 408, 438],
         0,
-        [[], ["X", "C"], ["B 20"]]
+        [[], ["X", "C"], ["B 20"]],
+        [
+            Question("What do you do?", "X", (1, 0)),
+            Question("What do you do?", "C", (1, 1)),
+        ],
     )
 
     assert hand.streets[1] == expected_flop
@@ -470,7 +475,7 @@ actions = [
 
 def test_parser_with_turn():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street
+    from anki_poker_master.model.hand import Street, Question
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -509,7 +514,10 @@ actions = [
         [False, True, True],
         [108, 388, 418],
         0,
-        [[], ["X"], ["X"]]
+        [[], ["X"], ["X"]],
+        [
+            Question("What do you do?", "X", (1, 0)),
+        ],
     )
 
     assert hand.streets[2] == expected_turn
@@ -517,7 +525,7 @@ actions = [
 
 def test_parser_with_river():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street
+    from anki_poker_master.model.hand import Street, Question
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -559,13 +567,19 @@ actions = [
         [False, True, True],
         [108, 388, 418],
         0,
-        [[], ["B 388"], ["F"]]
+        [[], ["B 388"], ["F"]],
+        [
+            Question("What do you do?", "B 388", (1, 0)),
+        ],
     )
 
     assert hand.streets[3] == expected_river
 
 
 def test_parser_questions():
+    """
+    Test that it's possible to include questions (study spots) and answers in the the .phh file.
+    """
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model.hand import Question
 
@@ -669,3 +683,78 @@ def test_parser_questions_if_apm_answers_are_specified_length_must_match():
         parse(content)
 
     assert "_apm_answers contains 4 answers but 3 questions are asked" in str(excinfo.value)
+
+
+def test_parser_questions_default_all_hero_actions():
+    """
+    Test that if no explicit questions (study spots) are specified via commentaries then every
+    action by the hero is a study spot by default.
+    """
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model.hand import Question
+
+    content = """variant = "NT"
+    antes = [0, 0, 0]
+    blinds_or_straddles = [2, 4, 0]
+    min_bet = 2
+    starting_stacks = [110, 420, 450]
+    actions = [
+      # Pre-flop
+      "d dh p1 ????",
+      "d dh p2 Th8c",
+      "d dh p3 ????",
+      "p3 cbr 12",
+      "p1 f",
+      "p2 cc",
+      "d db AhTs8h",
+      "p2 cc",
+      "p3 cbr 20",
+      "p2 cc",
+      "d db 4s",
+      "p2 cc",
+      "p3 cc",
+      "d db Tc",
+      "p2 cbr 388",
+      "p3 f",
+    ]
+
+    _apm_answers = [
+        "80% Call, 20% Raise.",
+        "Check and only very rarely bet as a bluff.",
+        "Call.",
+        "",
+        "Go all in.",
+    ]
+    """
+    hand = parse(content)
+    assert hand.streets[0].questions is not None
+    assert len(hand.streets[0].questions) == 1
+    assert len(hand.streets[1].questions) == 2
+    assert len(hand.streets[2].questions) == 1
+    assert len(hand.streets[3].questions) == 1
+
+    assert hand.streets[0].questions[0] == Question(
+        "What do you do?",
+        "80% Call, 20% Raise.",
+        (2, 0),
+    )
+    assert hand.streets[1].questions[0] == Question(
+        "What do you do?",
+        "Check and only very rarely bet as a bluff.",
+        (1, 0),
+    )
+    assert hand.streets[1].questions[1] == Question(
+        "What do you do?",
+        "Call.",
+        (1, 1),
+    )
+    assert hand.streets[2].questions[0] == Question(
+        "What do you do?",
+        "X",
+        (1, 0),
+    )
+    assert hand.streets[3].questions[0] == Question(
+        "What do you do?",
+        "Go all in.",
+        (1, 0),
+    )

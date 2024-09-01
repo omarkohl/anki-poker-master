@@ -5,23 +5,23 @@ from typing import List, Tuple
 class Question:
     question: str
     answer: str
-    action: Tuple[int, int]
+    action_table_indices: Tuple[int, int]
 
-    def __init__(self, question: str, answer: str, action: Tuple[int, int]):
+    def __init__(self, question: str, answer: str, action_table_indices: Tuple[int, int]):
         self.question = question
         self.answer = answer
-        self.action = action
+        self.action_table_indices = action_table_indices
 
     def __eq__(self, other):
         return (
-            isinstance(self, other.__class__) and
-            self.question == other.question and
-            self.answer == other.answer and
-            self.action == other.action
+                isinstance(self, other.__class__) and
+                self.question == other.question and
+                self.answer == other.answer and
+                self.action_table_indices == other.action_table_indices
         )
 
     def __repr__(self):
-        return f'Question("{self.question}", "{self.answer}", {self.action})'
+        return f'Question("{self.question}", "{self.answer}", {self.action_table_indices})'
 
 
 class Street:
@@ -34,8 +34,21 @@ class Street:
     # will start with 'first_player'
     actions: List[List[str]]
     questions: List[Question]
+    # one for every action that the 'hero' takes, only used if no explicit questions are asked
+    default_questions: List[Question]
 
-    def __init__(self, name, board, initial_pots, initial_players, initial_stacks, first_player, actions):
+    def __init__(
+            self,
+            name,
+            board,
+            initial_pots,
+            initial_players,
+            initial_stacks,
+            first_player,
+            actions,
+            questions=None,
+            default_questions=None
+    ):
         self.name = name
         self.board = board
         self.initial_pots = initial_pots
@@ -43,7 +56,8 @@ class Street:
         self.initial_stacks = initial_stacks
         self.first_player = first_player
         self.actions = actions
-        self.questions = []
+        self.questions = questions if questions else []
+        self.default_questions = default_questions if default_questions else []
 
     def __eq__(self, other):
         return (
@@ -54,7 +68,9 @@ class Street:
                 self.initial_players == other.initial_players and
                 self.initial_stacks == other.initial_stacks and
                 self.first_player == other.first_player and
-                self.actions == other.actions
+                self.actions == other.actions and
+                self.questions == other.questions and
+                self.default_questions == other.default_questions
         )
 
 
@@ -73,10 +89,10 @@ class Player:
 
     def __eq__(self, other):
         return (
-            isinstance(self, other.__class__) and
-            self.name == other.name and
-            self.is_dealer == other.is_dealer and
-            self.is_hero == other.is_hero
+                isinstance(self, other.__class__) and
+                self.name == other.name and
+                self.is_dealer == other.is_dealer and
+                self.is_hero == other.is_hero
         )
 
 
