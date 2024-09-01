@@ -794,6 +794,15 @@ def test_parser_questions_default_all_hero_actions():
                     8525000,
                     3375000,
                 ]
+        ),
+        (
+                "dwan-ivey-2009.phh",
+                [
+                    # Note that by this point the hand is over and p3 (Tom Dwan) has won.
+                    572100,
+                    1997500,
+                    1109500,
+                ]
         )
     ]
 )
