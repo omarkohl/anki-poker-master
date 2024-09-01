@@ -28,10 +28,12 @@ def golden_dir(request):
 
 @pytest.fixture
 def testdata_dir(request):
+    modules = request.node.module.__name__.split(".")[1:]  # excluding initial "tests"
     testdata_dir_path = os.path.join(
         os.path.dirname(__file__),
+        *modules[:-1],
         "testdata",
-        request.node.module.__name__.split(".")[-1],
+        modules[-1],
         request.node.function.__name__,
     )
     if not os.path.exists(testdata_dir_path):
