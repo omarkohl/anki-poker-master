@@ -15,10 +15,12 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def golden_dir(request):
+    modules = request.node.module.__name__.split(".")[1:]  # excluding initial "tests"
     golden_dir_path = os.path.join(
         os.path.dirname(__file__),
+        *modules[:-1],
         "golden",
-        request.node.module.__name__.split(".")[-1],
+        modules[-1],
         request.node.function.__name__,
     )
     if not os.path.exists(golden_dir_path):
