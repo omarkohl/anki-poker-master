@@ -766,7 +766,8 @@ def test_parser_questions_default_all_hero_actions():
     "file_name, expected_initial_stacks_last_street",
     [
         (
-                "00-18-39.phh", [
+                "00-18-39.phh",
+                [
                     7750000,
                     4125000,
                     8525000,
@@ -775,7 +776,8 @@ def test_parser_questions_default_all_hero_actions():
                 ]
         ),
         (
-                "02-53-09.phh", [
+                "02-53-09.phh",
+                [
                     2125000,
                     2200000,
                     3125000,
@@ -783,6 +785,16 @@ def test_parser_questions_default_all_hero_actions():
                     19425000,
                 ]
         ),
+        (
+                "00-15-36.phh",
+                [
+                    4050000,
+                    8250000,
+                    4550000,
+                    8525000,
+                    3375000,
+                ]
+        )
     ]
 )
 def test_parser_example_files_success(testdata_dir, file_name, expected_initial_stacks_last_street):
