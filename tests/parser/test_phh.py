@@ -1,6 +1,7 @@
 import os
 import pathlib
-from typing import Any
+from numbers import Number
+from typing import Any, List
 
 import pytest
 
@@ -817,13 +818,17 @@ def test_parser_questions_default_all_hero_actions():
         ),
     ]
 )
-def test_parser_example_files_success(testdata_dir, file_name, expected_initial_stacks_last_street):
+def test_parser_example_files_success(
+        testdata_dir: pathlib.Path,
+        file_name: str,
+        expected_initial_stacks_last_street: List[Number],
+) -> None:
     """
     Parse same example .phh files and perform some minimal verification.
     """
     from anki_poker_master.parser.phh import parse
 
-    content = (pathlib.Path(testdata_dir) / file_name).read_text('utf8')
+    content = (testdata_dir / file_name).read_text('utf8')
     hand = parse(content)
     assert hand.streets
     assert hand.streets[-1].initial_stacks == expected_initial_stacks_last_street
