@@ -13,7 +13,7 @@ from pokerkit import (HandHistory,
                       Folding)
 
 from anki_poker_master.model import ValidationError
-from anki_poker_master.model.hand import Hand, Player, Street
+from anki_poker_master.model.hand import Hand, Player, Street, Question
 
 
 class _ParserState(enum.Enum):
@@ -64,6 +64,8 @@ class _Parser:
             self._hand.source = custom_fields["_apm_source"]
         if custom_fields.get("_apm_context", None):
             self._hand.context = custom_fields["_apm_context"]
+        if custom_fields.get("_apm_answers", None):
+            self._hand.answers = custom_fields["_apm_answers"]
         self._current_street_had_a_bet = False
         player_count = hh.create_state().player_count
         for i in range(player_count):
@@ -95,7 +97,7 @@ class _Parser:
             _ParserState.END_TURN: lambda: self._street_end_state_helper("River", _ParserState.RIVER),
             _ParserState.RIVER: lambda: self._street_state_helper(3, _ParserState.FINALIZE),
             _ParserState.FINALIZE: lambda: True,  # Allow pokerkit to run through until the end
-            _ParserState.DONE: lambda: True,
+            _ParserState.DONE: self._state_handler_done,
         }
 
         advance_pk_operation = True
@@ -171,15 +173,53 @@ class _Parser:
         if isinstance(self._pk_current_operation, BoardDealing):
             self._parser_state = next_state
             return False
-        elif isinstance(self._pk_current_operation, CheckingOrCalling):
-            self._hand.streets[current_street_index].actions[self._pk_current_operation.player_index].append(
-                "C" if self._current_street_had_a_bet else "X")
+        if type(self._pk_current_operation) not in (CheckingOrCalling, CompletionBettingOrRaisingTo, Folding):
+            # Skip the cases we are not interested in
+            return True
+
+        # Given that the actions are sorted by the order in which players act in a certain street
+        # we need to calculate which row to use.
+        player_i_for_action_table = (
+                (
+                        self._pk_current_operation.player_index -
+                        self._hand.streets[current_street_index].first_player
+                ) % self._pk_current_state.player_count
+        )
+        commentary = self._pk_current_operation.commentary
+        if commentary:
+            commentary = commentary.strip()
+        action = ""
+        if isinstance(self._pk_current_operation, CheckingOrCalling):
+            action = "C" if self._current_street_had_a_bet else "X"
         elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
-            self._hand.streets[current_street_index].actions[self._pk_current_operation.player_index].append(
-                f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}')
+            action = f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}'
             self._current_street_had_a_bet = True
         elif isinstance(self._pk_current_operation, Folding):
-            self._hand.streets[current_street_index].actions[self._pk_current_operation.player_index].append("F")
+            action = "F"
+        if commentary and commentary.lower().startswith("apm study"):
+            # The commentary marks which spot are a question (i.e. we want to study) and they may
+            # also provide the answer (what comes after the colon). If the spot itself does not
+            # provide an answer, then the answer is expected to be contained in the _apm_answers
+            # custom field.
+            answer = action
+            if commentary.lower().startswith("apm study:"):
+                answer = commentary[len("apm study:"):].strip()
+            else:
+                # Choose the correct answer from _apm_answers
+                number_previous_questions = 0
+                for i in range(len(self._hand.streets)):
+                    if i <= current_street_index:
+                        number_previous_questions += len(self._hand.streets[i].questions)
+                if (number_previous_questions < len(self._hand.answers) and
+                        self._hand.answers[number_previous_questions]):
+                    answer = self._hand.answers[number_previous_questions]
+            next_action_i = len(self._hand.streets[current_street_index].actions[player_i_for_action_table])
+            self._hand.streets[current_street_index].questions.append(Question(
+                "What do you do?",
+                answer,
+                (player_i_for_action_table, next_action_i),
+            ))
+        self._hand.streets[current_street_index].actions[player_i_for_action_table].append(action)
         return True
 
     def _street_end_state_helper(self, next_street_name: str, next_state: _ParserState) -> bool:
@@ -203,6 +243,20 @@ class _Parser:
             )
         )
         self._parser_state = next_state
+        return True
+
+    def _state_handler_done(self) -> bool:
+        """
+        Things to do once the entire .phh file has been parsed.
+        """
+        # Validate that the number of answers in _apm_answers matches the number of questions.
+        # This can't be done without parsing all the actions, so it's easiest to do it at the end.
+        number_questions = sum(len(s.questions) for s in self._hand.streets)
+        if self._hand.answers and len(self._hand.answers) != number_questions:
+            raise ValidationError(
+                f"_apm_answers contains {len(self._hand.answers)} answers "
+                f"but {number_questions} questions are asked"
+            )
         return True
 
 

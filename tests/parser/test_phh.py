@@ -418,7 +418,7 @@ actions = [
         [True, True, True],
         [108, 416, 450],
         2,
-        [["F"], ["C"], ["B 12"]]
+        [["B 12"], ["F"], ["C"]]
     )
 
     assert hand.streets[0] == expected_preflop
@@ -563,3 +563,109 @@ actions = [
     )
 
     assert hand.streets[3] == expected_river
+
+
+def test_parser_questions():
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model.hand import Question
+
+    content = """variant = "NT"
+    antes = [0, 0, 0]
+    blinds_or_straddles = [2, 4, 0]
+    min_bet = 2
+    starting_stacks = [110, 420, 450]
+    actions = [
+      # Pre-flop
+      "d dh p1 ????",
+      "d dh p2 Th8c",
+      "d dh p3 ????",
+      "p3 cbr 12",
+      "p1 f",
+      "p2 cc # apm study",
+      "d db AhTs8h",
+      "p2 cc",
+      "p3 cbr 20",
+      "p2 cc # APM study: Check, but 3bet to 60 would be fine too.",
+      "d db 4s",
+      "p2 cc",
+      "p3 cc",
+      "d db Tc",
+      "p2 cbr 388 # APM Study",
+      "p3 f",
+    ]
+
+    _apm_answers = [
+        "",
+        "Check",
+        "Going all in is best."
+    ]
+    """
+    hand = parse(content)
+    assert hand.streets[0].questions is not None
+    assert len(hand.streets[0].questions) == 1
+    assert len(hand.streets[1].questions) == 1
+    assert len(hand.streets[2].questions) == 0
+    assert len(hand.streets[3].questions) == 1
+
+    assert hand.streets[0].questions[0] == Question(
+        "What do you do?",
+        "C",
+        (2, 0),
+    )
+    # Note that the inline answer takes precedence over the one in _apm_answers
+    assert hand.streets[1].questions[0] == Question(
+        "What do you do?",
+        "Check, but 3bet to 60 would be fine too.",
+        (1, 1),
+    )
+    assert hand.streets[3].questions[0] == Question(
+        "What do you do?",
+        "Going all in is best.",
+        (1, 0),
+    )
+
+
+def test_parser_questions_if_apm_answers_are_specified_length_must_match():
+    """
+    Verify that the length of the _apm_answers user-defined field must match the number of
+    questions (study spots) in the hand.
+    """
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model import ValidationError
+
+    content = """variant = "NT"
+    antes = [0, 0, 0]
+    blinds_or_straddles = [2, 4, 0]
+    min_bet = 2
+    starting_stacks = [110, 420, 450]
+    actions = [
+      # Pre-flop
+      "d dh p1 ????",
+      "d dh p2 Th8c",
+      "d dh p3 ????",
+      "p3 cbr 12",
+      "p1 f",
+      "p2 cc # apm study",
+      "d db AhTs8h",
+      "p2 cc",
+      "p3 cbr 20",
+      "p2 cc # APM study: Check, but 3bet to 60 would be fine too.",
+      "d db 4s",
+      "p2 cc",
+      "p3 cc",
+      "d db Tc",
+      "p2 cbr 388 # APM Study",
+      "p3 f",
+    ]
+
+    _apm_answers = [
+        "",
+        "Check",
+        "Going all in is best.",
+        "",
+    ]
+    """
+    with pytest.raises(ValidationError) as excinfo:
+        parse(content)
+
+    assert "_apm_answers contains 4 answers but 3 questions are asked" in str(excinfo.value)

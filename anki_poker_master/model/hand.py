@@ -1,5 +1,27 @@
 from numbers import Number
-from typing import List
+from typing import List, Tuple
+
+
+class Question:
+    question: str
+    answer: str
+    action: Tuple[int, int]
+
+    def __init__(self, question: str, answer: str, action: Tuple[int, int]):
+        self.question = question
+        self.answer = answer
+        self.action = action
+
+    def __eq__(self, other):
+        return (
+            isinstance(self, other.__class__) and
+            self.question == other.question and
+            self.answer == other.answer and
+            self.action == other.action
+        )
+
+    def __repr__(self):
+        return f'Question("{self.question}", "{self.answer}", {self.action})'
 
 
 class Street:
@@ -11,6 +33,7 @@ class Street:
     first_player: int
     # will start with 'first_player'
     actions: List[List[str]]
+    questions: List[Question]
 
     def __init__(self, name, board, initial_pots, initial_players, initial_stacks, first_player, actions):
         self.name = name
@@ -20,6 +43,7 @@ class Street:
         self.initial_stacks = initial_stacks
         self.first_player = first_player
         self.actions = actions
+        self.questions = []
 
     def __eq__(self, other):
         return (
@@ -64,6 +88,7 @@ class Hand:
     notes: str
     source: str
     context: str
+    answers: List[str]
 
     def __init__(self):
         self.players: List[Player] = []
@@ -72,6 +97,7 @@ class Hand:
         self.notes: str = ''
         self.source: str = ''
         self.context: str = ''
+        self.answers: List[str] = []
 
     def __str__(self):
-        return f'{self.players} {self.hero_cards} {self.streets} {self.notes} {self.source} {self.context}'
+        return f'{self.players} {self.hero_cards} {self.streets} {self.notes} {self.source} {self.context} {self.answers}'
