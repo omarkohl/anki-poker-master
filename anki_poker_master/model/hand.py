@@ -97,6 +97,7 @@ class Player:
 
 
 class Hand:
+    title: str
     # last one is the dealer
     players: List[Player]
     hero_cards: List[str]
@@ -107,6 +108,7 @@ class Hand:
     answers: List[str]
 
     def __init__(self):
+        self.title:str = ""
         self.players: List[Player] = []
         self.hero_cards: List[str] = ['', '']
         self.streets: List[Street] = []
@@ -116,4 +118,4 @@ class Hand:
         self.answers: List[str] = []
 
     def __str__(self):
-        return f'{self.players} {self.hero_cards} {self.streets} {self.notes} {self.source} {self.context} {self.answers}'
+        return f'{self.title} {self.players} {self.hero_cards} {self.streets} {self.notes} {self.source} {self.context} {self.answers}'

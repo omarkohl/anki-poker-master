@@ -30,6 +30,7 @@ The SB is very tight.
 """
     hand = parse(content)
     assert hand is not None
+    assert hand.title == "NLHE 2/4"
     assert len(hand.players) == 3
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
@@ -761,6 +762,44 @@ def test_parser_questions_default_all_hero_actions():
         "Go all in.",
         (1, 0),
     )
+
+
+def test_parser_with_same_antes_for_all():
+    from anki_poker_master.parser.phh import parse
+
+    content = """variant = "NT"
+    antes = [1, 1, 1]
+    blinds_or_straddles = [2, 4, 0]
+    min_bet = 2
+    starting_stacks = [110, 420, 450]
+    actions = [
+      # Pre-flop
+      "d dh p1 ????",
+      "d dh p2 Th8c",
+      "d dh p3 ????",
+    ]
+    """
+    hand = parse(content)
+    assert hand.title == "NLHE 2/4 (ante 1)"
+
+
+def test_parser_with_different_antes():
+    from anki_poker_master.parser.phh import parse
+
+    content = """variant = "NT"
+    antes = [0, 3, 0]
+    blinds_or_straddles = [2, 4, 0]
+    min_bet = 2
+    starting_stacks = [110, 420, 450]
+    actions = [
+      # Pre-flop
+      "d dh p1 ????",
+      "d dh p2 Th8c",
+      "d dh p3 ????",
+    ]
+    """
+    hand = parse(content)
+    assert hand.title == "NLHE 2/4 (ante 1)"
 
 
 @pytest.mark.parametrize(

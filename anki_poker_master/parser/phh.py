@@ -74,6 +74,12 @@ class _Parser:
                 name = hh.players[i]
             is_dealer = (i == player_count - 1)
             self._hand.players.append(Player(name, is_dealer, False))
+        if hh.variant == "NT":
+            self._hand.title = "NLHE"
+        elif hh.variant == "FT":
+            self._hand.title = "LHE"
+        else:
+            self._hand.title = hh.variant
 
     def get_hand(self) -> Hand:
         """
@@ -157,6 +163,14 @@ class _Parser:
                 [[] for _ in range(self._pk_current_state.player_count)],
             )
         )
+        self._hand.title += " " + "/".join(str(b) for b in self._pk_current_state.blinds_or_straddles if b)
+        if any(self._pk_current_state.antes):
+            second_ante = self._pk_current_state.antes[1]
+            if all(a == second_ante for a in self._pk_current_state.antes):
+                self._hand.title += f" (ante {second_ante})"
+            else:
+                # The ante is collected once per round from the BB
+                self._hand.title += f" (ante {second_ante // len(self._hand.players)})"
         self._parser_state = _ParserState.PREFLOP
         return True
 
