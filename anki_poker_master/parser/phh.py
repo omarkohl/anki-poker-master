@@ -196,7 +196,7 @@ class _Parser:
         player_i_for_action_table = (
                 (
                         self._pk_current_operation.player_index -
-                        self._hand.streets[current_street_index].first_player
+                        self._hand.streets[current_street_index].first_player_actions
                 ) % self._pk_current_state.player_count
         )
         commentary = self._pk_current_operation.commentary

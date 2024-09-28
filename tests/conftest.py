@@ -86,7 +86,7 @@ def pytest_assertrepr_compare(op, left, right):
             f"  initial_pots: {left.initial_pots}   |   {right.initial_pots}",
             f"  initial_players: {left.initial_players}   |   {right.initial_players}",
             f"  initial_stacks: {left.initial_stacks}   |   {right.initial_stacks}",
-            f"  first_player: {left.first_player}   |   {right.first_player}",
+            f"  first_player_actions: {left.first_player_actions}   |   {right.first_player_actions}",
             f"  actions: {left.actions}   |   {right.actions}",
             f"  questions: {left.questions}   |   {right.questions}",
             f"  default_questions: {left.default_questions}   |   {right.default_questions}",

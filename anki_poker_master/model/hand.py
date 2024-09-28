@@ -1,5 +1,5 @@
 from numbers import Number
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 
 class Question:
@@ -30,8 +30,8 @@ class Street:
     initial_pots: List[Number]
     initial_stacks: List[Number]
     initial_players: List[bool]
-    first_player: int
-    # will start with 'first_player'
+    first_player_actions: int
+    # will start with 'first_player_actions'
     actions: List[List[str]]
     questions: List[Question]
     # one for every action that the 'hero' takes, only used if no explicit questions are asked
@@ -39,22 +39,22 @@ class Street:
 
     def __init__(
             self,
-            name,
-            board,
-            initial_pots,
-            initial_players,
-            initial_stacks,
-            first_player,
-            actions,
-            questions=None,
-            default_questions=None
+            name: str,
+            board: List[str],
+            initial_pots: List[Number],
+            initial_players: List[bool],
+            initial_stacks: List[Number],
+            first_player_actions: int,
+            actions: List[List[str]],
+            questions: Optional[List[Question]] = None,
+            default_questions: Optional[List[Question]] = None
     ):
         self.name = name
         self.board = board
         self.initial_pots = initial_pots
         self.initial_players = initial_players
         self.initial_stacks = initial_stacks
-        self.first_player = first_player
+        self.first_player_actions = first_player_actions
         self.actions = actions
         self.questions = questions if questions else []
         self.default_questions = default_questions if default_questions else []
@@ -67,7 +67,7 @@ class Street:
                 self.initial_pots == other.initial_pots and
                 self.initial_players == other.initial_players and
                 self.initial_stacks == other.initial_stacks and
-                self.first_player == other.first_player and
+                self.first_player_actions == other.first_player_actions and
                 self.actions == other.actions and
                 self.questions == other.questions and
                 self.default_questions == other.default_questions
