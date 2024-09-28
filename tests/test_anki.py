@@ -4,7 +4,8 @@ import os
 
 
 def test_deck_is_created(tmp_path):
-    from anki_poker_master.anki import create_decks, write_deck_to_file
+    from anki_poker_master.presenter.anki import write_deck_to_file
+    from anki_poker_master.presenter.anki import create_decks
     from anki_poker_master.preflop_scenario import PreflopScenario
 
     scenarios = [
@@ -52,7 +53,7 @@ def test_row_question_cards():
     Row questions are the ones that ask "What should you do with KXs?" and
     similar.
     """
-    from anki_poker_master.anki import create_decks
+    from anki_poker_master.presenter.anki import create_decks
     from anki_poker_master.preflop_scenario import PreflopScenario
 
     scenarios = [
