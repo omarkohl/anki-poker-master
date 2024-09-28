@@ -81,6 +81,15 @@ def main_with_args(args):
         default="./AnkiPokerMaster.apkg",
     )
     parser_hand.add_argument(
+        "-t",
+        "--tag",
+        dest="tags",
+        metavar="TAG",
+        type=str,
+        action="append",
+        help="Tag for the Anki decks. Can be specified multiple times.",
+    )
+    parser_hand.add_argument(
         'phh_files',
         metavar="FILE",
         type=str,
@@ -152,7 +161,7 @@ def _handle_hand_subcommand(args):
         elif f.is_file():
             all_hands.append(parse(f.read_text()))
 
-    deck, media_files = get_deck(all_hands)
+    deck, media_files = get_deck(all_hands, tags=args.tags)
     write_decks_to_file([deck], media_files, pkg_path)
 
 
