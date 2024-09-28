@@ -25,41 +25,57 @@ def main_with_args(args):
         description="AnkiPokerMaster - Create Anki decks for poker ranges"
     )
     parser.add_argument(
-        "-s", "--scenarios", type=str, help="Path to the scenarios file"
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        type=str,
-        help="Path to the resulting Anki package",
-        default="./AnkiPokerMaster.apkg",
-    )
-    parser.add_argument(
-        "-e",
-        "--example",
-        action="store_true",
-        help="Write example file to the path specified by --scenarios/-s if and only if the file does not exist yet",
-    )
-    parser.add_argument(
-        "--tags",
-        nargs="*",
-        type=str,
-        help="Tags for the Anki decks. Specify multiple tags separated by "
-        + "spaces. Default is a single tag: poker.",
+        "-v",
+        "--version",
+        action="version",
+        version=f"AnkiPokerMaster {package_version}",
     )
     parser.add_argument(
         "--verbose",
         action="store_true",
         help="Print verbose output (e.g. for debugging purposes)",
     )
-    parser.add_argument(
-        "-v",
-        "--version",
-        action="version",
-        version=f"AnkiPokerMaster {package_version}",
-    )
-    args = parser.parse_args(args)
 
+    subparsers = parser.add_subparsers()
+
+    parser_range = subparsers.add_parser("range", help="Create decks for poker ranges")
+    parser_range.set_defaults(func=_handle_range_subcommand)
+
+    parser_range.add_argument(
+        "-s", "--scenarios", type=str, help="Path to the scenarios file"
+    )
+    parser_range.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        help="Path to the resulting Anki package",
+        default="./AnkiPokerMaster.apkg",
+    )
+    parser_range.add_argument(
+        "-e",
+        "--example",
+        action="store_true",
+        help="Write example file to the path specified by --scenarios/-s if and only if the file does not exist yet",
+    )
+    parser_range.add_argument(
+        "--tags",
+        nargs="*",
+        type=str,
+        help="Tags for the Anki decks. Specify multiple tags separated by "
+        + "spaces. Default is a single tag: poker.",
+    )
+
+    args = parser.parse_args(args)
+    try:
+        args.func(args)
+    except AttributeError:
+        # func does not exist, in all likelihood because the cli was called
+        # without a subcommand
+        parser.print_help()
+        sys.exit(1)
+
+
+def _handle_range_subcommand(args):
     if args.example:
         if not args.scenarios:
             print("You need to specify --scenarios/-s to write an example file.")

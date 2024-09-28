@@ -32,7 +32,7 @@ def test_example_scenarios(capsys, tmp_path):
     from anki_poker_master.parser.preflop_scenario import EXAMPLE_SCENARIO_FILE
 
     scenarios_file = tmp_path / "scenarios.yml"
-    main_with_args(["-s", str(scenarios_file), "-e"])
+    main_with_args(["range", "-s", str(scenarios_file), "-e"])
     captured = capsys.readouterr()
     assert "Example scenarios file written to" in captured.out
     assert scenarios_file.exists()
@@ -47,7 +47,7 @@ def test_example_scenarios_only_if_doesnt_exist(capsys, tmp_path):
     scenarios_file = tmp_path / "scenarios.yml"
     scenarios_file.write_text("existing file")
     with pytest.raises(SystemExit) as e:
-        main_with_args(["-s", str(scenarios_file), "-e"])
+        main_with_args(["range", "-s", str(scenarios_file), "-e"])
     captured = capsys.readouterr()
     assert "The file" in captured.out
     assert "already exists" in captured.out
@@ -71,6 +71,7 @@ def test_generate_deck(capsys, tmp_path):
     pkg_path = tmp_path / "test.apkg"
     main_with_args(
         [
+            "range",
             "-s",
             str(scenarios_file),
             "-o",
@@ -103,6 +104,7 @@ def test_generate_deck_only_if_it_doesnt_exist(capsys, tmp_path):
     with pytest.raises(SystemExit) as e:
         main_with_args(
             [
+                "range",
                 "-s",
                 str(scenarios_file),
                 "-o",
@@ -137,6 +139,7 @@ def test_generate_deck_with_tags(capsys, tmp_path):
     pkg_path = tmp_path / "test.apkg"
     main_with_args(
         [
+            "range",
             "-s",
             str(scenarios_file),
             "-o",
@@ -174,7 +177,7 @@ def test_generate_deck_with_custom_range_color(capsys, tmp_path):
 """.lstrip()
     )
     pkg_path = tmp_path / "test.apkg"
-    main_with_args(["-s", str(scenarios_file), "-o", str(pkg_path)])
+    main_with_args(["range", "-s", str(scenarios_file), "-o", str(pkg_path)])
     captured = capsys.readouterr()
     assert captured == ("", "")
     assert pkg_path.exists()
