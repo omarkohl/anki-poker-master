@@ -3,7 +3,6 @@ from typing import List, Tuple, Set, Dict
 
 import genanki
 import poker
-from importlib_resources import files
 from poker import Range, Rank, Hand
 
 from anki_poker_master import helper
@@ -355,16 +354,6 @@ def create_decks(
                     )
                 )
     return [deck_standard, deck_detailed], all_media_files
-
-
-def write_deck_to_file(decks: List[genanki.Deck], media_files: Set[str], filename: str):
-    media_files_full_path = []
-    for media_file in media_files:
-        image_path = files("anki_poker_master").joinpath(
-            "resources", "images", media_file
-        )
-        media_files_full_path.append(image_path)
-    genanki.Package(decks, media_files_full_path).write_to_file(filename)
 
 
 def _get_row_question_answer(hand: str, ranges: dict) -> str:

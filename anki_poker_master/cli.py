@@ -6,7 +6,8 @@ from importlib.metadata import version, PackageNotFoundError
 
 from anki_poker_master.parser.preflop_scenario import parse_scenario_yml, EXAMPLE_SCENARIO_FILE
 from anki_poker_master.model import ValidationError
-from anki_poker_master.presenter.anki.preflop_scenario import create_decks, write_deck_to_file
+from anki_poker_master.presenter.anki.preflop_scenario import create_decks
+from anki_poker_master.presenter.anki import write_decks_to_file
 
 
 def main():
@@ -106,4 +107,4 @@ def _create_preflop_scenario_deck(scenarios, tags, verbose, pkg_path):
         scenarios,
         tags,
     )
-    write_deck_to_file(decks, media_files, pkg_path)
+    write_decks_to_file(decks, media_files, pkg_path)

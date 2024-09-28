@@ -4,7 +4,7 @@ import os
 
 
 def test_deck_is_created(tmp_path):
-    from anki_poker_master.presenter.anki.preflop_scenario import write_deck_to_file
+    from anki_poker_master.presenter.anki import write_decks_to_file
     from anki_poker_master.presenter.anki.preflop_scenario import create_decks
     from anki_poker_master.model import PreflopScenario
 
@@ -43,7 +43,46 @@ def test_deck_is_created(tmp_path):
     assert len(media_files) == 28
 
     deck_path = os.path.join(tmp_path, "AnkiPokerMaster.apkg")
-    write_deck_to_file(decks[0], media_files, deck_path)
+    write_decks_to_file(decks[0], media_files, deck_path)
+    assert os.path.exists(deck_path)
+    assert os.path.getsize(deck_path) > 0
+
+
+def test_hand_history_deck_is_created(tmp_path):
+    from anki_poker_master.presenter.anki import write_decks_to_file
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.presenter.anki.phh import get_deck
+
+    phh_file = """variant = 'NT'
+ante_trimming_status = false
+antes = [0, 150000, 0, 0, 0]
+blinds_or_straddles = [50000, 100000, 0, 0, 0]
+min_bet = 100000
+starting_stacks = [4100000, 8775000, 4550000, 8525000, 3750000]
+actions = ['d dh p1 Qd8s', 'd dh p2 Ts2d', 'd dh p3 4c3s', 'd dh p4 7s5h', 'd dh p5 QcTc', 'p3 f', 'p4 f', 'p5 cbr 200000', 'p1 f', 'p2 cc', 'd db Th8c5d', 'p2 cc', 'p5 cbr 175000', 'p2 cc', 'd db 9d', 'p2 cc', 'p5 cc', 'd db Jd', 'p2 cbr 225000', 'p5 cbr 700000', 'p2 f']
+author = 'Juho Kim'
+event = '2023 World Series of Poker Event #43: $50,000 Poker Players Championship | Day 5'
+city = 'Las Vegas'
+region = 'Nevada'
+country = 'United States of America'
+day = 22
+month = 6
+year = 2023
+hand = 3
+players = ['James Obst', 'Talal Shakerchi', 'Brian Rast', 'Matthew Ashton', 'Kristopher Tong']
+finishing_stacks = [4050000, 8025000, 4550000, 8525000, 4550000]
+
+_apm_hero = 2
+
+# File source: https://github.com/uoftcprg/phh-dataset/tree/b086f70/data/wsop/2023/43/5/00-15-36.phh
+# Changes:
+#  * Add _apm_hero
+"""
+    hand = parse(phh_file)
+    deck, media_files = get_deck(hand)
+    deck_path = os.path.join(tmp_path, "AnkiPokerMaster.apkg")
+    write_decks_to_file([deck], media_files, deck_path)
+
     assert os.path.exists(deck_path)
     assert os.path.getsize(deck_path) > 0
 

@@ -1,4 +1,7 @@
+from typing import List, Set
+
 import genanki
+from importlib_resources import files
 
 from anki_poker_master import helper
 
@@ -49,3 +52,13 @@ BASIC_MODEL = genanki.Model(
     ],
     css=helper.default_css(),
 )
+
+
+def write_decks_to_file(decks: List[genanki.Deck], media_files: Set[str], filename: str):
+    media_files_full_path = []
+    for media_file in media_files:
+        image_path = files("anki_poker_master").joinpath(
+            "resources", "images", media_file
+        )
+        media_files_full_path.append(image_path)
+    genanki.Package(decks, media_files_full_path).write_to_file(filename)
