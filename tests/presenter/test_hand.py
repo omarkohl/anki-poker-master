@@ -30,7 +30,7 @@ def test_get_question_success(pytestconfig, golden_dir, street_index, question_i
     for humans to visually evaluate the output.
     """
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.presenter.html import get_question
+    from anki_poker_master.presenter.html.phh import get_question
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -160,7 +160,7 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
 def test_validate_players(players, street_index_for_question, question_index, expected_err):
     from anki_poker_master.model.hand import Hand, Street, Question
     from anki_poker_master.model import ValidationError
-    from anki_poker_master.presenter.html import get_question
+    from anki_poker_master.presenter.html.phh import get_question
 
     hand = Hand()
     hand.players = players
