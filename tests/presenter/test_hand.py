@@ -91,6 +91,94 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
     )
 
 
+def test_html_output_for_large_numbers(pytestconfig, golden_dir):
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.presenter.html.phh import get_question
+
+    content = """# The first televised million dollar pot between Tom Dwan and Phil Ivey.
+# Link: https://youtu.be/GnxFohpljqM
+
+variant = "NT"
+ante_trimming_status = true
+antes = [500, 500, 500]
+blinds_or_straddles = [1000, 2000, 0]
+min_bet = 2000
+starting_stacks = [1125600, 2000000, 553500]
+actions = [
+  # Pre-flop
+
+  "d dh p1 Ac2d",  # Ivey
+  "d dh p2 ????",  # Antonius
+  "d dh p3 7h6h",  # Dwan
+
+  "p3 cbr 7000",  # Dwan
+  "p1 cbr 23000",  # Ivey
+  "p2 f",  # Antonius
+  "p3 cc",  # Dwan
+
+  # Flop
+
+  "d db Jc3d5c",
+
+  "p1 cbr 35000",  # Ivey
+  "p3 cc",  # Dwan
+
+  # Turn
+
+  "d db 4h",
+
+  "p1 cbr 90000",  # Ivey
+  "p3 cbr 232600",  # Dwan
+  "p1 cbr 1067100",  # Ivey
+  "p3 cc",  # Dwan
+
+  # Showdown
+
+  "p1 sm Ac2d",  # Ivey
+  "p3 sm 7h6h",  # Dwan
+
+  # River
+
+  "d db Jh",
+]
+author = "Juho Kim"
+event = "Full Tilt Million Dollar Cash Game S4E12"
+year = 2009
+players = ["Phil Ivey", "Patrik Antonius", "Tom Dwan"]
+currency = "USD"
+
+_apm_hero = 3
+
+# File source: https://github.com/uoftcprg/phh-dataset/tree/b086f70/data/dwan-ivey-2009.phh
+# Changes:
+#  * Add _apm_hero
+"""
+    hand = parse(content)
+    content = get_question(hand, 2, 1)
+
+    # in order to preview the HTML files conveniently we prefix resources
+    resources_prefix = "../../../../../anki_poker_master/resources/"
+
+    content = f"""
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{resources_prefix}default.css">
+</head>
+<body>
+""" + content + "</body>\n</html>\n"
+
+    # prefix all html img src with the above prefix
+    content = re.sub(r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content)
+
+    compare_or_update_golden(
+        pytestconfig,
+        golden_dir / f"question.html",
+        content,
+    )
+
+
 @pytest.mark.parametrize(
     "players, street_index_for_question, question_index, expected_err",
     [

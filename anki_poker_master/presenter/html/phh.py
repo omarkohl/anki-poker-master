@@ -1,3 +1,4 @@
+from anki_poker_master.helper import format_n
 from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import Hand
 
@@ -61,7 +62,11 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
         else:
             max_num_actions = max(len(r) for r in street.actions)
         result += f'<h2>{street.name}</h2>\n'
-        result += f'<p>Pot: {street.initial_pots[0] if len(street.initial_pots) == 1 else street.initial_pots}</p>\n'
+        if len(street.initial_pots) == 1:
+            pot_str = format_n(street.initial_pots[0])
+        else:
+            pot_str = f"[ {' | '.join(map(format_n, street.initial_pots))} ]"
+        result += f'<p>Pot: {pot_str}</p>\n'
         if street.board:
             result += '<div class="board">\n'
             for c in street.board:
@@ -92,7 +97,7 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
             if player.is_dealer:
                 result += ' <span class="dealerbtn">D</span>'
             result += '</td>\n'
-            result += f'<td>{street.initial_stacks[player_index]}</td>\n'
+            result += f'<td>{format_n(street.initial_stacks[player_index])}</td>\n'
             for j in range(max_num_actions):
                 if is_last_street:
                     if j > question.action_table_indices[1]:

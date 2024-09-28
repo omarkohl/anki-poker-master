@@ -1,4 +1,5 @@
 import re
+from numbers import Number
 
 from importlib_resources import files
 
@@ -19,3 +20,10 @@ def blank_table():
 
 def str_to_css_class(action: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]", "_", action).lstrip("_").lower().strip()
+
+
+def format_n(n: Number) -> str:
+    """
+    Return the number as a string with thin space as separator.
+    """
+    return f'{n:,}'.replace(',', u'\u2009')

@@ -12,6 +12,7 @@ from pokerkit import (HandHistory,
                       CompletionBettingOrRaisingTo,
                       Folding)
 
+from anki_poker_master.helper import format_n
 from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import Hand, Player, Street, Question
 
@@ -164,14 +165,14 @@ class _Parser:
                 [[] for _ in range(self._pk_current_state.player_count)],
             )
         )
-        self._hand.title += " " + "/".join(str(b) for b in self._pk_current_state.blinds_or_straddles if b)
+        self._hand.title += " " + "/".join(format_n(b) for b in self._pk_current_state.blinds_or_straddles if b)
         if any(self._pk_current_state.antes):
             second_ante = self._pk_current_state.antes[1]
             if all(a == second_ante for a in self._pk_current_state.antes):
-                self._hand.title += f" (ante {second_ante})"
+                self._hand.title += f" (ante {format_n(second_ante)})"
             else:
                 # The ante is collected once per round from the BB
-                self._hand.title += f" (ante {second_ante // len(self._hand.players)})"
+                self._hand.title += f" (ante {format_n(second_ante // len(self._hand.players))})"
         self._parser_state = _ParserState.PREFLOP
         return True
 
@@ -209,7 +210,8 @@ class _Parser:
             if self._pk_current_state.stacks[self._pk_current_operation.player_index] == 0:
                 action += " (AI)"
         elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
-            action = f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}'
+            action = (f'{"R" if self._current_street_had_a_bet else "B"} '
+                      f'{format_n(self._pk_current_operation.amount)}')
             if self._pk_current_state.stacks[self._pk_current_operation.player_index] == 0:
                 action += " (AI)"
             self._current_street_had_a_bet = True
