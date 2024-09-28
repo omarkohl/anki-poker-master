@@ -121,19 +121,19 @@ class PreflopScenario:
         css = []
         for action in sorted(range_colors.keys()):
             color_light, color_dark = range_colors[action]
-            css += [indent * " " + f"td.{action} {{"]
+            css += [indent * " " + f"table.range td.{action}, table.legend td.{action} {{"]
             indent += 4
             css += [indent * " " + f"background-color: {color_light};"]
             indent -= 4
             css += [indent * " " + "}"]
 
-            css += [indent * " " + f".nightMode td.{action} {{"]
+            css += [indent * " " + f".nightMode table.range td.{action}, .nightMode table.legend td.{action} {{"]
             indent += 4
             css += [indent * " " + f"background-color: {color_dark};"]
             indent -= 4
             css += [indent * " " + "}"]
 
-            css += [indent * " " + f"td.{action}.marked {{"]
+            css += [indent * " " + f"table.range td.{action}.marked, table.legend td.{action}.marked {{"]
             indent += 4
             css += [indent * " " + "background: repeating-linear-gradient("]
             indent += 4
@@ -145,7 +145,7 @@ class PreflopScenario:
             indent -= 4
             css += [indent * " " + "}"]
 
-            css += [indent * " " + f".nightMode td.{action}.marked {{"]
+            css += [indent * " " + f".nightMode table.range td.{action}.marked, .nightMode table.legend td.{action}.marked {{"]
             indent += 4
             css += [indent * " " + "background: repeating-linear-gradient("]
             indent += 4

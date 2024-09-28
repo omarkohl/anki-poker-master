@@ -59,6 +59,7 @@ table.legend td {
     height: 25px;
     box-sizing: border-box;
     overflow: hidden;
+    background-color: white;
 }
 
 .nightMode table.range td,
@@ -68,10 +69,6 @@ table.legend td {
 
 table.range:hover td {
     cursor: pointer;
-}
-
-td {
-    background-color: white;
 }
 
 table.legend th {
@@ -92,31 +89,37 @@ table.range td.center {
     font-size: 1.3em;
 }
 
-td.fold {
+table.range td.fold,
+table.legend td.fold {
     background-color: #D6D2D2;
 }
 
-.nightMode td.fold {
+.nightMode table.range td.fold,
+.nightMode table.legend td.fold {
     background-color: #485153;
 }
 
-td.call {
+table.range td.call,
+table.legend td.call {
     background-color: #4be488;
 }
 
-.nightMode td.call {
+.nightMode table.range td.call,
+.nightMode table.legend td.call {
     background-color: #009594;
 }
 
-td.raise {
+table.range td.raise,
+table.legend td.raise {
     background-color: #FF6A6A;
 }
 
-.nightMode td.raise {
+.nightMode table.range td.raise,
+.nightMode table.legend td.raise {
     background-color: #8F0707;
 }
 
-td.marked {
+table.range td.marked {
     background: repeating-linear-gradient(45deg,
             white,
             white 3px,
@@ -124,7 +127,7 @@ td.marked {
             #00000070 6px);
 }
 
-.nightMode td.marked {
+.nightMode table.range td.marked {
     background: repeating-linear-gradient(45deg,
             black,
             black 3px,
@@ -132,7 +135,7 @@ td.marked {
             #00000070 6px) !important;
 }
 
-td.marked.fold {
+table.range td.marked.fold {
     background: repeating-linear-gradient(45deg,
             #D6D2D2,
             #D6D2D2 3px,
@@ -140,7 +143,7 @@ td.marked.fold {
             #00000070 6px);
 }
 
-.nightMode td.marked.fold {
+.nightMode table.range td.marked.fold {
     background: repeating-linear-gradient(45deg,
             #485153,
             #485153 3px,
@@ -148,7 +151,7 @@ td.marked.fold {
             #00000070 6px);
 }
 
-td.marked.call {
+table.range td.marked.call {
     background: repeating-linear-gradient(45deg,
             #4BE488,
             #4BE488 3px,
@@ -156,7 +159,7 @@ td.marked.call {
             #00000070 6px);
 }
 
-.nightMode td.marked.call {
+.nightMode table.range td.marked.call {
     background: repeating-linear-gradient(45deg,
             #009594,
             #009594 3px,
@@ -164,7 +167,7 @@ td.marked.call {
             #00000070 6px);
 }
 
-td.marked.raise {
+table.range td.marked.raise {
     background: repeating-linear-gradient(45deg,
             #FF6A6A,
             #FF6A6A 3px,
@@ -172,7 +175,7 @@ td.marked.raise {
             #00000070 6px);
 }
 
-.nightMode td.marked.raise {
+.nightMode table.range td.marked.raise {
     background: repeating-linear-gradient(45deg,
             #8F0707,
             #8F0707 3px,
@@ -180,12 +183,12 @@ td.marked.raise {
             #00000070 6px);
 }
 
-td.blank {
+table.range td.blank {
     /* Blanking a cell must have priority */
     background-color: white !important;
 }
 
-td.marked.blank {
+table.range td.marked.blank {
     background: repeating-linear-gradient(45deg,
             white,
             white 3px,
@@ -193,11 +196,11 @@ td.marked.blank {
             #00000070 6px) !important;
 }
 
-.nightMode td.blank {
+.nightMode table.range td.blank {
     background-color: black !important;
 }
 
-.nightMode td.marked.blank {
+.nightMode table.range td.marked.blank {
     background: repeating-linear-gradient(45deg,
             black,
             black 3px,

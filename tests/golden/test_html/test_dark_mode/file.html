@@ -60,6 +60,7 @@
         height: 25px;
         box-sizing: border-box;
         overflow: hidden;
+        background-color: white;
     }
 
     .nightMode table.range td,
@@ -69,10 +70,6 @@
 
     table.range:hover td {
         cursor: pointer;
-    }
-
-    td {
-        background-color: white;
     }
 
     table.legend th {
@@ -93,31 +90,37 @@
         font-size: 1.3em;
     }
 
-    td.fold {
+    table.range td.fold,
+    table.legend td.fold {
         background-color: #D6D2D2;
     }
 
-    .nightMode td.fold {
+    .nightMode table.range td.fold,
+    .nightMode table.legend td.fold {
         background-color: #485153;
     }
 
-    td.call {
+    table.range td.call,
+    table.legend td.call {
         background-color: #4be488;
     }
 
-    .nightMode td.call {
+    .nightMode table.range td.call,
+    .nightMode table.legend td.call {
         background-color: #009594;
     }
 
-    td.raise {
+    table.range td.raise,
+    table.legend td.raise {
         background-color: #FF6A6A;
     }
 
-    .nightMode td.raise {
+    .nightMode table.range td.raise,
+    .nightMode table.legend td.raise {
         background-color: #8F0707;
     }
 
-    td.marked {
+    table.range td.marked {
         background: repeating-linear-gradient(45deg,
                 white,
                 white 3px,
@@ -125,7 +128,7 @@
                 #00000070 6px);
     }
 
-    .nightMode td.markded {
+    .nightMode table.range td.marked {
         background: repeating-linear-gradient(45deg,
                 black,
                 black 3px,
@@ -133,7 +136,7 @@
                 #00000070 6px) !important;
     }
 
-    td.marked.fold {
+    table.range td.marked.fold {
         background: repeating-linear-gradient(45deg,
                 #D6D2D2,
                 #D6D2D2 3px,
@@ -141,7 +144,7 @@
                 #00000070 6px);
     }
 
-    .nightMode td.marked.fold {
+    .nightMode table.range td.marked.fold {
         background: repeating-linear-gradient(45deg,
                 #485153,
                 #485153 3px,
@@ -149,7 +152,7 @@
                 #00000070 6px);
     }
 
-    td.marked.call {
+    table.range td.marked.call {
         background: repeating-linear-gradient(45deg,
                 #4BE488,
                 #4BE488 3px,
@@ -157,7 +160,7 @@
                 #00000070 6px);
     }
 
-    .nightMode td.marked.call {
+    .nightMode table.range td.marked.call {
         background: repeating-linear-gradient(45deg,
                 #009594,
                 #009594 3px,
@@ -165,7 +168,7 @@
                 #00000070 6px);
     }
 
-    td.marked.raise {
+    table.range td.marked.raise {
         background: repeating-linear-gradient(45deg,
                 #FF6A6A,
                 #FF6A6A 3px,
@@ -173,7 +176,7 @@
                 #00000070 6px);
     }
 
-    .nightMode td.marked.raise {
+    .nightMode table.range td.marked.raise {
         background: repeating-linear-gradient(45deg,
                 #8F0707,
                 #8F0707 3px,
@@ -181,12 +184,12 @@
                 #00000070 6px);
     }
 
-    td.blank {
+    table.range td.blank {
         /* Blanking a cell must have priority */
         background-color: white !important;
     }
 
-    td.marked.blank {
+    table.range td.marked.blank {
         background: repeating-linear-gradient(45deg,
                 white,
                 white 3px,
@@ -194,11 +197,11 @@
                 #00000070 6px) !important;
     }
 
-    .nightMode td.blank {
+    .nightMode table.range td.blank {
         background-color: black !important;
     }
 
-    .nightMode td.marked.blank {
+    .nightMode table.range td.marked.blank {
         background: repeating-linear-gradient(45deg,
                 black,
                 black 3px,
@@ -207,200 +210,200 @@
     }
 </style>
 <style>
-    td.zcustom_01 {
+    table.range td.zcustom_01, table.legend td.zcustom_01 {
         background-color: #808000;
     }
-    .nightMode td.zcustom_01 {
+    .nightMode table.range td.zcustom_01, .nightMode table.legend td.zcustom_01 {
         background-color: #404000;
     }
-    td.zcustom_01.marked {
+    table.range td.zcustom_01.marked, table.legend td.zcustom_01.marked {
         background: repeating-linear-gradient(
             45deg,
             #808000, #808000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_01.marked {
+    .nightMode table.range td.zcustom_01.marked, .nightMode table.legend td.zcustom_01.marked {
         background: repeating-linear-gradient(
             45deg,
             #404000, #404000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_02 {
+    table.range td.zcustom_02, table.legend td.zcustom_02 {
         background-color: #FF00FF;
     }
-    .nightMode td.zcustom_02 {
+    .nightMode table.range td.zcustom_02, .nightMode table.legend td.zcustom_02 {
         background-color: #800080;
     }
-    td.zcustom_02.marked {
+    table.range td.zcustom_02.marked, table.legend td.zcustom_02.marked {
         background: repeating-linear-gradient(
             45deg,
             #FF00FF, #FF00FF 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_02.marked {
+    .nightMode table.range td.zcustom_02.marked, .nightMode table.legend td.zcustom_02.marked {
         background: repeating-linear-gradient(
             45deg,
             #800080, #800080 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_03 {
+    table.range td.zcustom_03, table.legend td.zcustom_03 {
         background-color: #00FFFF;
     }
-    .nightMode td.zcustom_03 {
+    .nightMode table.range td.zcustom_03, .nightMode table.legend td.zcustom_03 {
         background-color: #015757;
     }
-    td.zcustom_03.marked {
+    table.range td.zcustom_03.marked, table.legend td.zcustom_03.marked {
         background: repeating-linear-gradient(
             45deg,
             #00FFFF, #00FFFF 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_03.marked {
+    .nightMode table.range td.zcustom_03.marked, .nightMode table.legend td.zcustom_03.marked {
         background: repeating-linear-gradient(
             45deg,
             #015757, #015757 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_04 {
+    table.range td.zcustom_04, table.legend td.zcustom_04 {
         background-color: #FFFF00;
     }
-    .nightMode td.zcustom_04 {
+    .nightMode table.range td.zcustom_04, .nightMode table.legend td.zcustom_04 {
         background-color: #808000;
     }
-    td.zcustom_04.marked {
+    table.range td.zcustom_04.marked, table.legend td.zcustom_04.marked {
         background: repeating-linear-gradient(
             45deg,
             #FFFF00, #FFFF00 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_04.marked {
+    .nightMode table.range td.zcustom_04.marked, .nightMode table.legend td.zcustom_04.marked {
         background: repeating-linear-gradient(
             45deg,
             #808000, #808000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_05 {
+    table.range td.zcustom_05, table.legend td.zcustom_05 {
         background-color: #00FF00;
     }
-    .nightMode td.zcustom_05 {
+    .nightMode table.range td.zcustom_05, .nightMode table.legend td.zcustom_05 {
         background-color: #008000;
     }
-    td.zcustom_05.marked {
+    table.range td.zcustom_05.marked, table.legend td.zcustom_05.marked {
         background: repeating-linear-gradient(
             45deg,
             #00FF00, #00FF00 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_05.marked {
+    .nightMode table.range td.zcustom_05.marked, .nightMode table.legend td.zcustom_05.marked {
         background: repeating-linear-gradient(
             45deg,
             #008000, #008000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_06 {
+    table.range td.zcustom_06, table.legend td.zcustom_06 {
         background-color: #FF0000;
     }
-    .nightMode td.zcustom_06 {
+    .nightMode table.range td.zcustom_06, .nightMode table.legend td.zcustom_06 {
         background-color: #800000;
     }
-    td.zcustom_06.marked {
+    table.range td.zcustom_06.marked, table.legend td.zcustom_06.marked {
         background: repeating-linear-gradient(
             45deg,
             #FF0000, #FF0000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_06.marked {
+    .nightMode table.range td.zcustom_06.marked, .nightMode table.legend td.zcustom_06.marked {
         background: repeating-linear-gradient(
             45deg,
             #800000, #800000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_07 {
+    table.range td.zcustom_07, table.legend td.zcustom_07 {
         background-color: #008000;
     }
-    .nightMode td.zcustom_07 {
+    .nightMode table.range td.zcustom_07, .nightMode table.legend td.zcustom_07 {
         background-color: #004000;
     }
-    td.zcustom_07.marked {
+    table.range td.zcustom_07.marked, table.legend td.zcustom_07.marked {
         background: repeating-linear-gradient(
             45deg,
             #008000, #008000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_07.marked {
+    .nightMode table.range td.zcustom_07.marked, .nightMode table.legend td.zcustom_07.marked {
         background: repeating-linear-gradient(
             45deg,
             #004000, #004000 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_08 {
+    table.range td.zcustom_08, table.legend td.zcustom_08 {
         background-color: #C24F4F;
     }
-    .nightMode td.zcustom_08 {
+    .nightMode table.range td.zcustom_08, .nightMode table.legend td.zcustom_08 {
         background-color: #7A2D2D;
     }
-    td.zcustom_08.marked {
+    table.range td.zcustom_08.marked, table.legend td.zcustom_08.marked {
         background: repeating-linear-gradient(
             45deg,
             #C24F4F, #C24F4F 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_08.marked {
+    .nightMode table.range td.zcustom_08.marked, .nightMode table.legend td.zcustom_08.marked {
         background: repeating-linear-gradient(
             45deg,
             #7A2D2D, #7A2D2D 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_09 {
+    table.range td.zcustom_09, table.legend td.zcustom_09 {
         background-color: #5E5EF3;
     }
-    .nightMode td.zcustom_09 {
+    .nightMode table.range td.zcustom_09, .nightMode table.legend td.zcustom_09 {
         background-color: #2E2E9A;
     }
-    td.zcustom_09.marked {
+    table.range td.zcustom_09.marked, table.legend td.zcustom_09.marked {
         background: repeating-linear-gradient(
             45deg,
             #5E5EF3, #5E5EF3 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_09.marked {
+    .nightMode table.range td.zcustom_09.marked, .nightMode table.legend td.zcustom_09.marked {
         background: repeating-linear-gradient(
             45deg,
             #2E2E9A, #2E2E9A 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    td.zcustom_10 {
+    table.range td.zcustom_10, table.legend td.zcustom_10 {
         background-color: #F0AC54;
     }
-    .nightMode td.zcustom_10 {
+    .nightMode table.range td.zcustom_10, .nightMode table.legend td.zcustom_10 {
         background-color: #8A5317;
     }
-    td.zcustom_10.marked {
+    table.range td.zcustom_10.marked, table.legend td.zcustom_10.marked {
         background: repeating-linear-gradient(
             45deg,
             #F0AC54, #F0AC54 3px,
             #00000070 3px, #00000070 6px
         );
     }
-    .nightMode td.zcustom_10.marked {
+    .nightMode table.range td.zcustom_10.marked, .nightMode table.legend td.zcustom_10.marked {
         background: repeating-linear-gradient(
             45deg,
             #8A5317, #8A5317 3px,
