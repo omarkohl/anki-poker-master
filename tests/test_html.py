@@ -1,6 +1,9 @@
 import textwrap
 from poker.hand import Range
 
+from anki_poker_master.presenter.anki.preflop_scenario import html_full, html_blank, html_top_left_quadrant_blank, \
+    html_top_right_quadrant_blank, html_bottom_left_quadrant_blank, html_bottom_right_quadrant_blank, extra_css, \
+    html_legend
 from tests.utils import compare_or_update_golden
 
 
@@ -9,7 +12,7 @@ def test_default_extra_css(pytestconfig, golden_dir):
     In the default case extra CSS should be empty since we don't need to add
     or change any colors.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     action_ranges = {
         "Call": Range("A3+, K3+, Q3+, J3+, T3+, 93+, 83+, 73+"),
@@ -17,12 +20,12 @@ def test_default_extra_css(pytestconfig, golden_dir):
     }
 
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
-    css = scenario.extra_css()
+    css = extra_css(scenario.extra_range_colors, scenario.ranges)
     assert css == ""
 
 
 def test_custom_fold_color_css(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -39,9 +42,9 @@ def test_custom_fold_color_css(pytestconfig, golden_dir):
     )
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_full()
-    html += scenario.html_legend()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_full(scenario.ranges)
+    html += html_legend(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
@@ -50,7 +53,7 @@ def test_custom_range_css(pytestconfig, golden_dir):
     """
     Test that the custom range is added to the css with one of the predefined colors.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -63,9 +66,9 @@ def test_custom_range_css(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_full()
-    html += scenario.html_legend()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_full(scenario.ranges)
+    html += html_legend(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
@@ -74,7 +77,7 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
     """
     Test that the custom range is added to the css with the color passed in.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -91,15 +94,15 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
     )
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_full()
-    html += scenario.html_legend()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_full(scenario.ranges)
+    html += html_legend(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_legend_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -111,14 +114,14 @@ def test_legend_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_legend()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_legend(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_full_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -130,14 +133,14 @@ def test_full_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_full()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_full(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_blank_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -149,14 +152,14 @@ def test_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_blank()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_blank()
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_top_left_quadrant_blank_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -168,14 +171,14 @@ def test_top_left_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_top_left_quadrant_blank()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_top_left_quadrant_blank(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_top_right_quadrant_blank_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -187,14 +190,14 @@ def test_top_right_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_top_right_quadrant_blank()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_top_right_quadrant_blank(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_bottom_left_quadrant_blank_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -206,14 +209,14 @@ def test_bottom_left_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_bottom_left_quadrant_blank()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_bottom_left_quadrant_blank(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
 
 def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -225,8 +228,8 @@ def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_bottom_right_quadrant_blank()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_bottom_right_quadrant_blank(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
@@ -235,7 +238,7 @@ def test_top_right_quadrant_blank_html_with_custom_ranges(pytestconfig, golden_d
     """
     The purpose of this test is to verify that custom CSS also works with blank.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -252,8 +255,8 @@ def test_top_right_quadrant_blank_html_with_custom_ranges(pytestconfig, golden_d
     )
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_top_right_quadrant_blank()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_top_right_quadrant_blank(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
@@ -262,7 +265,7 @@ def test_overlapping_ranges(pytestconfig, golden_dir):
     """
     Verify that overlapping ranges are overwritten in alphabetical order.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -276,8 +279,8 @@ def test_overlapping_ranges(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_full()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_full(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
@@ -286,7 +289,7 @@ def test_default_is_fold(pytestconfig, golden_dir):
     """
     Verify that if no ranges are passed in, the default is to fold.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -295,8 +298,8 @@ def test_default_is_fold(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
-    html += scenario.html_full()
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
+    html += html_full(scenario.ranges)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
 
@@ -306,7 +309,7 @@ def test_dark_mode(pytestconfig, golden_dir):
     Verify that dark mode is added to the CSS. This test is essentially just
     to be able to manually and visually evaluate the golden file.
     """
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     from anki_poker_master import helper
 
@@ -328,17 +331,17 @@ def test_dark_mode(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(scenario.extra_css(), 4 * " ") + "</style>\n"
+    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario.ranges), 4 * " ") + "</style>\n"
     html += "<h1>Light Mode</h1>\n"
     html += "<div>\n"  # light mode
-    html += scenario.html_bottom_left_quadrant_blank()
-    html += scenario.html_legend()
+    html += html_bottom_left_quadrant_blank(scenario.ranges)
+    html += html_legend(scenario.ranges)
     html += "<p>Some text containing a <a href='https://www.example.com'>link</a></p>\n"
     html += "</div>\n"
     html += "<h1>Dark Mode (night mode)</h1>\n"
     html += '<div class="nightMode" style="background-color: black">\n'  # dark mode
-    html += scenario.html_bottom_left_quadrant_blank()
-    html += scenario.html_legend()
+    html += html_bottom_left_quadrant_blank(scenario.ranges)
+    html += html_legend(scenario.ranges)
     html += "<p>Some text containing a <a href='https://www.example.com'>link</a></p>\n"
     html += "</div>"
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"

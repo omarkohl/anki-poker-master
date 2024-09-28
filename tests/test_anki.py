@@ -6,7 +6,7 @@ import os
 def test_deck_is_created(tmp_path):
     from anki_poker_master.presenter.anki.preflop_scenario import write_deck_to_file
     from anki_poker_master.presenter.anki.preflop_scenario import create_decks
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     scenarios = [
         {
@@ -54,7 +54,7 @@ def test_row_question_cards():
     similar.
     """
     from anki_poker_master.presenter.anki.preflop_scenario import create_decks
-    from anki_poker_master.preflop_scenario import PreflopScenario
+    from anki_poker_master.model import PreflopScenario
 
     scenarios = [
         {

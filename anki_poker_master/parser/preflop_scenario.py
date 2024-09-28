@@ -4,8 +4,7 @@ import schema
 import yaml
 from poker import Range
 
-from anki_poker_master.model import ValidationError
-from anki_poker_master.preflop_scenario import PreflopScenario
+from anki_poker_master.model import ValidationError, PreflopScenario
 
 
 def parse_scenario_yml(scenario_yml: str) -> List[PreflopScenario]:
