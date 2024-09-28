@@ -9,6 +9,7 @@ from poker import Range, Rank, Hand
 from anki_poker_master import helper
 from anki_poker_master.helper import str_to_css_class
 from anki_poker_master.model import PreflopScenario
+from anki_poker_master.presenter.anki import BASIC_MODEL
 
 _ALL_CARD_HEADER = """
 <div class="row">
@@ -62,58 +63,6 @@ _ALL_CARD_FOOTER = (
     + helper.default_js()
     + "</script>"
 )
-
-
-_BASIC_HEADER = """
-<div class="row">
-    <div class="column column_left">
-        {{Tags}}
-    </div>
-    <div class="column column_right">
-    </div>
-</div>
-""".lstrip()
-
-
-_BASIC_FOOTER = """
-{{#Notes}}
-<p>
-<small><b>Notes:</b></small>
-<br>
-<small>{{Notes}}</small>
-</p>
-{{/Notes}}
-{{#Source}}
-<p>
-<small><b>Source:</b></small>
-<br>
-<small>{{Source}}</small>
-</p>
-{{/Source}}
-""".lstrip()
-
-
-_BASIC_MODEL = genanki.Model(
-    1708087674509,
-    "APM Basic",
-    fields=[
-        {"name": "Question"},
-        {"name": "Answer"},
-        {"name": "Notes", "size": 14},
-        {"name": "Source", "size": 14},
-    ],
-    templates=[
-        {
-            "name": "QA",
-            "qfmt": _BASIC_HEADER + "{{Question}}",
-            "afmt": "{{FrontSide}}<hr id='answer'>{{Answer}}<br>" + _BASIC_FOOTER,
-            "bqfmt": "{{Question}}",
-            "bafmt": "{{Answer}}",
-        },
-    ],
-    css=helper.default_css(),
-)
-
 
 _SCENARIO_MODEL = genanki.Model(
     1995683082,  # Random number that should not change in the future
@@ -366,7 +315,7 @@ def create_decks(
             notes += html_full(scenario) + "<br>" + html_legend(scenario)
             deck_standard.add_note(
                 genanki.Note(
-                    model=_BASIC_MODEL,
+                    model=BASIC_MODEL,
                     fields=[
                         full_question,
                         answer,
@@ -395,7 +344,7 @@ def create_decks(
                 notes += html_full(scenario) + "<br>" + html_legend(scenario)
                 deck_detailed.add_note(
                     genanki.Note(
-                        model=_BASIC_MODEL,
+                        model=BASIC_MODEL,
                         fields=[
                             full_question,
                             answer,
@@ -660,5 +609,3 @@ def _to_html(
     indent -= 4
     html.append(indent * " " + "</table>")
     return "\n".join(html) + "\n"
-
-
