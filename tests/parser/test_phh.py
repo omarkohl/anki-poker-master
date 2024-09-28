@@ -422,7 +422,7 @@ actions = [
         [True, True, True],
         [108, 416, 450],
         2,
-        [["B 12"], ["F"], ["C"]],
+        [["R 12"], ["F"], ["C"]],
         [Question("What do you do?", "C", (2, 0))],
     )
 
@@ -871,3 +871,59 @@ def test_parser_example_files_success(
     hand = parse(content)
     assert hand.streets
     assert hand.streets[-1].initial_stacks == expected_initial_stacks_last_street
+
+
+def test_preflop_check_action_not_possible() -> None:
+    """
+    Verify that preflop any CC (in the PHH parlance) is a call not a check
+    because the big blind is the first bet.
+    This was an early bug.
+    """
+
+    from anki_poker_master.parser.phh import parse
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+  "p3 cc",
+  "p1 f",
+  "p2 cc",
+]
+"""
+    hand = parse(content)
+    assert hand.streets[0].actions == [["C"], ["F"], ["C"]]
+
+
+def test_preflop_bet_action_not_possible() -> None:
+    """
+    Verify that preflop any CBR (in the PHH parlance) is a raise not a check
+    because the big blind is the first bet.
+    This was an early bug.
+    """
+
+    from anki_poker_master.parser.phh import parse
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+  "p3 cbr 12",
+  "p1 f",
+  "p2 cc",
+]
+"""
+    hand = parse(content)
+    assert hand.streets[0].actions == [["R 12"], ["F"], ["C"]]

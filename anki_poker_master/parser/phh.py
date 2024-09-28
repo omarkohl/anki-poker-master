@@ -66,7 +66,8 @@ class _Parser:
             self._hand.context = custom_fields["_apm_context"]
         if custom_fields.get("_apm_answers", None):
             self._hand.answers = custom_fields["_apm_answers"]
-        self._current_street_had_a_bet = False
+        # preflop the BB is the first bet
+        self._current_street_had_a_bet = True
         player_count = hh.create_state().player_count
         for i in range(player_count):
             name = f'p{i + 1}'
