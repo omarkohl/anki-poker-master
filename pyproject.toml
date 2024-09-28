@@ -21,6 +21,7 @@ pokerkit = "^0.5.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"
 black = "^24.2.0"
+anki = "^24.6.3"
 
 [build-system]
 requires = ["poetry-core"]
