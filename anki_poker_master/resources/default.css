@@ -124,7 +124,7 @@ td.marked {
             #00000070 6px);
 }
 
-.nightMode td.markded {
+.nightMode td.marked {
     background: repeating-linear-gradient(45deg,
             black,
             black 3px,
