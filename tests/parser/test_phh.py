@@ -571,9 +571,9 @@ actions = [
         [False, True, True],
         [108, 388, 418],
         0,
-        [[], ["B 388"], ["F"]],
+        [[], ["B 388 (AI)"], ["F"]],
         [
-            Question("What do you do?", "B 388", (1, 0)),
+            Question("What do you do?", "B 388 (AI)", (1, 0)),
         ],
     )
 
@@ -927,3 +927,31 @@ actions = [
 """
     hand = parse(content)
     assert hand.streets[0].actions == [["R 12"], ["F"], ["C"]]
+
+
+def test_all_in_is_indicated_separately() -> None:
+    """
+    Verify that preflop any CBR (in the PHH parlance) is a raise not a check
+    because the big blind is the first bet.
+    This was an early bug.
+    """
+
+    from anki_poker_master.parser.phh import parse
+
+    content = """variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [448, 420, 450]
+actions = [
+  # Pre-flop
+  "d dh p1 ????",
+  "d dh p2 Th8c",
+  "d dh p3 ????",
+  "p3 cbr 450",
+  "p1 cc",
+  "p2 f",
+]
+"""
+    hand = parse(content)
+    assert hand.streets[0].actions == [["R 450 (AI)"], ["C (AI)"], ["F"]]

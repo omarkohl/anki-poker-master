@@ -206,8 +206,12 @@ class _Parser:
         action = ""
         if isinstance(self._pk_current_operation, CheckingOrCalling):
             action = "C" if self._current_street_had_a_bet else "X"
+            if self._pk_current_state.stacks[self._pk_current_operation.player_index] == 0:
+                action += " (AI)"
         elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
             action = f'{"R" if self._current_street_had_a_bet else "B"} {self._pk_current_operation.amount}'
+            if self._pk_current_state.stacks[self._pk_current_operation.player_index] == 0:
+                action += " (AI)"
             self._current_street_had_a_bet = True
         elif isinstance(self._pk_current_operation, Folding):
             action = "F"
