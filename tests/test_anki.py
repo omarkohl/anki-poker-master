@@ -79,7 +79,7 @@ _apm_hero = 2
 #  * Add _apm_hero
 """
     hand = parse(phh_file)
-    deck, media_files = get_deck(hand)
+    deck, media_files = get_deck([hand])
     deck_path = os.path.join(tmp_path, "AnkiPokerMaster.apkg")
     write_decks_to_file([deck], media_files, deck_path)
 

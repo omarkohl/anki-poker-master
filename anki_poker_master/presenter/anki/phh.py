@@ -1,5 +1,5 @@
 import random
-from typing import Set
+from typing import Set, List, Tuple
 
 from genanki import Note, Deck
 
@@ -25,15 +25,16 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
     return note
 
 
-def get_deck(hand: Hand) -> (Deck, Set[str]):
+def get_deck(hands: List[Hand]) -> Tuple[Deck, Set[str]]:
     all_media_files = set()
     deck = Deck(
         random.randrange(1 << 30, 1 << 31),
         "AnkiPokerMaster::HandHistory"
     )
-    all_media_files.update([f"apm-card-small-{c}.png" for c in hand.hero_cards])
-    for i, s in enumerate(hand.streets):
-        all_media_files.update([f"apm-card-small-{c}.png" for c in s.board])
-        for j, q in enumerate(s.questions):
-            deck.add_note(get_question(hand, i, j))
+    for hand in hands:
+        all_media_files.update([f"apm-card-small-{c}.png" for c in hand.hero_cards])
+        for i, s in enumerate(hand.streets):
+            all_media_files.update([f"apm-card-small-{c}.png" for c in s.board])
+            for j, q in enumerate(s.questions):
+                deck.add_note(get_question(hand, i, j))
     return deck, all_media_files

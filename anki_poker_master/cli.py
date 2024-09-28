@@ -3,9 +3,12 @@ import sys
 import traceback
 import argparse
 from importlib.metadata import version, PackageNotFoundError
+from pathlib import Path
 
+from anki_poker_master.parser.phh import parse
 from anki_poker_master.parser.preflop_scenario import parse_scenario_yml, EXAMPLE_SCENARIO_FILE
 from anki_poker_master.model import ValidationError
+from anki_poker_master.presenter.anki.phh import get_deck
 from anki_poker_master.presenter.anki.preflop_scenario import create_decks
 from anki_poker_master.presenter.anki import write_decks_to_file
 
@@ -65,6 +68,26 @@ def main_with_args(args):
         + "spaces. Default is a single tag: poker.",
     )
 
+    parser_hand = subparsers.add_parser("hand", help="Create decks for hand history")
+    parser_hand.set_defaults(func=_handle_hand_subcommand)
+
+    parser_hand.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        help="Path to the resulting Anki package",
+        default="./AnkiPokerMaster.apkg",
+    )
+    parser_hand.add_argument(
+        'phh_files',
+        metavar="FILE",
+        type=str,
+        nargs='+',
+        help="Path to one or multiple .phh files. If a directory is "
+             "specified, all .phh files within that directory will be "
+             "read recursively.",
+    )
+
     args = parser.parse_args(args)
     try:
         args.func(args)
@@ -107,6 +130,28 @@ def _handle_range_subcommand(args):
         sys.exit(1)
 
     _create_preflop_scenario_deck(args.scenarios, tags, args.verbose, pkg_path)
+
+
+def _handle_hand_subcommand(args):
+    if args.output.endswith(".apkg"):
+        pkg_path = args.output
+    else:
+        pkg_path = f"{args.output}.apkg"
+    if os.path.exists(pkg_path):
+        print(f"The file {pkg_path} already exists.")
+        sys.exit(1)
+
+    all_hands = []
+    for f_name in args.phh_files:
+        f = Path(f_name)
+        if f.is_dir():
+            for f2 in f.rglob("*.phh"):
+                all_hands.append(parse(f2.read_text()))
+        elif f.is_file():
+            all_hands.append(parse(f.read_text()))
+
+    deck, media_files = get_deck(all_hands)
+    write_decks_to_file([deck], media_files, pkg_path)
 
 
 def _create_preflop_scenario_deck(scenarios, tags, verbose, pkg_path):
