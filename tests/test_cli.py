@@ -144,8 +144,9 @@ def test_generate_deck_with_tags(capsys, tmp_path):
             str(scenarios_file),
             "-o",
             str(pkg_path),
-            "--tags",
+            "--tag",
             "poker",
+            "-t",
             "test",
         ]
     )

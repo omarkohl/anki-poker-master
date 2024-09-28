@@ -61,11 +61,13 @@ def main_with_args(args):
         help="Write example file to the path specified by --scenarios/-s if and only if the file does not exist yet",
     )
     parser_range.add_argument(
-        "--tags",
-        nargs="*",
+        "-t",
+        "--tag",
+        dest="tags",
+        metavar="TAG",
         type=str,
-        help="Tags for the Anki decks. Specify multiple tags separated by "
-        + "spaces. Default is a single tag: poker.",
+        action="append",
+        help="Tag for the Anki decks. Can be specified multiple times.",
     )
 
     parser_hand = subparsers.add_parser("hand", help="Create decks for hand history")
