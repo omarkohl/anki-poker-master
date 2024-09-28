@@ -284,13 +284,13 @@ def create_decks(
                     ranges_txt,
                     scenario.notes if scenario.notes else "",
                     scenario.source if scenario.source else "",
-                    html_full(scenario.ranges),
-                    html_top_left_quadrant_blank(scenario.ranges),
-                    html_top_right_quadrant_blank(scenario.ranges),
-                    html_bottom_left_quadrant_blank(scenario.ranges),
-                    html_bottom_right_quadrant_blank(scenario.ranges),
-                    extra_css(scenario.extra_range_colors, scenario.ranges),
-                    html_legend(scenario.ranges),
+                    html_full(scenario),
+                    html_top_left_quadrant_blank(scenario),
+                    html_top_right_quadrant_blank(scenario),
+                    html_bottom_left_quadrant_blank(scenario),
+                    html_bottom_right_quadrant_blank(scenario),
+                    extra_css(scenario.extra_range_colors, scenario),
+                    html_legend(scenario),
                 ],
                 tags=tags if tags else [],
             )
@@ -304,10 +304,10 @@ def create_decks(
 <br>
 <br>
 """.lstrip()
-        if extra_css(scenario.extra_range_colors, scenario.ranges):
+        if extra_css(scenario.extra_range_colors, scenario):
             # prepend the extra CSS
             header_basic_model = (
-                f"<style>\n{extra_css(scenario.extra_range_colors, scenario.ranges)}\n</style>" + header_basic_model
+                f"<style>\n{extra_css(scenario.extra_range_colors, scenario)}\n</style>" + header_basic_model
             )
 
         # Note that 2Xs and 2Xo are not included because there are no lower
@@ -363,7 +363,7 @@ def create_decks(
             )
             answer = _get_row_question_answer(c, scenario.ranges)
             notes = (scenario.notes + "<br>\n") if scenario.notes else ""
-            notes += html_full(scenario.ranges) + "<br>" + html_legend(scenario.ranges)
+            notes += html_full(scenario) + "<br>" + html_legend(scenario)
             deck_standard.add_note(
                 genanki.Note(
                     model=_BASIC_MODEL,
@@ -392,7 +392,7 @@ def create_decks(
                 )
                 answer = f"You should <b>{range}</b>."
                 notes = (scenario.notes + "<br>\n") if scenario.notes else ""
-                notes += html_full(scenario.ranges) + "<br>" + html_legend(scenario.ranges)
+                notes += html_full(scenario) + "<br>" + html_legend(scenario)
                 deck_detailed.add_note(
                     genanki.Note(
                         model=_BASIC_MODEL,
@@ -458,37 +458,37 @@ def _get_row_question_answer(hand: str, ranges: dict) -> str:
     return "<br>".join(result)
 
 
-def html_full(ranges) -> str:
-    return _to_html(ranges)
+def html_full(scenario: PreflopScenario) -> str:
+    return _to_html(scenario.ranges)
 
 
 def html_blank() -> str:
     return _to_html({"blank": Range("XX")}, table_css_classes=["markable"])
 
 
-def _html_quadrant_blank(ranges1, quadrant) -> str:
-    ranges = ranges1.copy()
+def _html_quadrant_blank(scenario: PreflopScenario, quadrant) -> str:
+    ranges = scenario.ranges.copy()
     ranges["blank"] = Range(quadrant)
     return _to_html(ranges, table_css_classes=["markable"])
 
 
-def html_top_left_quadrant_blank(ranges) -> str:
-    return _html_quadrant_blank(ranges, _TOP_LEFT_QUADRANT)
+def html_top_left_quadrant_blank(scenario: PreflopScenario) -> str:
+    return _html_quadrant_blank(scenario, _TOP_LEFT_QUADRANT)
 
 
-def html_top_right_quadrant_blank(ranges) -> str:
-    return _html_quadrant_blank(ranges, _TOP_RIGHT_QUADRANT)
+def html_top_right_quadrant_blank(scenario: PreflopScenario) -> str:
+    return _html_quadrant_blank(scenario, _TOP_RIGHT_QUADRANT)
 
 
-def html_bottom_left_quadrant_blank(ranges) -> str:
-    return _html_quadrant_blank(ranges, _BOTTOM_LEFT_QUADRANT)
+def html_bottom_left_quadrant_blank(scenario: PreflopScenario) -> str:
+    return _html_quadrant_blank(scenario, _BOTTOM_LEFT_QUADRANT)
 
 
-def html_bottom_right_quadrant_blank(ranges) -> str:
-    return _html_quadrant_blank(ranges, _BOTTOM_RIGHT_QUADRANT)
+def html_bottom_right_quadrant_blank(scenario: PreflopScenario) -> str:
+    return _html_quadrant_blank(scenario, _BOTTOM_RIGHT_QUADRANT)
 
 
-def extra_css(extra_range_colors, ranges) -> str:
+def extra_css(extra_range_colors, scenario: PreflopScenario) -> str:
     """
     Generate custom CSS for the ranges, if needed. This is only the case
     if new actions are added or a default color is changed. Otherwise,
@@ -498,7 +498,7 @@ def extra_css(extra_range_colors, ranges) -> str:
     # Generate colors for actions that don't have a color
     range_colors = extra_range_colors.copy()
     available_colors = _EASY_TO_READ_COLORS.copy()
-    for action in [str_to_css_class(a) for a in ranges.keys()]:
+    for action in [str_to_css_class(a) for a in scenario.ranges.keys()]:
         # if it's a default action and it's not in the range_colors then
         # nothing needs to be done -> covered by default CSS.
         # If it's a default action and it's in range_colors then it will
@@ -561,10 +561,10 @@ def extra_css(extra_range_colors, ranges) -> str:
     return "\n".join(css) + "\n"
 
 
-def html_legend(ranges) -> str:
+def html_legend(scenario: PreflopScenario) -> str:
     indent = 0
     all_actions = {"Fold"}
-    all_actions.update(ranges.keys())
+    all_actions.update(scenario.ranges.keys())
     html = []
     html += [indent * " " + "<table class='legend'>"]
     indent += 4
