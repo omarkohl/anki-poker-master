@@ -25,6 +25,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   that `--tag` / `-t` is called with one tag every time
   i.e. `--tag poker --tag learning --tag 2024`.
 - BREAKING: Require Python 3.11 or higher due to the `pokerkit` dependency.
+- Update dependencies to latest version.
 
 ## [0.2.0] - 2024-03-04
 
