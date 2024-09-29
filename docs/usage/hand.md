@@ -174,7 +174,7 @@ Here are some examples to make the usage of the different options clearer.
 
 The next file is a plain .phh with no AnkiPokerMaster specific changes. It will
 just work. The hero is p2 because it's the only player whose pocket cards are
-known. There will be four study spots, namely `p2 cc`, `p2 cc`, `p2 cc`
+known. There will be five study spots, namely `p2 cc`, `p2 cc`, `p2 cc`, `p2 cc`
 and `p2 cbr 388`, that is all the spots where p2 had to make a decision. The
 Anki cards will ask "What should you do?" for each of these spots, just before
 the hero actually makes a decision. The answer in each of these cases will be
@@ -214,7 +214,7 @@ actions = [
 
 Let's say that we think hero should actually have folded preflop. This is how we
 can specify this. Note that the rest of the hand will still play out as it did
-and there are still four study spots. The only thing that has changed is that
+and there are still five study spots. The only thing that has changed is that
 the question to the answer "What should you do?" on the first `p2 cc` is no
 longer "cc" (i.e. check) but "Fold since T8o is a weak hand."
 
@@ -232,7 +232,7 @@ actions = [
     "p1 f",
     "p2 cc # apm study: Fold since T8o is a weak hand.",
     "d db AhTs8h",
-    "p2 cc",
+    "p2 cc # apm study",
     "p3 cbr 20",
     "p2 cc # apm study",
     "d db 4s",
@@ -289,12 +289,13 @@ _apm_answers = [
     "",
     "",
     "",
+    "",
 ]
 ```
 
 ### Study only some spots
 
-Now let's assume out of the four spots you only want to study the first and the
+Now let's assume out of the five spots you only want to study the first and the
 last because the other two are obvious.
 
 Given that we only specified two `# apm study` commentaries, there will only be
