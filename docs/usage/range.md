@@ -1,7 +1,6 @@
 # Study Preflop Ranges
 
-If you want to learn/memorize which hands to fold, raise or call with preflop,
-see [range.md](range.md).
+Learn/memorize which hands to fold, raise or call with preflop.
 
 Write a YAML file to define all scenarios (situations) you want to memorize,
 for example "Opening as Button in a 100BB Cash game". AnkiPokerMaster will

@@ -1,8 +1,7 @@
 # Study Hand Histories
 
-If you want to learn/memorize what to do during any spot in a hand (e.g. after
-the villain raised on the river with a specific board etc.) then
-see [hand.md](hand.md).
+Learn/memorize what to do during any spot in a hand (e.g. after
+the villain raised on the river with a specific board etc.).
 
 Create a .phh file that documents the hand you are interested in. The file must
 follow
