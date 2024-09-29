@@ -1,0 +1,323 @@
+<style>.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+    font-size: 12px;
+}
+
+.column_left {
+    text-align: left;
+}
+
+.column_right {
+    text-align: right;
+}
+
+small {
+    font-size: 11px;
+}
+
+.row img {
+    max-width: 100%;
+}
+
+.row img+img {
+    margin-left: 5px;
+}
+
+@media (max-width: 600px) {
+    .row img {
+        max-width: 150px;
+    }
+}
+
+table.range,
+table.legend {
+    border-collapse: collapse;
+    font-size: 0.7em;
+    font-family: monospace;
+}
+
+.nightMode,
+.nightMode table.range,
+.nightMode table.legend {
+    color: #E5FFFF;
+}
+
+.nightMode a {
+    color: #09F5F5;
+}
+
+table.range td,
+table.legend td {
+    border: 1px solid black;
+    padding: 1px;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: white;
+}
+
+.nightMode table.range td,
+.nightMode table.legend td {
+    border: 1px solid #E5FFFF;
+}
+
+table.range:hover td {
+    cursor: pointer;
+}
+
+table.legend th {
+    text-align: left;
+    padding: 5px;
+}
+
+table.range td.pair {
+    border: 2px solid black;
+}
+
+.nightMode table.range td.pair {
+    border: 2px solid #E5FFFF;
+}
+
+table.range td.center {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+table.range td.fold,
+table.legend td.fold {
+    background-color: #D6D2D2;
+}
+
+.nightMode table.range td.fold,
+.nightMode table.legend td.fold {
+    background-color: #485153;
+}
+
+table.range td.call,
+table.legend td.call {
+    background-color: #4be488;
+}
+
+.nightMode table.range td.call,
+.nightMode table.legend td.call {
+    background-color: #009594;
+}
+
+table.range td.raise,
+table.legend td.raise {
+    background-color: #FF6A6A;
+}
+
+.nightMode table.range td.raise,
+.nightMode table.legend td.raise {
+    background-color: #8F0707;
+}
+
+table.range td.marked {
+    background: repeating-linear-gradient(45deg,
+            white,
+            white 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked {
+    background: repeating-linear-gradient(45deg,
+            black,
+            black 3px,
+            #00000070 3px,
+            #00000070 6px) !important;
+}
+
+table.range td.marked.fold {
+    background: repeating-linear-gradient(45deg,
+            #D6D2D2,
+            #D6D2D2 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked.fold {
+    background: repeating-linear-gradient(45deg,
+            #485153,
+            #485153 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+table.range td.marked.call {
+    background: repeating-linear-gradient(45deg,
+            #4BE488,
+            #4BE488 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked.call {
+    background: repeating-linear-gradient(45deg,
+            #009594,
+            #009594 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+table.range td.marked.raise {
+    background: repeating-linear-gradient(45deg,
+            #FF6A6A,
+            #FF6A6A 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked.raise {
+    background: repeating-linear-gradient(45deg,
+            #8F0707,
+            #8F0707 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+table.range td.blank {
+    /* Blanking a cell must have priority */
+    background-color: white !important;
+}
+
+table.range td.marked.blank {
+    background: repeating-linear-gradient(45deg,
+            white,
+            white 3px,
+            #00000070 3px,
+            #00000070 6px) !important;
+}
+
+.nightMode table.range td.blank {
+    background-color: black !important;
+}
+
+.nightMode table.range td.marked.blank {
+    background: repeating-linear-gradient(45deg,
+            black,
+            black 3px,
+            #CCCCCCA0 3px,
+            #CCCCCCA0 6px) !important;
+}
+
+
+/* Hand history CSS */
+
+table.player-actions {
+    margin-top: 10px;
+    width: 100%;
+}
+
+table.player-actions td {
+    padding: 5px;
+}
+
+table.player-actions thead tr th {
+    background: white;
+    color: black;
+    text-align: left;
+}
+
+.nightMode table.player-actions thead tr th {
+    background: #333;
+    color: white;
+}
+
+table.player-actions thead tr:hover {
+    background: white;
+}
+
+table.player-actions tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.nightMode table.player-actions tr:nth-child(odd) {
+    background: #444;
+}
+
+table.player-actions tr:nth-child(even) {
+    background: #f0f0f0;
+}
+
+.nightMode table.player-actions tr:nth-child(even) {
+    background: #333;
+}
+
+table.player-actions tr:hover {
+    background: #e0e0e0;
+}
+
+.nightMode table.player-actions tr:hover {
+    background: #555;
+}
+
+table.player-actions tr.hero {
+    background: #fcecc1;
+}
+
+.nightMode table.player-actions tr.hero {
+    background: #8a6b2b;
+}
+
+table.player-actions tr.hero:hover {
+    background: #f7e087;
+}
+
+.nightMode table.player-actions tr.hero:hover {
+    background: #c49f54;
+}
+
+table.player-actions .dealerbtn {
+    background: green;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 5px;
+    font-size: 12px;
+    color: white;
+    /* align the text vertically */
+    line-height: 20px;
+    /* add a shadown */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+table.player-actions tr.not-playing {
+    font-size: 7px;
+    color: gray;
+}
+
+.nightMode table.player-actions tr.not-playing {
+    color: #c2c0c0;
+}
+
+table.player-actions tr.not-playing .dealerbtn {
+    font-size: 7px;
+    line-height: 10px;
+    width: 10px;
+    height: 10px;
+}
+</style><div class="row">
+    <div class="column column_left">
+        e2e-test poker
+    </div>
+    <div class="column column_right">
+    </div>
+</div>
+<b>Game: </b>NLHE
+<br>
+<b>Scenario: </b>Top left
+<br>
+<b>Position: </b>UTG
+<br>
+<br>
+How should you play Q4s?<div class='row'><img src="apm-card-Qh.png"><img src="apm-card-4h.png"></div>

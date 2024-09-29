@@ -1,3 +1,7 @@
+"""
+Test the 'hand' subcommand.
+"""
+
 from pathlib import Path
 from typing import List, Tuple
 import anki
@@ -14,8 +18,6 @@ def test_pure_phh_file(pytestconfig, golden_dir, tmp_path):
     """
     from anki_poker_master.cli import main_with_args
 
-    pkg_f = tmp_path / "package.apkg"
-    collection_f = tmp_path / "collection.anki2"
     phh_f = tmp_path / "hand.phh"
     phh_f.write_text(
         """variant = "NT"
@@ -45,7 +47,8 @@ actions = [
         encoding="utf-8",
     )
 
-    collection = anki.collection.Collection(str(collection_f))
+    collection = anki.collection.Collection(str(tmp_path / "collection.anki2"))
+    pkg_f = tmp_path / "package.apkg"
 
     main_with_args([
         "hand",

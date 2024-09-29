@@ -1,0 +1,542 @@
+<style>.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+    font-size: 12px;
+}
+
+.column_left {
+    text-align: left;
+}
+
+.column_right {
+    text-align: right;
+}
+
+small {
+    font-size: 11px;
+}
+
+.row img {
+    max-width: 100%;
+}
+
+.row img+img {
+    margin-left: 5px;
+}
+
+@media (max-width: 600px) {
+    .row img {
+        max-width: 150px;
+    }
+}
+
+table.range,
+table.legend {
+    border-collapse: collapse;
+    font-size: 0.7em;
+    font-family: monospace;
+}
+
+.nightMode,
+.nightMode table.range,
+.nightMode table.legend {
+    color: #E5FFFF;
+}
+
+.nightMode a {
+    color: #09F5F5;
+}
+
+table.range td,
+table.legend td {
+    border: 1px solid black;
+    padding: 1px;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: white;
+}
+
+.nightMode table.range td,
+.nightMode table.legend td {
+    border: 1px solid #E5FFFF;
+}
+
+table.range:hover td {
+    cursor: pointer;
+}
+
+table.legend th {
+    text-align: left;
+    padding: 5px;
+}
+
+table.range td.pair {
+    border: 2px solid black;
+}
+
+.nightMode table.range td.pair {
+    border: 2px solid #E5FFFF;
+}
+
+table.range td.center {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+table.range td.fold,
+table.legend td.fold {
+    background-color: #D6D2D2;
+}
+
+.nightMode table.range td.fold,
+.nightMode table.legend td.fold {
+    background-color: #485153;
+}
+
+table.range td.call,
+table.legend td.call {
+    background-color: #4be488;
+}
+
+.nightMode table.range td.call,
+.nightMode table.legend td.call {
+    background-color: #009594;
+}
+
+table.range td.raise,
+table.legend td.raise {
+    background-color: #FF6A6A;
+}
+
+.nightMode table.range td.raise,
+.nightMode table.legend td.raise {
+    background-color: #8F0707;
+}
+
+table.range td.marked {
+    background: repeating-linear-gradient(45deg,
+            white,
+            white 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked {
+    background: repeating-linear-gradient(45deg,
+            black,
+            black 3px,
+            #00000070 3px,
+            #00000070 6px) !important;
+}
+
+table.range td.marked.fold {
+    background: repeating-linear-gradient(45deg,
+            #D6D2D2,
+            #D6D2D2 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked.fold {
+    background: repeating-linear-gradient(45deg,
+            #485153,
+            #485153 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+table.range td.marked.call {
+    background: repeating-linear-gradient(45deg,
+            #4BE488,
+            #4BE488 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked.call {
+    background: repeating-linear-gradient(45deg,
+            #009594,
+            #009594 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+table.range td.marked.raise {
+    background: repeating-linear-gradient(45deg,
+            #FF6A6A,
+            #FF6A6A 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+.nightMode table.range td.marked.raise {
+    background: repeating-linear-gradient(45deg,
+            #8F0707,
+            #8F0707 3px,
+            #00000070 3px,
+            #00000070 6px);
+}
+
+table.range td.blank {
+    /* Blanking a cell must have priority */
+    background-color: white !important;
+}
+
+table.range td.marked.blank {
+    background: repeating-linear-gradient(45deg,
+            white,
+            white 3px,
+            #00000070 3px,
+            #00000070 6px) !important;
+}
+
+.nightMode table.range td.blank {
+    background-color: black !important;
+}
+
+.nightMode table.range td.marked.blank {
+    background: repeating-linear-gradient(45deg,
+            black,
+            black 3px,
+            #CCCCCCA0 3px,
+            #CCCCCCA0 6px) !important;
+}
+
+
+/* Hand history CSS */
+
+table.player-actions {
+    margin-top: 10px;
+    width: 100%;
+}
+
+table.player-actions td {
+    padding: 5px;
+}
+
+table.player-actions thead tr th {
+    background: white;
+    color: black;
+    text-align: left;
+}
+
+.nightMode table.player-actions thead tr th {
+    background: #333;
+    color: white;
+}
+
+table.player-actions thead tr:hover {
+    background: white;
+}
+
+table.player-actions tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.nightMode table.player-actions tr:nth-child(odd) {
+    background: #444;
+}
+
+table.player-actions tr:nth-child(even) {
+    background: #f0f0f0;
+}
+
+.nightMode table.player-actions tr:nth-child(even) {
+    background: #333;
+}
+
+table.player-actions tr:hover {
+    background: #e0e0e0;
+}
+
+.nightMode table.player-actions tr:hover {
+    background: #555;
+}
+
+table.player-actions tr.hero {
+    background: #fcecc1;
+}
+
+.nightMode table.player-actions tr.hero {
+    background: #8a6b2b;
+}
+
+table.player-actions tr.hero:hover {
+    background: #f7e087;
+}
+
+.nightMode table.player-actions tr.hero:hover {
+    background: #c49f54;
+}
+
+table.player-actions .dealerbtn {
+    background: green;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    margin-left: 5px;
+    font-size: 12px;
+    color: white;
+    /* align the text vertically */
+    line-height: 20px;
+    /* add a shadown */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+table.player-actions tr.not-playing {
+    font-size: 7px;
+    color: gray;
+}
+
+.nightMode table.player-actions tr.not-playing {
+    color: #c2c0c0;
+}
+
+table.player-actions tr.not-playing .dealerbtn {
+    font-size: 7px;
+    line-height: 10px;
+    width: 10px;
+    height: 10px;
+}
+</style><div class="row">
+    <div class="column column_left">
+        e2e-test poker
+    </div>
+    <div class="column column_right">
+    </div>
+</div>
+<b>Game: </b>NLHE
+<br>
+<b>Scenario: </b>Top left
+<br>
+<b>Position: </b>UTG
+<br>
+<br>
+How should you play KQs?<div class='row'><img src="apm-card-Kh.png"><img src="apm-card-Qh.png"></div><hr id='answer'>You should <b>Call</b>.<br>
+<p>
+<small><b>Notes:</b></small>
+<br>
+<small>This is a test<br>
+<table class="range">
+    <tr>
+        <td class="raise pair">AA</td>
+        <td class="call suited">AKs</td>
+        <td class="call suited">AQs</td>
+        <td class="call suited">AJs</td>
+        <td class="call suited">ATs</td>
+        <td class="call suited">A9s</td>
+        <td class="call suited">A8s</td>
+        <td class="fold suited">A7s</td>
+        <td class="fold suited">A6s</td>
+        <td class="fold suited">A5s</td>
+        <td class="fold suited">A4s</td>
+        <td class="fold suited">A3s</td>
+        <td class="fold suited">A2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">AKo</td>
+        <td class="raise pair">KK</td>
+        <td class="call suited">KQs</td>
+        <td class="call suited">KJs</td>
+        <td class="call suited">KTs</td>
+        <td class="call suited">K9s</td>
+        <td class="call suited">K8s</td>
+        <td class="fold suited">K7s</td>
+        <td class="fold suited">K6s</td>
+        <td class="fold suited">K5s</td>
+        <td class="fold suited">K4s</td>
+        <td class="fold suited">K3s</td>
+        <td class="fold suited">K2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">AQo</td>
+        <td class="call offsuit">KQo</td>
+        <td class="raise pair">QQ</td>
+        <td class="call suited">QJs</td>
+        <td class="call suited">QTs</td>
+        <td class="call suited">Q9s</td>
+        <td class="call suited">Q8s</td>
+        <td class="fold suited">Q7s</td>
+        <td class="fold suited">Q6s</td>
+        <td class="fold suited">Q5s</td>
+        <td class="fold suited">Q4s</td>
+        <td class="fold suited">Q3s</td>
+        <td class="fold suited">Q2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">AJo</td>
+        <td class="call offsuit">KJo</td>
+        <td class="call offsuit">QJo</td>
+        <td class="raise pair">JJ</td>
+        <td class="call suited">JTs</td>
+        <td class="call suited">J9s</td>
+        <td class="call suited">J8s</td>
+        <td class="fold suited">J7s</td>
+        <td class="fold suited">J6s</td>
+        <td class="fold suited">J5s</td>
+        <td class="fold suited">J4s</td>
+        <td class="fold suited">J3s</td>
+        <td class="fold suited">J2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">ATo</td>
+        <td class="call offsuit">KTo</td>
+        <td class="call offsuit">QTo</td>
+        <td class="call offsuit">JTo</td>
+        <td class="raise pair">TT</td>
+        <td class="call suited">T9s</td>
+        <td class="call suited">T8s</td>
+        <td class="fold suited">T7s</td>
+        <td class="fold suited">T6s</td>
+        <td class="fold suited">T5s</td>
+        <td class="fold suited">T4s</td>
+        <td class="fold suited">T3s</td>
+        <td class="fold suited">T2s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">A9o</td>
+        <td class="call offsuit">K9o</td>
+        <td class="call offsuit">Q9o</td>
+        <td class="call offsuit">J9o</td>
+        <td class="call offsuit">T9o</td>
+        <td class="raise pair">99</td>
+        <td class="call suited">98s</td>
+        <td class="fold suited">97s</td>
+        <td class="fold suited">96s</td>
+        <td class="fold suited">95s</td>
+        <td class="fold suited">94s</td>
+        <td class="fold suited">93s</td>
+        <td class="fold suited">92s</td>
+    </tr>
+    <tr>
+        <td class="call offsuit">A8o</td>
+        <td class="call offsuit">K8o</td>
+        <td class="call offsuit">Q8o</td>
+        <td class="call offsuit">J8o</td>
+        <td class="call offsuit">T8o</td>
+        <td class="call offsuit">98o</td>
+        <td class="raise pair center">88</td>
+        <td class="fold suited">87s</td>
+        <td class="fold suited">86s</td>
+        <td class="fold suited">85s</td>
+        <td class="fold suited">84s</td>
+        <td class="fold suited">83s</td>
+        <td class="fold suited">82s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A7o</td>
+        <td class="fold offsuit">K7o</td>
+        <td class="fold offsuit">Q7o</td>
+        <td class="fold offsuit">J7o</td>
+        <td class="fold offsuit">T7o</td>
+        <td class="fold offsuit">97o</td>
+        <td class="fold offsuit">87o</td>
+        <td class="fold pair">77</td>
+        <td class="fold suited">76s</td>
+        <td class="fold suited">75s</td>
+        <td class="fold suited">74s</td>
+        <td class="fold suited">73s</td>
+        <td class="fold suited">72s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A6o</td>
+        <td class="fold offsuit">K6o</td>
+        <td class="fold offsuit">Q6o</td>
+        <td class="fold offsuit">J6o</td>
+        <td class="fold offsuit">T6o</td>
+        <td class="fold offsuit">96o</td>
+        <td class="fold offsuit">86o</td>
+        <td class="fold offsuit">76o</td>
+        <td class="fold pair">66</td>
+        <td class="fold suited">65s</td>
+        <td class="fold suited">64s</td>
+        <td class="fold suited">63s</td>
+        <td class="fold suited">62s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A5o</td>
+        <td class="fold offsuit">K5o</td>
+        <td class="fold offsuit">Q5o</td>
+        <td class="fold offsuit">J5o</td>
+        <td class="fold offsuit">T5o</td>
+        <td class="fold offsuit">95o</td>
+        <td class="fold offsuit">85o</td>
+        <td class="fold offsuit">75o</td>
+        <td class="fold offsuit">65o</td>
+        <td class="fold pair">55</td>
+        <td class="fold suited">54s</td>
+        <td class="fold suited">53s</td>
+        <td class="fold suited">52s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A4o</td>
+        <td class="fold offsuit">K4o</td>
+        <td class="fold offsuit">Q4o</td>
+        <td class="fold offsuit">J4o</td>
+        <td class="fold offsuit">T4o</td>
+        <td class="fold offsuit">94o</td>
+        <td class="fold offsuit">84o</td>
+        <td class="fold offsuit">74o</td>
+        <td class="fold offsuit">64o</td>
+        <td class="fold offsuit">54o</td>
+        <td class="fold pair">44</td>
+        <td class="fold suited">43s</td>
+        <td class="fold suited">42s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A3o</td>
+        <td class="fold offsuit">K3o</td>
+        <td class="fold offsuit">Q3o</td>
+        <td class="fold offsuit">J3o</td>
+        <td class="fold offsuit">T3o</td>
+        <td class="fold offsuit">93o</td>
+        <td class="fold offsuit">83o</td>
+        <td class="fold offsuit">73o</td>
+        <td class="fold offsuit">63o</td>
+        <td class="fold offsuit">53o</td>
+        <td class="fold offsuit">43o</td>
+        <td class="fold pair">33</td>
+        <td class="fold suited">32s</td>
+    </tr>
+    <tr>
+        <td class="fold offsuit">A2o</td>
+        <td class="fold offsuit">K2o</td>
+        <td class="fold offsuit">Q2o</td>
+        <td class="fold offsuit">J2o</td>
+        <td class="fold offsuit">T2o</td>
+        <td class="fold offsuit">92o</td>
+        <td class="fold offsuit">82o</td>
+        <td class="fold offsuit">72o</td>
+        <td class="fold offsuit">62o</td>
+        <td class="fold offsuit">52o</td>
+        <td class="fold offsuit">42o</td>
+        <td class="fold offsuit">32o</td>
+        <td class="fold pair">22</td>
+    </tr>
+</table>
+<br><table class='legend'>
+    <tr>
+        <th class='row'>Call</th>
+        <td class='call'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>Fold</th>
+        <td class='fold'>&nbsp;</td>
+    </tr>
+    <tr>
+        <th class='row'>Raise</th>
+        <td class='raise'>&nbsp;</td>
+    </tr>
+</table>
+</small>
+</p>
+
+
