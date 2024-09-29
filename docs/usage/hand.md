@@ -99,8 +99,16 @@ spot) Anki card:
 
 Question:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/hand_harrington-cash-10-1_q.png?raw=true" width="200">
+<img
+    src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/hand_harrington-cash-10-1_q.png"
+    width="200"
+    alt="Screenshot of the 'question' side of the resulting Anki card"
+    >
 
 Answer:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/hand_harrington-cash-10-1_a.png?raw=true" width="200">
+<img
+    src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/hand_harrington-cash-10-1_a.png"
+    width="200"
+    alt="Screenshot of the 'answer' side of the resulting Anki card"
+    >

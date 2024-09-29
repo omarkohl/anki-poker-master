@@ -44,47 +44,47 @@ Some examples for how ranges can be specified:
 
 When opening as the small blind, how should you play King Three offsuit?
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/k3_q.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/k3_q.jpg" width="200">
 
 Answer:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/k3_a.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/k3_a.jpg" width="200">
 
 When opening as Lojack, how should you play Jack and another suited card?
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/jx_q.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/jx_q.jpg" width="200">
 
 Answer:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/jx_a.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/jx_a.jpg" width="200">
 
 What table position does the following range table correspond to? (this question
 is a memorization aid)
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/position_q.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/position_q.jpg" width="200">
 
 Answer:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/position_a.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/position_a.jpg" width="200">
 
 Fill in the blank cells in this range table.
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/quadrant_q.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/quadrant_q.jpg" width="200">
 
 Note that here it's possible to mark cells using the mouse or finger
 (touchscreen) as a memory aid before flipping to the answer side.
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/quadrant_q_marking.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/quadrant_q_marking.jpg" width="200">
 
 Answer:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/quadrant_a.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/quadrant_a.jpg" width="200">
 
 
 Of course also with dark mode: How should you open with QQ as Hijack?
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/qq_q.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/qq_q.jpg" width="200">
 
 Answer:
 
-<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/qq_a.jpg?raw=true" width="200">
+<img src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/qq_a.jpg" width="200">
