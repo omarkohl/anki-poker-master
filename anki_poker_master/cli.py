@@ -25,7 +25,7 @@ def main_with_args(args):
         package_version = "dev"
 
     parser = argparse.ArgumentParser(
-        description="AnkiPokerMaster - Create Anki decks for poker ranges"
+        description="AnkiPokerMaster - Create Anki decks for learning things related to Texas Hold'em Poker"
     )
     parser.add_argument(
         "-v",
