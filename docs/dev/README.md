@@ -37,7 +37,9 @@ sure there are no orphaned files lying around because a test was renamed or
 deleted:
 
 ```bash
-rm -rf tests/golden
+find tests/ -type d -name golden -prune
+## If you are sure, execute the following:
+# find tests/ -type d -name golden -prune -exec rm -rf {} \;
 poetry run pytest --update-golden
 ```
 
