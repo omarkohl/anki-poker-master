@@ -1,10 +1,8 @@
-# Documentation
+# AnkiPokerMaster Documentation
 
-Some additional documentation. See the main [README.md](../README.md) for the
-important things.
+If you want to use this tool, check [usage documentation](usage).
 
+If you are a developer or want to contribute some other way, check
+the [development documentation](dev).
 
-## Ideas
-
-See [IDEAS.md](IDEAS.md) for ideas what could be improved.
-
+See the main [README.md](../README.md) for a more general overview.
