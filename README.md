@@ -114,6 +114,10 @@ Answer:
 <img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/qq_a.jpg?raw=true" width="200">
 
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
 ## Develop
 
 Check the repository on GitHub: https://github.com/omarkohl/anki-poker-master
