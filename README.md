@@ -40,23 +40,23 @@ anki-poker-master -h
 See the [usage documentation](docs/usage) for more information (and
 more screenshots).
 
-<a href="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/k3_q.jpg">
+<a href="https://github.com/omarkohl/anki-poker-master/blob/main/docs/screenshots/k3_q.jpg">
     <img
-        src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/k3_q.jpg"
+        src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/docs/screenshots/k3_q.jpg"
         width="200"
         >
 </a>
 
-<a href="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/quadrant_q.jpg">
+<a href="https://github.com/omarkohl/anki-poker-master/blob/main/docs/screenshots/quadrant_q.jpg">
     <img
-        src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/quadrant_q.jpg"
+        src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/docs/screenshots/quadrant_q.jpg"
         width="200"
         >
 </a>
 
-<a href="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/hand_harrington-cash-10-1_q.png">
+<a href="https://github.com/omarkohl/anki-poker-master/blob/main/docs/screenshots/hand_harrington-cash-10-1_q.png">
     <img
-        src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/screenshots/hand_harrington-cash-10-1_q.png"
+        src="https://raw.githubusercontent.com/omarkohl/anki-poker-master/refs/heads/main/docs/screenshots/hand_harrington-cash-10-1_q.png"
         width="200"
         >
 </a>
