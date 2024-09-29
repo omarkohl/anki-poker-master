@@ -93,3 +93,14 @@ file:
 ```bash
 anki-poker-master hand --tag poker -o Poker.apkg harrington-cash-10-1.phh
 ```
+
+The result will be an Anki deck containing one (because there was only one study
+spot) Anki card:
+
+Question:
+
+<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/hand_harrington-cash-10-1_q.png?raw=true" width="200">
+
+Answer:
+
+<img src="https://github.com/omarkohl/anki-poker-master/blob/main/screenshots/hand_harrington-cash-10-1_a.png?raw=true" width="200">
