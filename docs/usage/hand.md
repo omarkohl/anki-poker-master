@@ -121,6 +121,9 @@ Answer:
 
 ### User-defined fields within the .phh file
 
+According to the phh specification, any user-defined field must start with `_` (
+underscore). The prefix `apm` stands for AnkiPokerMaster.
+
 The following are user-defined fields that can be added to the .phh file.
 
 * **_apm_hero**: It is used to specify which player is the hero (i.e. whose
@@ -354,4 +357,70 @@ actions = [
 ]
 
 _apm_hero = 2
+```
+
+### Specify the context, source and notes
+
+```toml
+variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+    "d dh p1 ????",
+    "d dh p2 Th8c",
+    "d dh p3 ????",
+    "p3 cbr 12",
+    "p1 f",
+    "p2 cc",
+    "d db AhTs8h",
+    "p2 cc",
+    "p3 cbr 20",
+    "p2 cc",
+    "d db 4s",
+    "p2 cc",
+    "p3 cc",
+    "d db Tc",
+    "p2 cbr 388",
+    "p3 f",
+]
+
+_apm_context = "p3 plays very tightly."
+_apm_notes = "I played this hand in 2023 with Tom (p1) and Carla (p3). Was very fun."
+_apm_source = "My own notes"
+```
+
+### Specify player names
+
+The `players` field is an optional field specified in the phh specification. If
+it's included these player names will be used in the Anki cards (instead of p1,
+p2, etc.)
+
+```toml
+variant = "NT"
+antes = [0, 0, 0]
+blinds_or_straddles = [2, 4, 0]
+min_bet = 2
+starting_stacks = [110, 420, 450]
+actions = [
+    "d dh p1 ????",
+    "d dh p2 Th8c",
+    "d dh p3 ????",
+    "p3 cbr 12",
+    "p1 f",
+    "p2 cc",
+    "d db AhTs8h",
+    "p2 cc",
+    "p3 cbr 20",
+    "p2 cc",
+    "d db 4s",
+    "p2 cc",
+    "p3 cc",
+    "d db Tc",
+    "p2 cbr 388",
+    "p3 f",
+]
+
+players = ["Tom", "Chang", "Carla"]
 ```
