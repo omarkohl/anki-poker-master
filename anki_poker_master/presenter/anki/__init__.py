@@ -54,7 +54,9 @@ BASIC_MODEL = genanki.Model(
 )
 
 
-def write_decks_to_file(decks: List[genanki.Deck], media_files: Set[str], filename: str):
+def write_decks_to_file(
+    decks: List[genanki.Deck], media_files: Set[str], filename: str
+):
     media_files_full_path = []
     for media_file in media_files:
         image_path = files("anki_poker_master").joinpath(

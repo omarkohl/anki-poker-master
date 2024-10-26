@@ -44,6 +44,8 @@ def compare_or_update_golden_with_path(pytestconfig, golden_file_path, actual_pa
             shutil.copyfile(actual_path, golden_file_path)
     else:
         assert golden_path_exists, f"golden path {golden_file_path} does not exist"
-        assert files_are_the_same, (f"actual path {actual_path} should have "
-                                    f"the same content as golden file "
-                                    f"{golden_file_path} but does not")
+        assert files_are_the_same, (
+            f"actual path {actual_path} should have "
+            f"the same content as golden file "
+            f"{golden_file_path} but does not"
+        )

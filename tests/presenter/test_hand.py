@@ -1,6 +1,7 @@
 """
 Test the presentation (e.g. HTML or Anki output) of hand histories.
 """
+
 import re
 
 import pytest
@@ -71,7 +72,8 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
     # in order to preview the HTML files conveniently we prefix resources
     resources_prefix = "../../../../../anki_poker_master/resources/"
 
-    content = f"""
+    content = (
+        f"""
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -79,10 +81,15 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
 <link rel="stylesheet" href="{resources_prefix}default.css">
 </head>
 <body>
-""" + content + "</body>\n</html>\n"
+"""
+        + content
+        + "</body>\n</html>\n"
+    )
 
     # prefix all html img src with the above prefix
-    content = re.sub(r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content)
+    content = re.sub(
+        r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content
+    )
 
     compare_or_update_golden(
         pytestconfig,
@@ -159,7 +166,8 @@ _apm_hero = 3
     # in order to preview the HTML files conveniently we prefix resources
     resources_prefix = "../../../../../anki_poker_master/resources/"
 
-    content = f"""
+    content = (
+        f"""
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -167,10 +175,15 @@ _apm_hero = 3
 <link rel="stylesheet" href="{resources_prefix}default.css">
 </head>
 <body>
-""" + content + "</body>\n</html>\n"
+"""
+        + content
+        + "</body>\n</html>\n"
+    )
 
     # prefix all html img src with the above prefix
-    content = re.sub(r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content)
+    content = re.sub(
+        r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content
+    )
 
     compare_or_update_golden(
         pytestconfig,
@@ -183,69 +196,70 @@ _apm_hero = 3
     "players, street_index_for_question, question_index, expected_err",
     [
         (
-                [
-                    Player("p1", False, True),
-                    Player("p2", False, True),
-                    Player("p3", True, False),
-                ],
-                0,
-                0,
-                "there are multiple heroes, namely p1, p2",
-
+            [
+                Player("p1", False, True),
+                Player("p2", False, True),
+                Player("p3", True, False),
+            ],
+            0,
+            0,
+            "there are multiple heroes, namely p1, p2",
         ),
         (
-                [
-                    Player("p1", False, False),
-                    Player("p2", False, False),
-                    Player("p3", True, False),
-                ],
-                0,
-                0,
-                "there is no hero",
+            [
+                Player("p1", False, False),
+                Player("p2", False, False),
+                Player("p3", True, False),
+            ],
+            0,
+            0,
+            "there is no hero",
         ),
         (
-                [
-                    Player("p1", False, True),
-                    Player("p2", True, False),
-                    Player("p3", True, False),
-                ],
-                0,
-                0,
-                "there are multiple dealers, namely p2, p3",
+            [
+                Player("p1", False, True),
+                Player("p2", True, False),
+                Player("p3", True, False),
+            ],
+            0,
+            0,
+            "there are multiple dealers, namely p2, p3",
         ),
         (
-                [
-                    Player("p1", False, True),
-                    Player("p2", False, False),
-                    Player("p3", False, False),
-                ],
-                0,
-                0,
-                "there is no dealer",
+            [
+                Player("p1", False, True),
+                Player("p2", False, False),
+                Player("p3", False, False),
+            ],
+            0,
+            0,
+            "there is no dealer",
         ),
         (
-                [
-                    Player("p1", False, False),
-                    Player("p2", False, False),
-                    Player("p3", True, True),
-                ],
-                1,
-                0,
-                "there is no street with index 1",
+            [
+                Player("p1", False, False),
+                Player("p2", False, False),
+                Player("p3", True, True),
+            ],
+            1,
+            0,
+            "there is no street with index 1",
         ),
         (
-                [
-                    Player("p1", False, False),
-                    Player("p2", False, False),
-                    Player("p3", True, True),
-                ],
-                0,
-                1,
-                "there is no question with index 1 in street Preflop",
+            [
+                Player("p1", False, False),
+                Player("p2", False, False),
+                Player("p3", True, True),
+            ],
+            0,
+            1,
+            "there is no question with index 1 in street Preflop",
         ),
     ],
 )
-def test_validate_players(players, street_index_for_question, question_index, expected_err):
+def test_validate_players(
+    players, street_index_for_question, question_index, expected_err
+):
     from anki_poker_master.model.hand import Hand, Street, Question
     from anki_poker_master.model import ValidationError
     from anki_poker_master.presenter.html.phh import get_question

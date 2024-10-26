@@ -255,7 +255,8 @@ def create_decks(
         if extra_css(scenario.extra_range_colors, scenario):
             # prepend the extra CSS
             header_basic_model = (
-                f"<style>\n{extra_css(scenario.extra_range_colors, scenario)}\n</style>" + header_basic_model
+                f"<style>\n{extra_css(scenario.extra_range_colors, scenario)}\n</style>"
+                + header_basic_model
             )
 
         # Note that 2Xs and 2Xo are not included because there are no lower
@@ -466,13 +467,19 @@ def extra_css(extra_range_colors, scenario: PreflopScenario) -> str:
         indent -= 4
         css += [indent * " " + "}"]
 
-        css += [indent * " " + f".nightMode table.range td.{action}, .nightMode table.legend td.{action} {{"]
+        css += [
+            indent * " "
+            + f".nightMode table.range td.{action}, .nightMode table.legend td.{action} {{"
+        ]
         indent += 4
         css += [indent * " " + f"background-color: {color_dark};"]
         indent -= 4
         css += [indent * " " + "}"]
 
-        css += [indent * " " + f"table.range td.{action}.marked, table.legend td.{action}.marked {{"]
+        css += [
+            indent * " "
+            + f"table.range td.{action}.marked, table.legend td.{action}.marked {{"
+        ]
         indent += 4
         css += [indent * " " + "background: repeating-linear-gradient("]
         indent += 4
@@ -484,7 +491,10 @@ def extra_css(extra_range_colors, scenario: PreflopScenario) -> str:
         indent -= 4
         css += [indent * " " + "}"]
 
-        css += [indent * " " + f".nightMode table.range td.{action}.marked, .nightMode table.legend td.{action}.marked {{"]
+        css += [
+            indent * " "
+            + f".nightMode table.range td.{action}.marked, .nightMode table.legend td.{action}.marked {{"
+        ]
         indent += 4
         css += [indent * " " + "background: repeating-linear-gradient("]
         indent += 4

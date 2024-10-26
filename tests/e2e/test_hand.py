@@ -50,36 +50,37 @@ actions = [
     collection = anki.collection.Collection(str(tmp_path / "collection.anki2"))
     pkg_f = tmp_path / "package.apkg"
 
-    main_with_args([
-        "hand",
-        "-t",
-        "poker",
-        "-o",
-        str(pkg_f),
-        str(phh_f),
-    ])
+    main_with_args(
+        [
+            "hand",
+            "-t",
+            "poker",
+            "-o",
+            str(pkg_f),
+            str(phh_f),
+        ]
+    )
 
     collection.import_anki_package(
         ImportAnkiPackageRequest(
             package_path=str(pkg_f),
             options=ImportAnkiPackageOptions(
-                with_scheduling=True,
-                with_deck_configs=True
+                with_scheduling=True, with_deck_configs=True
             ),
         )
     )
 
-    assert collection.tags.all() == ['poker']
+    assert collection.tags.all() == ["poker"]
     assert len(collection.decks.all_names_and_ids()) == 3
     deck_id = collection.decks.id_for_name("AnkiPokerMaster::HandHistory")
     assert deck_id
-    all_notes_ids = collection.find_notes('')
+    all_notes_ids = collection.find_notes("")
     assert len(all_notes_ids) == 5
 
     for note in [collection.get_note(nid) for nid in all_notes_ids]:
         assert len(note.fields) == 4
 
-    all_card_ids = collection.find_cards('')
+    all_card_ids = collection.find_cards("")
 
     assert len(all_card_ids) == 5
 
@@ -109,13 +110,13 @@ actions = [
     all_media_files = list(Path(collection.media.dir()).rglob("*"))
 
     expected_media_files = [
-        'apm-card-small-4s.png',
-        'apm-card-small-8c.png',
-        'apm-card-small-8h.png',
-        'apm-card-small-Ah.png',
-        'apm-card-small-Tc.png',
-        'apm-card-small-Th.png',
-        'apm-card-small-Ts.png',
+        "apm-card-small-4s.png",
+        "apm-card-small-8c.png",
+        "apm-card-small-8h.png",
+        "apm-card-small-Ah.png",
+        "apm-card-small-Tc.png",
+        "apm-card-small-Th.png",
+        "apm-card-small-Ts.png",
     ]
 
     assert sorted([f.name for f in all_media_files]) == sorted(expected_media_files)

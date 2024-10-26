@@ -1,9 +1,16 @@
 import textwrap
 from poker.hand import Range
 
-from anki_poker_master.presenter.anki.preflop_scenario import html_full, html_blank, html_top_left_quadrant_blank, \
-    html_top_right_quadrant_blank, html_bottom_left_quadrant_blank, html_bottom_right_quadrant_blank, extra_css, \
-    html_legend
+from anki_poker_master.presenter.anki.preflop_scenario import (
+    html_full,
+    html_blank,
+    html_top_left_quadrant_blank,
+    html_top_right_quadrant_blank,
+    html_bottom_left_quadrant_blank,
+    html_bottom_right_quadrant_blank,
+    extra_css,
+    html_legend,
+)
 from tests.utils import compare_or_update_golden
 
 
@@ -42,7 +49,11 @@ def test_custom_fold_color_css(pytestconfig, golden_dir):
     )
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_full(scenario)
     html += html_legend(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
@@ -66,7 +77,11 @@ def test_custom_range_css(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_full(scenario)
     html += html_legend(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
@@ -94,7 +109,11 @@ def test_custom_range_with_custom_color_css(pytestconfig, golden_dir):
     )
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_full(scenario)
     html += html_legend(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
@@ -114,7 +133,11 @@ def test_legend_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_legend(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -133,7 +156,11 @@ def test_full_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_full(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -152,7 +179,11 @@ def test_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_blank()
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -171,7 +202,11 @@ def test_top_left_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_top_left_quadrant_blank(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -190,7 +225,11 @@ def test_top_right_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_top_right_quadrant_blank(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -209,7 +248,11 @@ def test_bottom_left_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_bottom_left_quadrant_blank(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -228,7 +271,11 @@ def test_bottom_right_quadrant_blank_html(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_bottom_right_quadrant_blank(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -255,7 +302,11 @@ def test_top_right_quadrant_blank_html_with_custom_ranges(pytestconfig, golden_d
     )
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_top_right_quadrant_blank(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -279,7 +330,11 @@ def test_overlapping_ranges(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_full(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -298,7 +353,11 @@ def test_default_is_fold(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += html_full(scenario)
     html += "<script>\n" + textwrap.indent(helper.default_js(), 4 * " ") + "</script>\n"
     compare_or_update_golden(pytestconfig, golden_dir / "file.html", html)
@@ -331,7 +390,11 @@ def test_dark_mode(pytestconfig, golden_dir):
     scenario = PreflopScenario(action_ranges, "CO", "Opening", "Cash 100BB 6P")
     html = ""
     html += "<style>\n" + textwrap.indent(helper.default_css(), 4 * " ") + "</style>\n"
-    html += "<style>\n" + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ") + "</style>\n"
+    html += (
+        "<style>\n"
+        + textwrap.indent(extra_css(scenario.extra_range_colors, scenario), 4 * " ")
+        + "</style>\n"
+    )
     html += "<h1>Light Mode</h1>\n"
     html += "<div>\n"  # light mode
     html += html_bottom_left_quadrant_blank(scenario)

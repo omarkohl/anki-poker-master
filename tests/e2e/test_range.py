@@ -1,6 +1,7 @@
 """
 Test the 'range' subcommand.
 """
+
 from pathlib import Path
 from typing import List, Tuple
 import anki
@@ -47,29 +48,34 @@ def test_simple_scenario(pytestconfig, golden_dir, tmp_path):
         ImportAnkiPackageRequest(
             package_path=str(pkg_path),
             options=ImportAnkiPackageOptions(
-                with_scheduling=True,
-                with_deck_configs=True
+                with_scheduling=True, with_deck_configs=True
             ),
         )
     )
 
-    assert set(collection.tags.all()) == {'poker', 'e2e-test'}
+    assert set(collection.tags.all()) == {"poker", "e2e-test"}
     assert len(collection.decks.all_names_and_ids()) == 4
 
     assert collection.decks.id_for_name("AnkiPokerMaster::Standard")
     assert collection.decks.id_for_name("AnkiPokerMaster::Detailed")
 
-    assert collection.decks.card_count(
-        collection.decks.id_for_name("AnkiPokerMaster::Standard"),
-        False,
-    ) == 32
+    assert (
+        collection.decks.card_count(
+            collection.decks.id_for_name("AnkiPokerMaster::Standard"),
+            False,
+        )
+        == 32
+    )
 
-    assert collection.decks.card_count(
-        collection.decks.id_for_name("AnkiPokerMaster::Detailed"),
-        False,
-    ) == 169
+    assert (
+        collection.decks.card_count(
+            collection.decks.id_for_name("AnkiPokerMaster::Detailed"),
+            False,
+        )
+        == 169
+    )
 
-    all_card_ids = collection.find_cards('')
+    all_card_ids = collection.find_cards("")
 
     assert len(all_card_ids) == 201
 
@@ -99,34 +105,34 @@ def test_simple_scenario(pytestconfig, golden_dir, tmp_path):
     all_media_files = list(Path(collection.media.dir()).rglob("*"))
 
     expected_media_files = [
-        'apm-card-2c.png',
-        'apm-card-2h.png',
-        'apm-card-3c.png',
-        'apm-card-3h.png',
-        'apm-card-4c.png',
-        'apm-card-4h.png',
-        'apm-card-5c.png',
-        'apm-card-5h.png',
-        'apm-card-6c.png',
-        'apm-card-6h.png',
-        'apm-card-7c.png',
-        'apm-card-7h.png',
-        'apm-card-8c.png',
-        'apm-card-8h.png',
-        'apm-card-9c.png',
-        'apm-card-9h.png',
-        'apm-card-Ac.png',
-        'apm-card-Ah.png',
-        'apm-card-Jc.png',
-        'apm-card-Jh.png',
-        'apm-card-Kc.png',
-        'apm-card-Kh.png',
-        'apm-card-Qc.png',
-        'apm-card-Qh.png',
-        'apm-card-Tc.png',
-        'apm-card-Th.png',
-        'apm-card-Xc.png',
-        'apm-card-Xh.png'
+        "apm-card-2c.png",
+        "apm-card-2h.png",
+        "apm-card-3c.png",
+        "apm-card-3h.png",
+        "apm-card-4c.png",
+        "apm-card-4h.png",
+        "apm-card-5c.png",
+        "apm-card-5h.png",
+        "apm-card-6c.png",
+        "apm-card-6h.png",
+        "apm-card-7c.png",
+        "apm-card-7h.png",
+        "apm-card-8c.png",
+        "apm-card-8h.png",
+        "apm-card-9c.png",
+        "apm-card-9h.png",
+        "apm-card-Ac.png",
+        "apm-card-Ah.png",
+        "apm-card-Jc.png",
+        "apm-card-Jh.png",
+        "apm-card-Kc.png",
+        "apm-card-Kh.png",
+        "apm-card-Qc.png",
+        "apm-card-Qh.png",
+        "apm-card-Tc.png",
+        "apm-card-Th.png",
+        "apm-card-Xc.png",
+        "apm-card-Xh.png",
     ]
 
     assert sorted([f.name for f in all_media_files]) == sorted(expected_media_files)

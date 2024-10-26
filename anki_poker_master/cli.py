@@ -6,7 +6,10 @@ from importlib.metadata import version, PackageNotFoundError
 from pathlib import Path
 
 from anki_poker_master.parser.phh import parse
-from anki_poker_master.parser.preflop_scenario import parse_scenario_yml, EXAMPLE_SCENARIO_FILE
+from anki_poker_master.parser.preflop_scenario import (
+    parse_scenario_yml,
+    EXAMPLE_SCENARIO_FILE,
+)
 from anki_poker_master.model import ValidationError
 from anki_poker_master.presenter.anki.phh import get_deck
 from anki_poker_master.presenter.anki.preflop_scenario import create_decks
@@ -90,13 +93,13 @@ def main_with_args(args):
         help="Tag for the Anki decks. Can be specified multiple times.",
     )
     parser_hand.add_argument(
-        'phh_files',
+        "phh_files",
         metavar="FILE",
         type=str,
-        nargs='+',
+        nargs="+",
         help="Path to one or multiple .phh files. If a directory is "
-             "specified, all .phh files within that directory will be "
-             "read recursively.",
+        "specified, all .phh files within that directory will be "
+        "read recursively.",
     )
 
     args = parser.parse_args(args)

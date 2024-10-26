@@ -3,7 +3,9 @@ from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import Hand
 
 
-def get_question(hand: Hand, street_index_for_question: int, question_index: int) -> str:
+def get_question(
+    hand: Hand, street_index_for_question: int, question_index: int
+) -> str:
     """
     Return the HTML representation of the hand ending at the question identified
     by the street and question index.
@@ -11,7 +13,9 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
     # validation
     all_heroes = [p.name for p in hand.players if p.is_hero]
     if len(all_heroes) > 1:
-        raise ValidationError("there are multiple heroes, namely " + ", ".join(all_heroes))
+        raise ValidationError(
+            "there are multiple heroes, namely " + ", ".join(all_heroes)
+        )
     elif len(all_heroes) == 0:
         raise ValidationError("there is no hero")
     else:
@@ -19,20 +23,28 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
 
     all_dealers = [p.name for p in hand.players if p.is_dealer]
     if len(all_dealers) > 1:
-        raise ValidationError("there are multiple dealers, namely " + ", ".join(all_dealers))
+        raise ValidationError(
+            "there are multiple dealers, namely " + ", ".join(all_dealers)
+        )
     elif len(all_dealers) == 0:
         raise ValidationError("there is no dealer")
     else:
         pass  # success
 
-    if (not hand.streets or
-            street_index_for_question < 0 or
-            street_index_for_question >= len(hand.streets)):
-        raise ValidationError(f"there is no street with index {street_index_for_question}")
+    if (
+        not hand.streets
+        or street_index_for_question < 0
+        or street_index_for_question >= len(hand.streets)
+    ):
+        raise ValidationError(
+            f"there is no street with index {street_index_for_question}"
+        )
 
-    if (not hand.streets[street_index_for_question].questions or
-            question_index < 0 or
-            question_index >= len(hand.streets[street_index_for_question].questions)):
+    if (
+        not hand.streets[street_index_for_question].questions
+        or question_index < 0
+        or question_index >= len(hand.streets[street_index_for_question].questions)
+    ):
         raise ValidationError(
             f"there is no question with index {question_index} "
             f"in street {hand.streets[street_index_for_question].name}"
@@ -46,8 +58,8 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
     result += '<div class="pocket-cards">\n'
     for c in hand.hero_cards:
         result += f'<img src="apm-card-small-{c}.png" alt="{c}" title="{c}">\n'
-    result += '</div>\n'
-    result += f'<p><strong>Hero:</strong> {all_heroes[0]}</p>\n'
+    result += "</div>\n"
+    result += f"<p><strong>Hero:</strong> {all_heroes[0]}</p>\n"
 
     table_is_done = False
     question = None
@@ -61,17 +73,17 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
             max_num_actions = question.action_table_indices[1] + 1
         else:
             max_num_actions = max(len(r) for r in street.actions)
-        result += f'<h2>{street.name}</h2>\n'
+        result += f"<h2>{street.name}</h2>\n"
         if len(street.initial_pots) == 1:
             pot_str = format_n(street.initial_pots[0])
         else:
             pot_str = f"[ {' | '.join(map(format_n, street.initial_pots))} ]"
-        result += f'<p>Pot: {pot_str}</p>\n'
+        result += f"<p>Pot: {pot_str}</p>\n"
         if street.board:
             result += '<div class="board">\n'
             for c in street.board:
                 result += f'<img src="apm-card-small-{c}.png" alt="{c}" title="{c}">\n'
-            result += '</div>\n'
+            result += "</div>\n"
         result += '<table class="player-actions">\n'
         result += "<thead>\n"
         result += "<tr>\n"
@@ -93,11 +105,11 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
                 result += f'<tr class="{", ".join(row_classes)}">\n'
             else:
                 result += "<tr>\n"
-            result += f'<td>{player.name}'
+            result += f"<td>{player.name}"
             if player.is_dealer:
                 result += ' <span class="dealerbtn">D</span>'
-            result += '</td>\n'
-            result += f'<td>{format_n(street.initial_stacks[player_index])}</td>\n'
+            result += "</td>\n"
+            result += f"<td>{format_n(street.initial_stacks[player_index])}</td>\n"
             for j in range(max_num_actions):
                 if is_last_street:
                     if j > question.action_table_indices[1]:
@@ -107,7 +119,9 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
                         action = "?"
                         table_is_done = True
                     elif j < len(street.actions[i]) and (
-                            j < question.action_table_indices[1] or i < question.action_table_indices[0]):
+                        j < question.action_table_indices[1]
+                        or i < question.action_table_indices[0]
+                    ):
                         action = street.actions[i][j]
                     else:
                         action = ""
@@ -116,14 +130,14 @@ def get_question(hand: Hand, street_index_for_question: int, question_index: int
                         action = street.actions[i][j]
                     else:
                         action = ""
-                result += f'<td>{action}</td>'
-            result += '</tr>\n'
+                result += f"<td>{action}</td>"
+            result += "</tr>\n"
         result += "</tbody>\n"
-        result += '</table>\n'
+        result += "</table>\n"
 
     result += f"""<p>
 <strong>{question.question}</strong>
 </p>
 """
-    result += '</div>\n'
+    result += "</div>\n"
     return result

@@ -34,19 +34,19 @@ The SB is very tight.
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
-    assert hand.hero_cards == ['Th', '8c']
+    assert hand.hero_cards == ["Th", "8c"]
     assert hand.source == "https://example.com"
-    assert hand.notes == "The point of this hand is to demonstrate correct play against TAGs."
-    assert hand.context == "Online game. You have been playing for 2 hours.\nThe SB is very tight.\n"
+    assert (
+        hand.notes
+        == "The point of this hand is to demonstrate correct play against TAGs."
+    )
+    assert (
+        hand.context
+        == "Online game. You have been playing for 2 hours.\nThe SB is very tight.\n"
+    )
     assert len(hand.streets) == 1
     expected_preflop = Street(
-        "Preflop",
-        [],
-        [6],
-        [True, True, True],
-        [108, 416, 450],
-        2,
-        [[], [], []]
+        "Preflop", [], [6], [True, True, True], [108, 416, 450], 2, [[], [], []]
     )
     assert hand.streets[0] == expected_preflop
 
@@ -83,6 +83,7 @@ players = ["Tom", "Naima", "Carlos"]
 def test_parser_hero_hole_cards_must_be_known():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -103,6 +104,7 @@ actions = [
 def test_parser_multiple_players_could_be_hero_error():
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -122,6 +124,7 @@ actions = [
 
 def test_parser_multiple_hole_cards_can_be_known_with_apm_hero():
     from anki_poker_master.parser.phh import parse
+
     content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -139,13 +142,11 @@ _apm_hero = 2
     assert [p.is_hero for p in hand.players] == [False, True, False]
 
 
-@pytest.mark.parametrize(
-    'apm_hero',
-    [-10, -1, 0, 4, 7]
-)
+@pytest.mark.parametrize("apm_hero", [-10, -1, 0, 4, 7])
 def test_phh_parse_invalid_apm_hero_1(apm_hero: Any):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -164,13 +165,11 @@ _apm_hero = {apm_hero}
     assert "must be between 1 and 3" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize(
-    'apm_hero',
-    ['true', '"asdf"', '[]']
-)
+@pytest.mark.parametrize("apm_hero", ["true", '"asdf"', "[]"])
 def test_phh_parse_invalid_apm_hero_2(apm_hero: Any):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -189,13 +188,11 @@ _apm_hero = {apm_hero}
     assert "should be instance of 'int'" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize(
-    'apm_source',
-    ['true', '10', '[]']
-)
+@pytest.mark.parametrize("apm_source", ["true", "10", "[]"])
 def test_phh_parse_invalid_apm_source(apm_source):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -214,13 +211,11 @@ _apm_source = {apm_source}
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize(
-    'apm_notes',
-    ['true', '10', '[]']
-)
+@pytest.mark.parametrize("apm_notes", ["true", "10", "[]"])
 def test_phh_parse_invalid_apm_notes(apm_notes):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -239,13 +234,11 @@ _apm_notes = {apm_notes}
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize(
-    'apm_context',
-    ['true', '10', '[]']
-)
+@pytest.mark.parametrize("apm_context", ["true", "10", "[]"])
 def test_phh_parse_invalid_apm_context(apm_context):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -264,13 +257,11 @@ _apm_context = {apm_context}
     assert "should be instance of 'str'" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize(
-    'apm_answers',
-    ['true', '10']
-)
+@pytest.mark.parametrize("apm_answers", ["true", "10"])
 def test_phh_parse_invalid_apm_answers_1(apm_answers):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -289,13 +280,11 @@ _apm_answers = {apm_answers}
     assert "should be instance of 'list'" in excinfo.value.humanize_error()
 
 
-@pytest.mark.parametrize(
-    'apm_answers',
-    ['[2]', '[true, 3]']
-)
+@pytest.mark.parametrize("apm_answers", ["[2]", "[true, 3]"])
 def test_phh_parse_invalid_apm_answers_2(apm_answers):
     from anki_poker_master.parser.phh import parse
     from anki_poker_master.model import ValidationError
+
     content = f"""variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
@@ -412,7 +401,7 @@ actions = [
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
-    assert hand.hero_cards == ['Th', '8c']
+    assert hand.hero_cards == ["Th", "8c"]
     assert len(hand.streets) == 1
     expected_preflop = Street(
         "Preflop",
@@ -457,11 +446,11 @@ actions = [
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
-    assert hand.hero_cards == ['Th', '8c']
+    assert hand.hero_cards == ["Th", "8c"]
     assert len(hand.streets) == 2
     expected_flop = Street(
         "Flop",
-        ['Ah', 'Ts', '8h'],
+        ["Ah", "Ts", "8h"],
         [26],
         [False, True, True],
         [108, 408, 438],
@@ -508,11 +497,11 @@ actions = [
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
-    assert hand.hero_cards == ['Th', '8c']
+    assert hand.hero_cards == ["Th", "8c"]
     assert len(hand.streets) == 3
     expected_turn = Street(
         "Turn",
-        ['Ah', 'Ts', '8h', '4s'],
+        ["Ah", "Ts", "8h", "4s"],
         [66],
         [False, True, True],
         [108, 388, 418],
@@ -561,11 +550,11 @@ actions = [
     assert hand.players[1].name == "p2"
     assert [p.is_dealer for p in hand.players] == [False, False, True]
     assert [p.is_hero for p in hand.players] == [False, True, False]
-    assert hand.hero_cards == ['Th', '8c']
+    assert hand.hero_cards == ["Th", "8c"]
     assert len(hand.streets) == 4
     expected_river = Street(
         "River",
-        ['Ah', 'Ts', '8h', '4s', 'Tc'],
+        ["Ah", "Ts", "8h", "4s", "Tc"],
         [66],
         [False, True, True],
         [108, 388, 418],
@@ -685,7 +674,9 @@ def test_parser_questions_if_apm_answers_are_specified_length_must_match():
     with pytest.raises(ValidationError) as excinfo:
         parse(content)
 
-    assert "_apm_answers contains 4 answers but 3 questions are asked" in str(excinfo.value)
+    assert "_apm_answers contains 4 answers but 3 questions are asked" in str(
+        excinfo.value
+    )
 
 
 def test_parser_questions_default_all_hero_actions():
@@ -805,68 +796,68 @@ def test_parser_with_different_antes():
     "file_name, expected_initial_stacks_last_street",
     [
         (
-                "00-18-39.phh",
-                [
-                    7750000,
-                    4125000,
-                    8525000,
-                    4550000,
-                    4050000,
-                ]
+            "00-18-39.phh",
+            [
+                7750000,
+                4125000,
+                8525000,
+                4550000,
+                4050000,
+            ],
         ),
         (
-                "02-53-09.phh",
-                [
-                    2125000,
-                    2200000,
-                    3125000,
-                    2375000,
-                    19425000,
-                ]
+            "02-53-09.phh",
+            [
+                2125000,
+                2200000,
+                3125000,
+                2375000,
+                19425000,
+            ],
         ),
         (
-                "00-15-36.phh",
-                [
-                    4050000,
-                    8250000,
-                    4550000,
-                    8525000,
-                    3375000,
-                ]
+            "00-15-36.phh",
+            [
+                4050000,
+                8250000,
+                4550000,
+                8525000,
+                3375000,
+            ],
         ),
         (
-                "dwan-ivey-2009.phh",
-                [
-                    # Note that by this point the hand is over and p3 (Tom Dwan) has won.
-                    572100,
-                    1997500,
-                    1109500,
-                ]
+            "dwan-ivey-2009.phh",
+            [
+                # Note that by this point the hand is over and p3 (Tom Dwan) has won.
+                572100,
+                1997500,
+                1109500,
+            ],
         ),
         (
-                # This is a FT (limit hold'em) hand, to demonstrate that it's possible
-                "01-51-27.phh",
-                [
-                    14325000,
-                    7250000,
-                    2850000,
-                    2500000,
-                    475000,
-                ]
+            # This is a FT (limit hold'em) hand, to demonstrate that it's possible
+            "01-51-27.phh",
+            [
+                14325000,
+                7250000,
+                2850000,
+                2500000,
+                475000,
+            ],
         ),
-    ]
+    ],
 )
 def test_parser_example_files_success(
-        testdata_dir: pathlib.Path,
-        file_name: str,
-        expected_initial_stacks_last_street: List[Number],
+    testdata_dir: pathlib.Path,
+    file_name: str,
+    expected_initial_stacks_last_street: List[Number],
 ) -> None:
     """
     Parse same example .phh files and perform some minimal verification.
     """
     from anki_poker_master.parser.phh import parse
 
-    content = (testdata_dir / file_name).read_text('utf8')
+    content = (testdata_dir / file_name).read_text("utf8")
     hand = parse(content)
     assert hand.streets
     assert hand.streets[-1].initial_stacks == expected_initial_stacks_last_street

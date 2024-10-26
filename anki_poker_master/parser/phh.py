@@ -4,13 +4,15 @@ from typing import Dict, Any, List, Optional, Generator, Tuple, Callable
 
 import pokerkit
 import schema
-from pokerkit import (HandHistory,
-                      HoleDealing,
-                      Card,
-                      BoardDealing,
-                      CheckingOrCalling,
-                      CompletionBettingOrRaisingTo,
-                      Folding)
+from pokerkit import (
+    HandHistory,
+    HoleDealing,
+    Card,
+    BoardDealing,
+    CheckingOrCalling,
+    CompletionBettingOrRaisingTo,
+    Folding,
+)
 
 from anki_poker_master.helper import format_n
 from anki_poker_master.model import ValidationError
@@ -21,6 +23,7 @@ class _ParserState(enum.Enum):
     """
     Represents the different states the parser can be in while it's parsing the hand history.
     """
+
     SETUP = enum.auto()
     END_SETUP = enum.auto()
     PREFLOP = enum.auto()
@@ -41,8 +44,11 @@ class _Parser:
     might be the wrong term since pokerkit.HandHistory is already an object that was
     produced by parsing a .phh file.
     """
+
     _parser_state: _ParserState
-    _pk_operation_iterator: Generator[Tuple[pokerkit.State, pokerkit.Operation], None, None]
+    _pk_operation_iterator: Generator[
+        Tuple[pokerkit.State, pokerkit.Operation], None, None
+    ]
     _pk_current_state: pokerkit.State
     _pk_current_operation: pokerkit.Operation
     _nr_players_dealt: int
@@ -71,10 +77,10 @@ class _Parser:
         self._current_street_had_a_bet = True
         player_count = hh.create_state().player_count
         for i in range(player_count):
-            name = f'p{i + 1}'
+            name = f"p{i + 1}"
             if hh.players:
                 name = hh.players[i]
-            is_dealer = (i == player_count - 1)
+            is_dealer = i == player_count - 1
             self._hand.players.append(Player(name, is_dealer, False))
         if hh.variant == "NT":
             self._hand.title = "NLHE"
@@ -97,13 +103,27 @@ class _Parser:
         state_handler_mapping: Dict[_ParserState, Callable[[], bool]] = {
             _ParserState.SETUP: self._state_handler_setup,
             _ParserState.END_SETUP: self._state_handler_end_setup,
-            _ParserState.PREFLOP: lambda: self._street_state_helper(0, _ParserState.END_PREFLOP),
-            _ParserState.END_PREFLOP: lambda: self._street_end_state_helper("Flop", _ParserState.FLOP),
-            _ParserState.FLOP: lambda: self._street_state_helper(1, _ParserState.END_FLOP),
-            _ParserState.END_FLOP: lambda: self._street_end_state_helper("Turn", _ParserState.TURN),
-            _ParserState.TURN: lambda: self._street_state_helper(2, _ParserState.END_TURN),
-            _ParserState.END_TURN: lambda: self._street_end_state_helper("River", _ParserState.RIVER),
-            _ParserState.RIVER: lambda: self._street_state_helper(3, _ParserState.FINALIZE),
+            _ParserState.PREFLOP: lambda: self._street_state_helper(
+                0, _ParserState.END_PREFLOP
+            ),
+            _ParserState.END_PREFLOP: lambda: self._street_end_state_helper(
+                "Flop", _ParserState.FLOP
+            ),
+            _ParserState.FLOP: lambda: self._street_state_helper(
+                1, _ParserState.END_FLOP
+            ),
+            _ParserState.END_FLOP: lambda: self._street_end_state_helper(
+                "Turn", _ParserState.TURN
+            ),
+            _ParserState.TURN: lambda: self._street_state_helper(
+                2, _ParserState.END_TURN
+            ),
+            _ParserState.END_TURN: lambda: self._street_end_state_helper(
+                "River", _ParserState.RIVER
+            ),
+            _ParserState.RIVER: lambda: self._street_state_helper(
+                3, _ParserState.FINALIZE
+            ),
             _ParserState.FINALIZE: lambda: True,  # Allow pokerkit to run through until the end
             _ParserState.DONE: self._state_handler_done,
         }
@@ -112,15 +132,18 @@ class _Parser:
         while self._parser_state != _ParserState.DONE:
             if advance_pk_operation:
                 try:
-                    self._pk_current_state, self._pk_current_operation = next(self._pk_operation_iterator)
+                    self._pk_current_state, self._pk_current_operation = next(
+                        self._pk_operation_iterator
+                    )
                 except StopIteration:
                     self._parser_state = _ParserState.DONE
             advance_pk_operation = state_handler_mapping[self._parser_state]()
         return self._hand
 
     @staticmethod
-    def _create_pk_operation_iterator(hh: pokerkit.HandHistory) -> (
-            Generator)[Tuple[pokerkit.State, pokerkit.Operation], None, None]:
+    def _create_pk_operation_iterator(
+        hh: pokerkit.HandHistory,
+    ) -> (Generator)[Tuple[pokerkit.State, pokerkit.Operation], None, None]:
         """
         Helper function to create a generator to iterate over pokerkit states and operations.
         """
@@ -146,8 +169,10 @@ class _Parser:
         """
         Initialize the pots, figure out which player is the hero and then transition to preflop.
         """
-        hero_index, self._hand.hero_cards = _get_hero(self._pk_current_state.hole_cards,
-                                                      self._custom_fields.get("_apm_hero", None))
+        hero_index, self._hand.hero_cards = _get_hero(
+            self._pk_current_state.hole_cards,
+            self._custom_fields.get("_apm_hero", None),
+        )
         self._hand.players[hero_index].is_hero = True
         blinds = sum(self._pk_current_state.blinds_or_straddles)
         pot_amounts = list(self._pk_current_state.pot_amounts)
@@ -165,18 +190,24 @@ class _Parser:
                 [[] for _ in range(self._pk_current_state.player_count)],
             )
         )
-        self._hand.title += " " + "/".join(format_n(b) for b in self._pk_current_state.blinds_or_straddles if b)
+        self._hand.title += " " + "/".join(
+            format_n(b) for b in self._pk_current_state.blinds_or_straddles if b
+        )
         if any(self._pk_current_state.antes):
             second_ante = self._pk_current_state.antes[1]
             if all(a == second_ante for a in self._pk_current_state.antes):
                 self._hand.title += f" (ante {format_n(second_ante)})"
             else:
                 # The ante is collected once per round from the BB
-                self._hand.title += f" (ante {format_n(second_ante // len(self._hand.players))})"
+                self._hand.title += (
+                    f" (ante {format_n(second_ante // len(self._hand.players))})"
+                )
         self._parser_state = _ParserState.PREFLOP
         return True
 
-    def _street_state_helper(self, current_street_index: int, next_state: _ParserState) -> bool:
+    def _street_state_helper(
+        self, current_street_index: int, next_state: _ParserState
+    ) -> bool:
         """
         Helper method to do the processing of the streets (preflop, flop, ...), used by the
         relevant _state_handlers .
@@ -189,30 +220,40 @@ class _Parser:
         if isinstance(self._pk_current_operation, BoardDealing):
             self._parser_state = next_state
             return False
-        if type(self._pk_current_operation) not in (CheckingOrCalling, CompletionBettingOrRaisingTo, Folding):
+        if type(self._pk_current_operation) not in (
+            CheckingOrCalling,
+            CompletionBettingOrRaisingTo,
+            Folding,
+        ):
             # Skip the cases we are not interested in
             return True
 
         # Given that the actions are sorted by the order in which players act in a certain street
         # we need to calculate which row to use.
         player_i_for_action_table = (
-                (
-                        self._pk_current_operation.player_index -
-                        self._hand.streets[current_street_index].first_player_actions
-                ) % self._pk_current_state.player_count
-        )
+            self._pk_current_operation.player_index
+            - self._hand.streets[current_street_index].first_player_actions
+        ) % self._pk_current_state.player_count
         commentary = self._pk_current_operation.commentary
         if commentary:
             commentary = commentary.strip()
         action = ""
         if isinstance(self._pk_current_operation, CheckingOrCalling):
             action = "C" if self._current_street_had_a_bet else "X"
-            if self._pk_current_state.stacks[self._pk_current_operation.player_index] == 0:
+            if (
+                self._pk_current_state.stacks[self._pk_current_operation.player_index]
+                == 0
+            ):
                 action += " (AI)"
         elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
-            action = (f'{"R" if self._current_street_had_a_bet else "B"} '
-                      f'{format_n(self._pk_current_operation.amount)}')
-            if self._pk_current_state.stacks[self._pk_current_operation.player_index] == 0:
+            action = (
+                f'{"R" if self._current_street_had_a_bet else "B"} '
+                f'{format_n(self._pk_current_operation.amount)}'
+            )
+            if (
+                self._pk_current_state.stacks[self._pk_current_operation.player_index]
+                == 0
+            ):
                 action += " (AI)"
             self._current_street_had_a_bet = True
         elif isinstance(self._pk_current_operation, Folding):
@@ -224,22 +265,32 @@ class _Parser:
             # custom field.
             answer = action
             if commentary.lower().startswith("apm study:"):
-                answer = commentary[len("apm study:"):].strip()
+                answer = commentary[len("apm study:") :].strip()
             else:
                 # Choose the correct answer from _apm_answers
                 number_previous_questions = 0
                 for i in range(len(self._hand.streets)):
                     if i <= current_street_index:
-                        number_previous_questions += len(self._hand.streets[i].questions)
-                if (number_previous_questions < len(self._hand.answers) and
-                        self._hand.answers[number_previous_questions]):
+                        number_previous_questions += len(
+                            self._hand.streets[i].questions
+                        )
+                if (
+                    number_previous_questions < len(self._hand.answers)
+                    and self._hand.answers[number_previous_questions]
+                ):
                     answer = self._hand.answers[number_previous_questions]
-            next_action_i = len(self._hand.streets[current_street_index].actions[player_i_for_action_table])
-            self._hand.streets[current_street_index].questions.append(Question(
-                "What do you do?",
-                answer,
-                (player_i_for_action_table, next_action_i),
-            ))
+            next_action_i = len(
+                self._hand.streets[current_street_index].actions[
+                    player_i_for_action_table
+                ]
+            )
+            self._hand.streets[current_street_index].questions.append(
+                Question(
+                    "What do you do?",
+                    answer,
+                    (player_i_for_action_table, next_action_i),
+                )
+            )
         elif self._hand.players[self._pk_current_operation.player_index].is_hero:
             # Collect the default questions for any action performed by the hero since we can't
             # know until the very end whether any "apm study" commentary exists. The default
@@ -248,20 +299,34 @@ class _Parser:
             number_previous_questions = 0
             for i in range(len(self._hand.streets)):
                 if i <= current_street_index:
-                    number_previous_questions += len(self._hand.streets[i].default_questions)
-            if (number_previous_questions < len(self._hand.answers) and
-                    self._hand.answers[number_previous_questions]):
+                    number_previous_questions += len(
+                        self._hand.streets[i].default_questions
+                    )
+            if (
+                number_previous_questions < len(self._hand.answers)
+                and self._hand.answers[number_previous_questions]
+            ):
                 answer = self._hand.answers[number_previous_questions]
-            next_action_i = len(self._hand.streets[current_street_index].actions[player_i_for_action_table])
-            self._hand.streets[current_street_index].default_questions.append(Question(
-                "What do you do?",
-                answer,
-                (player_i_for_action_table, next_action_i),
-            ))
-        self._hand.streets[current_street_index].actions[player_i_for_action_table].append(action)
+            next_action_i = len(
+                self._hand.streets[current_street_index].actions[
+                    player_i_for_action_table
+                ]
+            )
+            self._hand.streets[current_street_index].default_questions.append(
+                Question(
+                    "What do you do?",
+                    answer,
+                    (player_i_for_action_table, next_action_i),
+                )
+            )
+        self._hand.streets[current_street_index].actions[
+            player_i_for_action_table
+        ].append(action)
         return True
 
-    def _street_end_state_helper(self, next_street_name: str, next_state: _ParserState) -> bool:
+    def _street_end_state_helper(
+        self, next_street_name: str, next_state: _ParserState
+    ) -> bool:
         """
         Helper method to do the processing of the end of streets (end_preflop, end_flop, ...), used by the
         relevant _state_handlers .
@@ -322,13 +387,17 @@ def parse(content: str) -> Hand:
             content_for_err = content[:100] + "\n..."
         else:
             content_for_err = content
-        raise ValidationError(f'Error parsing PHH with content:\n{content_for_err}') from e
+        raise ValidationError(
+            f"Error parsing PHH with content:\n{content_for_err}"
+        ) from e
 
     if hh.variant not in ("NT", "FT"):
         # TODO Validate whether other variants work with little additional effort, but for now focus on NLHE
         raise ValidationError(f"the variant '{hh.variant}' is not supported")
 
-    custom_fields = _get_and_validate_custom_fields(content, hh.create_state().player_count)
+    custom_fields = _get_and_validate_custom_fields(
+        content, hh.create_state().player_count
+    )
     parser = _Parser(hh, custom_fields)
     return parser.get_hand()
 
@@ -352,7 +421,10 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
         {
             schema.Optional("_apm_hero"): schema.And(
                 int,
-                schema.Schema(lambda n: 0 < n <= player_count, error=f"must be between 1 and {player_count}"),
+                schema.Schema(
+                    lambda n: 0 < n <= player_count,
+                    error=f"must be between 1 and {player_count}",
+                ),
             ),
             schema.Optional("_apm_source"): str,
             schema.Optional("_apm_notes"): str,
@@ -367,7 +439,9 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
         raise ValidationError('Error validating user-defined "_apm" fields') from e
 
 
-def _get_hero(hole_cards: List[List[Card]], apm_hero: Optional[int]) -> (int, List[str]):
+def _get_hero(
+    hole_cards: List[List[Card]], apm_hero: Optional[int]
+) -> (int, List[str]):
     """
     Decide who the hero (player from whose perspective we are "watching" the hand) is.
     The pocket cards of the hero must be known and specified at the beginning of the hand history.
@@ -394,7 +468,9 @@ def _get_hero(hole_cards: List[List[Card]], apm_hero: Optional[int]) -> (int, Li
     elif hole_cards_are_known.count(True) == 0:
         raise ValidationError("The hole cards of the hero must be known.")
     elif hole_cards_are_known.count(True) > 1:
-        raise ValidationError("It is unclear who the hero is. You may need to specify _apm_hero .")
+        raise ValidationError(
+            "It is unclear who the hero is. You may need to specify _apm_hero ."
+        )
     else:
         index = hole_cards_are_known.index(True)
         return index, [repr(c) for c in hole_cards[index]]
