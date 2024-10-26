@@ -306,6 +306,49 @@ table.player-actions tr.not-playing .dealerbtn {
     width: 10px;
     height: 10px;
 }
+
+table.player-actions td .fold-action {
+    color: red;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: mono;
+}
+
+table.player-actions td .raise-action, table.player-actions td .bet-action {
+    color: green;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: mono;
+}
+
+table.player-actions td .raise-action.all-in-action, table.player-actions td .bet-action.all-in-action {
+    color: darkgreen;
+}
+
+table.player-actions td .check-action, table.player-actions td .call-action {
+    color: blue;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: mono;
+}
+
+table.player-actions td .call-action.all-in-action {
+    color: darkblue;
+}
+
+table.player-actions td .question-action {
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: mono;
+}
+
+table.player-actions td .no-action {
+    color: lightgray;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: mono;
+}
 </style><div class="row">
     <div class="column column_left">
         poker
@@ -333,110 +376,20 @@ table.player-actions tr.not-playing .dealerbtn {
 <tr>
 <td>p3 <span class="dealerbtn">D</span></td>
 <td>450</td>
-<td>R 12</td></tr>
+<td><span class="raise-action">R 12</span></td></tr>
 <tr>
 <td>p1</td>
 <td>108</td>
-<td>F</td></tr>
+<td><span class="fold-action">F</span></td></tr>
 <tr class="hero">
 <td>p2</td>
 <td>416</td>
-<td>C</td></tr>
-</tbody>
-</table>
-<h2>Flop</h2>
-<p>Pot: 26</p>
-<div class="board">
-<img src="apm-card-small-Ah.png" alt="Ah" title="Ah">
-<img src="apm-card-small-Ts.png" alt="Ts" title="Ts">
-<img src="apm-card-small-8h.png" alt="8h" title="8h">
-</div>
-<table class="player-actions">
-<thead>
-<tr>
-<th>Player</th>
-<th>Stack</th>
-<th colspan="2">Actions</th>
-</tr></thead>
-<tbody>
-<tr class="not-playing">
-<td>p1</td>
-<td>108</td>
-<td></td><td></td></tr>
-<tr class="hero">
-<td>p2</td>
-<td>408</td>
-<td>X</td><td>C</td></tr>
-<tr>
-<td>p3 <span class="dealerbtn">D</span></td>
-<td>438</td>
-<td>B 20</td><td></td></tr>
-</tbody>
-</table>
-<h2>Turn</h2>
-<p>Pot: 66</p>
-<div class="board">
-<img src="apm-card-small-Ah.png" alt="Ah" title="Ah">
-<img src="apm-card-small-Ts.png" alt="Ts" title="Ts">
-<img src="apm-card-small-8h.png" alt="8h" title="8h">
-<img src="apm-card-small-4s.png" alt="4s" title="4s">
-</div>
-<table class="player-actions">
-<thead>
-<tr>
-<th>Player</th>
-<th>Stack</th>
-<th colspan="1">Actions</th>
-</tr></thead>
-<tbody>
-<tr class="not-playing">
-<td>p1</td>
-<td>108</td>
-<td></td></tr>
-<tr class="hero">
-<td>p2</td>
-<td>388</td>
-<td>X</td></tr>
-<tr>
-<td>p3 <span class="dealerbtn">D</span></td>
-<td>418</td>
-<td>X</td></tr>
-</tbody>
-</table>
-<h2>River</h2>
-<p>Pot: 66</p>
-<div class="board">
-<img src="apm-card-small-Ah.png" alt="Ah" title="Ah">
-<img src="apm-card-small-Ts.png" alt="Ts" title="Ts">
-<img src="apm-card-small-8h.png" alt="8h" title="8h">
-<img src="apm-card-small-4s.png" alt="4s" title="4s">
-<img src="apm-card-small-Tc.png" alt="Tc" title="Tc">
-</div>
-<table class="player-actions">
-<thead>
-<tr>
-<th>Player</th>
-<th>Stack</th>
-<th colspan="1">Actions</th>
-</tr></thead>
-<tbody>
-<tr class="not-playing">
-<td>p1</td>
-<td>108</td>
-<td></td></tr>
-<tr class="hero">
-<td>p2</td>
-<td>388</td>
-<td>?</td></tr>
-<tr>
-<td>p3 <span class="dealerbtn">D</span></td>
-<td>418</td>
-<td></td></tr>
+<td><span class="question-action">?</span></td></tr>
 </tbody>
 </table>
 <p>
 <strong>What do you do?</strong>
 </p>
 </div>
-<hr id='answer'>B 388 (AI)<br>
+<hr id='answer'>C<br>
 

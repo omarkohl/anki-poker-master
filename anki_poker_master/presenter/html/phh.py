@@ -1,6 +1,37 @@
 from anki_poker_master.helper import format_n
 from anki_poker_master.model import ValidationError
-from anki_poker_master.model.hand import Hand
+from anki_poker_master.model.hand import (
+    Hand,
+    Action,
+    BetAction,
+    CallAction,
+    CheckAction,
+    FoldAction,
+    RaiseAction,
+)
+
+
+def _action_to_html(action: Action) -> str:
+    css_classes = []
+    content = str(action)
+    if isinstance(action, CheckAction):
+        css_classes.append("check-action")
+    elif isinstance(action, RaiseAction):
+        css_classes.append("raise-action")
+    elif isinstance(action, FoldAction):
+        css_classes.append("fold-action")
+    elif isinstance(action, BetAction):
+        css_classes.append("bet-action")
+    elif isinstance(action, CallAction):
+        css_classes.append("call-action")
+    else:
+        raise ValueError(f"Unexpected action: {action}")
+
+    if isinstance(action, (CallAction, RaiseAction, BetAction)):
+        if action.is_all_in():
+            css_classes.append("all-in-action")
+
+    return f'<span class="{" ".join(css_classes)}">{content}</span>'
 
 
 def get_question(
@@ -117,18 +148,18 @@ def get_question(
                         # avoid giving hints how many more actions are to come
                         break
                     if question.action_table_indices == (i, j):
-                        action = "?"
+                        action = '<span class="question-action">?</span>'
                         table_is_done = True
                     elif j < len(street.actions[i]) and (
                         j < question.action_table_indices[1]
                         or i < question.action_table_indices[0]
                     ):
-                        action = str(street.actions[i][j])
+                        action = _action_to_html(street.actions[i][j])
                     else:
-                        action = ""
+                        action = '<span class="no-action">-</span>'
                 else:  # not last street
                     if j < len(street.actions[i]):
-                        action = str(street.actions[i][j])
+                        action = _action_to_html(street.actions[i][j])
                     else:
                         action = ""
                 result += f"<td>{action}</td>"

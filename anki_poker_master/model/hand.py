@@ -34,6 +34,12 @@ class BetAction(Action):
             and self._is_all_in == other._is_all_in
         )
 
+    def is_all_in(self) -> bool:
+        return self._is_all_in
+
+    def amount(self) -> Number:
+        return self._amount
+
 
 class RaiseAction(Action):
     _amount: Number
@@ -52,6 +58,12 @@ class RaiseAction(Action):
             and self._amount == other._amount
             and self._is_all_in == other._is_all_in
         )
+
+    def is_all_in(self) -> bool:
+        return self._is_all_in
+
+    def amount(self) -> Number:
+        return self._amount
 
 
 class CheckAction(Action):
@@ -73,6 +85,9 @@ class CallAction(Action):
 
     def __eq__(self, other):
         return isinstance(other, CallAction) and self._is_all_in == other._is_all_in
+
+    def is_all_in(self) -> bool:
+        return self._is_all_in
 
 
 class Question:
