@@ -1,5 +1,4 @@
 from anki_poker_master.helper import format_n
-from anki_poker_master.model import ValidationError
 from anki_poker_master.model.hand import (
     Hand,
     Action,
@@ -41,45 +40,7 @@ def get_question(
     Return the HTML representation of the hand ending at the question identified
     by the street and question index.
     """
-    # validation
-    all_heroes = [p.name for p in hand.players if p.is_hero]
-    if len(all_heroes) > 1:
-        raise ValidationError(
-            "there are multiple heroes, namely " + ", ".join(all_heroes)
-        )
-    elif len(all_heroes) == 0:
-        raise ValidationError("there is no hero")
-    else:
-        pass  # success
-
-    all_dealers = [p.name for p in hand.players if p.is_dealer]
-    if len(all_dealers) > 1:
-        raise ValidationError(
-            "there are multiple dealers, namely " + ", ".join(all_dealers)
-        )
-    elif len(all_dealers) == 0:
-        raise ValidationError("there is no dealer")
-    else:
-        pass  # success
-
-    if (
-        not hand.streets
-        or street_index_for_question < 0
-        or street_index_for_question >= len(hand.streets)
-    ):
-        raise ValidationError(
-            f"there is no street with index {street_index_for_question}"
-        )
-
-    if (
-        not hand.streets[street_index_for_question].questions
-        or question_index < 0
-        or question_index >= len(hand.streets[street_index_for_question].questions)
-    ):
-        raise ValidationError(
-            f"there is no question with index {question_index} "
-            f"in street {hand.streets[street_index_for_question].name}"
-        )
+    hand.validate_with_indices(street_index_for_question, question_index)
 
     result = f"""<div class="hand-history">
 <h1>{hand.title}</h1>
@@ -90,7 +51,7 @@ def get_question(
     for c in hand.hero_cards:
         result += f'<img src="apm-card-small-{c}.png" alt="{c}" title="{c}">\n'
     result += "</div>\n"
-    result += f"<p><strong>Hero:</strong> {all_heroes[0]}</p>\n"
+    result += f"<p><strong>Hero:</strong> {hand.get_hero().name}</p>\n"
 
     table_is_done = False
     question = None

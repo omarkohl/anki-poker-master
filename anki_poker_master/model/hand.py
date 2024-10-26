@@ -2,6 +2,7 @@ from numbers import Number
 from typing import List, Tuple, Optional
 
 from anki_poker_master.helper import format_n
+from anki_poker_master.model import ValidationError
 
 
 class Action:
@@ -213,3 +214,59 @@ class Hand:
 
     def __str__(self):
         return f"{self.title} {self.players} {self.hero_cards} {self.streets} {self.notes} {self.source} {self.context} {self.answers}"
+
+    def validate(self):
+        """
+        Validate the hand. Raises a ValidationError if the hand is not valid.
+        """
+        all_heroes = [p.name for p in self.players if p.is_hero]
+        if len(all_heroes) > 1:
+            raise ValidationError(
+                "there are multiple heroes, namely " + ", ".join(all_heroes)
+            )
+        elif len(all_heroes) == 0:
+            raise ValidationError("there is no hero")
+        else:
+            pass  # success
+
+        all_dealers = [p.name for p in self.players if p.is_dealer]
+        if len(all_dealers) > 1:
+            raise ValidationError(
+                "there are multiple dealers, namely " + ", ".join(all_dealers)
+            )
+        elif len(all_dealers) == 0:
+            raise ValidationError("there is no dealer")
+        else:
+            pass  # success
+
+    def validate_with_indices(self, street_index_for_question, question_index):
+        """
+        Validate the hand. Raises a ValidationError if the hand is not valid.
+        It executes normal validation plus ensures that the indices are valid.
+        """
+        self.validate()
+        if (
+            not self.streets
+            or street_index_for_question < 0
+            or street_index_for_question >= len(self.streets)
+        ):
+            raise ValidationError(
+                f"there is no street with index {street_index_for_question}"
+            )
+
+        if (
+            not self.streets[street_index_for_question].questions
+            or question_index < 0
+            or question_index >= len(self.streets[street_index_for_question].questions)
+        ):
+            raise ValidationError(
+                f"there is no question with index {question_index} "
+                f"in street {self.streets[street_index_for_question].name}"
+            )
+
+    def get_hero(self):
+        """
+        Get the hero player. The hand must be validated before calling this
+        method.
+        """
+        return next(p for p in self.players if p.is_hero)
