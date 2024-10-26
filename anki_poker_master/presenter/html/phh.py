@@ -111,6 +111,7 @@ def get_question(
             result += "</td>\n"
             result += f"<td>{format_n(street.initial_stacks[player_index])}</td>\n"
             for j in range(max_num_actions):
+                action: str
                 if is_last_street:
                     if j > question.action_table_indices[1]:
                         # avoid giving hints how many more actions are to come
@@ -122,12 +123,12 @@ def get_question(
                         j < question.action_table_indices[1]
                         or i < question.action_table_indices[0]
                     ):
-                        action = street.actions[i][j]
+                        action = str(street.actions[i][j])
                     else:
                         action = ""
                 else:  # not last street
                     if j < len(street.actions[i]):
-                        action = street.actions[i][j]
+                        action = str(street.actions[i][j])
                     else:
                         action = ""
                 result += f"<td>{action}</td>"

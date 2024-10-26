@@ -4,6 +4,8 @@ from typing import Any, List
 
 import pytest
 
+from anki_poker_master.model.hand import Action
+
 
 def test_parser_basic():
     from anki_poker_master.parser.phh import parse
@@ -378,7 +380,7 @@ def test_parser_invalid_poker_variant(variant):
 
 def test_parser_with_preflop():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question
+    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction, RaiseAction, FoldAction, CallAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -410,7 +412,7 @@ actions = [
         [True, True, True],
         [108, 416, 450],
         2,
-        [["R 12"], ["F"], ["C"]],
+        [[RaiseAction(12)], [FoldAction()], [CallAction()]],
         [Question("What do you do?", "C", (2, 0))],
     )
 
@@ -419,7 +421,7 @@ actions = [
 
 def test_parser_with_flop():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question
+    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -455,7 +457,7 @@ actions = [
         [False, True, True],
         [108, 408, 438],
         0,
-        [[], ["X", "C"], ["B 20"]],
+        [[], [CheckAction(), CallAction()], [BetAction(20)]],
         [
             Question("What do you do?", "X", (1, 0)),
             Question("What do you do?", "C", (1, 1)),
@@ -467,7 +469,7 @@ actions = [
 
 def test_parser_with_turn():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question
+    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -506,7 +508,7 @@ actions = [
         [False, True, True],
         [108, 388, 418],
         0,
-        [[], ["X"], ["X"]],
+        [[], [CheckAction()], [CheckAction()]],
         [
             Question("What do you do?", "X", (1, 0)),
         ],
@@ -517,7 +519,7 @@ actions = [
 
 def test_parser_with_river():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question
+    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -559,7 +561,7 @@ actions = [
         [False, True, True],
         [108, 388, 418],
         0,
-        [[], ["B 388 (AI)"], ["F"]],
+        [[], [BetAction(388, is_all_in=True)], [FoldAction()]],
         [
             Question("What do you do?", "B 388 (AI)", (1, 0)),
         ],
@@ -871,6 +873,7 @@ def test_preflop_check_action_not_possible() -> None:
     """
 
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model.hand import CallAction, FoldAction, CheckAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -888,7 +891,7 @@ actions = [
 ]
 """
     hand = parse(content)
-    assert hand.streets[0].actions == [["C"], ["F"], ["X"]]
+    assert hand.streets[0].actions == [[CallAction()], [FoldAction()], [CheckAction()]]
 
 
 def test_preflop_bet_action_not_possible() -> None:
@@ -899,6 +902,7 @@ def test_preflop_bet_action_not_possible() -> None:
     """
 
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model.hand import RaiseAction, FoldAction, CallAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -916,7 +920,7 @@ actions = [
 ]
 """
     hand = parse(content)
-    assert hand.streets[0].actions == [["R 12"], ["F"], ["C"]]
+    assert hand.streets[0].actions == [[RaiseAction(12)], [FoldAction()], [CallAction()]]
 
 
 def test_all_in_is_indicated_separately() -> None:
@@ -927,6 +931,7 @@ def test_all_in_is_indicated_separately() -> None:
     """
 
     from anki_poker_master.parser.phh import parse
+    from anki_poker_master.model.hand import RaiseAction, FoldAction, CallAction
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -944,4 +949,4 @@ actions = [
 ]
 """
     hand = parse(content)
-    assert hand.streets[0].actions == [["R 450 (AI)"], ["C (AI)"], ["F"]]
+    assert hand.streets[0].actions == [[RaiseAction(450, is_all_in=True)], [CallAction(is_all_in=True)], [FoldAction()]]

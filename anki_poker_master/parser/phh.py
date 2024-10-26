@@ -16,7 +16,8 @@ from pokerkit import (
 
 from anki_poker_master.helper import format_n
 from anki_poker_master.model import ValidationError
-from anki_poker_master.model.hand import Hand, Player, Street, Question
+from anki_poker_master.model.hand import Hand, Player, Street, Question, Action, CallAction, CheckAction, BetAction, \
+    RaiseAction, FoldAction
 
 
 class _ParserState(enum.Enum):
@@ -235,14 +236,16 @@ class _Parser:
         commentary = self._pk_current_operation.commentary
         if commentary:
             commentary = commentary.strip()
-        action = ""
+        action: Action = Action()
         if isinstance(self._pk_current_operation, CheckingOrCalling):
-            action = "C" if self._pk_current_operation.amount > 0 else "X"
-            if (
+            is_all_in = (
                 self._pk_current_state.stacks[self._pk_current_operation.player_index]
                 == 0
-            ):
-                action += " (AI)"
+            )
+            if self._pk_current_operation.amount > 0:
+                action = CallAction(is_all_in)
+            else:
+                action = CheckAction()
         elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
             is_bet = all(
                 bet == 0 or i == self._pk_current_operation.player_index
@@ -252,21 +255,20 @@ class _Parser:
                 self._pk_current_state.stacks[self._pk_current_operation.player_index]
                 == 0
             )
-            action = (
-                f'{"B" if is_bet else "R"} '
-                f'{format_n(self._pk_current_operation.amount)}'
-                f'{" (AI)" if is_all_in else ""}'
-            )
+            if is_bet:
+                action = BetAction(self._pk_current_operation.amount, is_all_in)
+            else:
+                action = RaiseAction(self._pk_current_operation.amount, is_all_in)
         elif isinstance(self._pk_current_operation, Folding):
-            action = "F"
+            action = FoldAction()
         if commentary and commentary.lower().startswith("apm study"):
             # The commentary marks which spot are a question (i.e. we want to study) and they may
             # also provide the answer (what comes after the colon). If the spot itself does not
             # provide an answer, then the answer is expected to be contained in the _apm_answers
             # custom field.
-            answer = action
+            answer: str = str(action)
             if commentary.lower().startswith("apm study:"):
-                answer = commentary[len("apm study:") :].strip()
+                answer = commentary[len("apm study:"):].strip()
             else:
                 # Choose the correct answer from _apm_answers
                 number_previous_questions = 0
@@ -296,7 +298,7 @@ class _Parser:
             # Collect the default questions for any action performed by the hero since we can't
             # know until the very end whether any "apm study" commentary exists. The default
             # questions would then be the fallback.
-            answer = action
+            answer: str = str(action)
             number_previous_questions = 0
             for i in range(len(self._hand.streets)):
                 if i <= current_street_index:
@@ -322,7 +324,7 @@ class _Parser:
             )
         self._hand.streets[current_street_index].actions[
             player_i_for_action_table
-        ].append(action)
+        ].append(action)  # action should be a type to make it easier to style it later
         return True
 
     def _street_end_state_helper(

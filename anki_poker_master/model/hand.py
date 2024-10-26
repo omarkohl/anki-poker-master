@@ -1,6 +1,76 @@
 from numbers import Number
 from typing import List, Tuple, Optional
 
+from anki_poker_master.helper import format_n
+
+
+class Action:
+    pass
+
+
+class FoldAction(Action):
+    def __str__(self):
+        return "F"
+
+    def __eq__(self, other):
+        return isinstance(other, FoldAction)
+
+
+class BetAction(Action):
+    _amount: Number
+    _is_all_in: bool
+
+    def __init__(self, amount: Number, is_all_in: bool = False) -> None:
+        self._amount = amount
+        self._is_all_in = is_all_in
+
+    def __str__(self):
+        return f'B {format_n(self._amount)}' + (' (AI)' if self._is_all_in else '')
+
+    def __eq__(self, other):
+        return (isinstance(other, BetAction) and
+                self._amount == other._amount and
+                self._is_all_in == other._is_all_in)
+
+
+class RaiseAction(Action):
+    _amount: Number
+    _is_all_in: bool
+
+    def __init__(self, amount: Number, is_all_in: bool = False) -> None:
+        self._amount = amount
+        self._is_all_in = is_all_in
+
+    def __str__(self):
+        return f'R {format_n(self._amount)}' + (' (AI)' if self._is_all_in else '')
+
+    def __eq__(self, other):
+        return (isinstance(other, RaiseAction) and
+                self._amount == other._amount and
+                self._is_all_in == other._is_all_in)
+
+
+class CheckAction(Action):
+    def __str__(self):
+        return "X"
+
+    def __eq__(self, other):
+        return isinstance(other, CheckAction)
+
+
+class CallAction(Action):
+    _is_all_in: bool
+
+    def __init__(self, is_all_in: bool = False) -> None:
+        self._is_all_in = is_all_in
+
+    def __str__(self):
+        return "C"
+
+    def __eq__(self, other):
+        return (isinstance(other, CallAction) and
+                self._is_all_in == other._is_all_in)
+
 
 class Question:
     question: str
@@ -36,7 +106,7 @@ class Street:
     initial_players: List[bool]
     first_player_actions: int
     # will start with 'first_player_actions'
-    actions: List[List[str]]
+    actions: List[List[Action]]
     questions: List[Question]
     # one for every action that the 'hero' takes, only used if no explicit questions are asked
     default_questions: List[Question]
@@ -49,7 +119,7 @@ class Street:
         initial_players: List[bool],
         initial_stacks: List[Number],
         first_player_actions: int,
-        actions: List[List[str]],
+        actions: List[List[Action]],
         questions: Optional[List[Question]] = None,
         default_questions: Optional[List[Question]] = None,
     ):
