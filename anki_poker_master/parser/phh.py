@@ -73,8 +73,6 @@ class _Parser:
             self._hand.context = custom_fields["_apm_context"]
         if custom_fields.get("_apm_answers", None):
             self._hand.answers = custom_fields["_apm_answers"]
-        # preflop the BB is the first bet
-        self._current_street_had_a_bet = True
         player_count = hh.create_state().player_count
         for i in range(player_count):
             name = f"p{i + 1}"
@@ -239,23 +237,26 @@ class _Parser:
             commentary = commentary.strip()
         action = ""
         if isinstance(self._pk_current_operation, CheckingOrCalling):
-            action = "C" if self._current_street_had_a_bet else "X"
+            action = "C" if self._pk_current_operation.amount > 0 else "X"
             if (
                 self._pk_current_state.stacks[self._pk_current_operation.player_index]
                 == 0
             ):
                 action += " (AI)"
         elif isinstance(self._pk_current_operation, CompletionBettingOrRaisingTo):
-            action = (
-                f'{"R" if self._current_street_had_a_bet else "B"} '
-                f'{format_n(self._pk_current_operation.amount)}'
+            is_bet = all(
+                bet == 0 or i == self._pk_current_operation.player_index
+                for i, bet in enumerate(self._pk_current_state.bets)
             )
-            if (
+            is_all_in = (
                 self._pk_current_state.stacks[self._pk_current_operation.player_index]
                 == 0
-            ):
-                action += " (AI)"
-            self._current_street_had_a_bet = True
+            )
+            action = (
+                f'{"B" if is_bet else "R"} '
+                f'{format_n(self._pk_current_operation.amount)}'
+                f'{" (AI)" if is_all_in else ""}'
+            )
         elif isinstance(self._pk_current_operation, Folding):
             action = "F"
         if commentary and commentary.lower().startswith("apm study"):
@@ -331,7 +332,6 @@ class _Parser:
         Helper method to do the processing of the end of streets (end_preflop, end_flop, ...), used by the
         relevant _state_handlers .
         """
-        self._current_street_had_a_bet = False
         pot_amounts = list(self._pk_current_state.pot_amounts)
         if not pot_amounts:
             pot_amounts = [0]

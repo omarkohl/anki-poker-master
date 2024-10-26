@@ -866,8 +866,8 @@ def test_parser_example_files_success(
 def test_preflop_check_action_not_possible() -> None:
     """
     Verify that preflop any CC (in the PHH parlance) is a call not a check
-    because the big blind is the first bet.
-    This was an early bug.
+    because the big blind is the first bet, except if the player is the big
+    blind in which case it actually is a check.
     """
 
     from anki_poker_master.parser.phh import parse
@@ -888,7 +888,7 @@ actions = [
 ]
 """
     hand = parse(content)
-    assert hand.streets[0].actions == [["C"], ["F"], ["C"]]
+    assert hand.streets[0].actions == [["C"], ["F"], ["X"]]
 
 
 def test_preflop_bet_action_not_possible() -> None:
