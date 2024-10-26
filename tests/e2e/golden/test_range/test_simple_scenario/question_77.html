@@ -214,6 +214,7 @@ table.range td.marked.blank {
 table.player-actions {
     margin-top: 10px;
     width: 100%;
+    table-layout: fixed;
 }
 
 table.player-actions td {
@@ -224,6 +225,14 @@ table.player-actions thead tr th {
     background: white;
     color: black;
     text-align: left;
+}
+
+table.player-actions thead tr th:first-child {
+    width: 20%;
+}
+
+table.player-actions thead tr th:nth-child(2) {
+    width: 20%;
 }
 
 .nightMode table.player-actions thead tr th {

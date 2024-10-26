@@ -118,9 +118,9 @@ def get_question(
         result += '<table class="player-actions">\n'
         result += "<thead>\n"
         result += "<tr>\n"
-        result += "<th>Player</th>\n"
-        result += "<th>Stack</th>\n"
-        result += f'<th colspan="{max_num_actions}">Actions</th>\n'
+        result += '<th scope="col">Player</th>\n'
+        result += '<th scope="col">Stack</th>\n'
+        result += f'<th scope="col" colspan="{max_num_actions}">Actions</th>\n'
         result += "</tr>"
         result += "</thead>\n"
         result += "<tbody>\n"
