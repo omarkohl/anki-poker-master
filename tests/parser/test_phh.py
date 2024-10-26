@@ -1,4 +1,3 @@
-import os
 import pathlib
 from numbers import Number
 from typing import Any, List

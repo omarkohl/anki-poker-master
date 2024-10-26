@@ -1,6 +1,5 @@
 import poker
 import pytest
-import schema
 
 
 def test_basics():
@@ -135,7 +134,6 @@ def test_ranges_required3():
     ],
 )
 def test_ranges(range, hands):
-    from anki_poker_master.model import ValidationError
     from anki_poker_master.parser.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
@@ -270,8 +268,6 @@ def test_range_colors_must_be_valid_color(invalid_color):
 def test_colors_in_range_color_list_must_be_valid(invalid_color):
     from anki_poker_master.model import ValidationError
     from anki_poker_master.parser.preflop_scenario import parse_scenario_yml
-    from anki_poker_master.model import ValidationError
-    from anki_poker_master.parser.preflop_scenario import parse_scenario_yml
 
     yml_file = f"""
 - game: NLHE
@@ -331,7 +327,7 @@ def test_ranges_cant_overlap():
     from anki_poker_master.model import ValidationError
     from anki_poker_master.parser.preflop_scenario import parse_scenario_yml
 
-    yml_file = f"""
+    yml_file = """
 - game: NLHE
   position: UTG
   scenario: Opening

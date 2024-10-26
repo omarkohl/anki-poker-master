@@ -174,7 +174,7 @@ _apm_hero = 3
 
     compare_or_update_golden(
         pytestconfig,
-        golden_dir / f"question.html",
+        golden_dir / "question.html",
         content,
     )
 

@@ -42,7 +42,6 @@ def test_example_scenarios(capsys, tmp_path):
 
 def test_example_scenarios_only_if_doesnt_exist(capsys, tmp_path):
     from anki_poker_master.cli import main_with_args
-    from anki_poker_master.parser.preflop_scenario import EXAMPLE_SCENARIO_FILE
 
     scenarios_file = tmp_path / "scenarios.yml"
     scenarios_file.write_text("existing file")

@@ -288,8 +288,8 @@ def create_decks(
             "pairs",
         ]:
             if c == "pairs":
-                img1 = f"apm-card-Xh.png"
-                img2 = f"apm-card-Xc.png"
+                img1 = "apm-card-Xh.png"
+                img2 = "apm-card-Xc.png"
                 question = "How should you play pairs?"
             else:
                 img1 = f"apm-card-{c[0]}h.png"
@@ -478,7 +478,7 @@ def extra_css(extra_range_colors, scenario: PreflopScenario) -> str:
         indent += 4
         css += [indent * " " + "45deg,"]
         css += [indent * " " + f"{color_light}, {color_light} 3px,"]
-        css += [indent * " " + f"#00000070 3px, #00000070 6px"]
+        css += [indent * " " + "#00000070 3px, #00000070 6px"]
         indent -= 4
         css += [indent * " " + ");"]
         indent -= 4
@@ -490,7 +490,7 @@ def extra_css(extra_range_colors, scenario: PreflopScenario) -> str:
         indent += 4
         css += [indent * " " + "45deg,"]
         css += [indent * " " + f"{color_dark}, {color_dark} 3px,"]
-        css += [indent * " " + f"#00000070 3px, #00000070 6px"]
+        css += [indent * " " + "#00000070 3px, #00000070 6px"]
         indent -= 4
         css += [indent * " " + ");"]
         indent -= 4

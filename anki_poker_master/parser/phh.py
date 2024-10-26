@@ -364,7 +364,7 @@ def _get_and_validate_custom_fields(content: str, player_count: int) -> Dict[str
     try:
         return custom_fields_schema.validate(custom_fields)
     except schema.SchemaError as e:
-        raise ValidationError(f'Error validating user-defined "_apm" fields') from e
+        raise ValidationError('Error validating user-defined "_apm" fields') from e
 
 
 def _get_hero(hole_cards: List[List[Card]], apm_hero: Optional[int]) -> (int, List[str]):
