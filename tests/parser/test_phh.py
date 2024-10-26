@@ -4,8 +4,6 @@ from typing import Any, List
 
 import pytest
 
-from anki_poker_master.model.hand import Action
-
 
 def test_parser_basic():
     from anki_poker_master.parser.phh import parse
@@ -380,7 +378,13 @@ def test_parser_invalid_poker_variant(variant):
 
 def test_parser_with_preflop():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction, RaiseAction, FoldAction, CallAction
+    from anki_poker_master.model.hand import (
+        Street,
+        Question,
+        RaiseAction,
+        FoldAction,
+        CallAction,
+    )
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -421,7 +425,13 @@ actions = [
 
 def test_parser_with_flop():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction
+    from anki_poker_master.model.hand import (
+        Street,
+        Question,
+        CheckAction,
+        CallAction,
+        BetAction,
+    )
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -469,7 +479,11 @@ actions = [
 
 def test_parser_with_turn():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction
+    from anki_poker_master.model.hand import (
+        Street,
+        Question,
+        CheckAction,
+    )
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -519,7 +533,12 @@ actions = [
 
 def test_parser_with_river():
     from anki_poker_master.parser.phh import parse
-    from anki_poker_master.model.hand import Street, Question, RaiseAction, FoldAction, CheckAction, CallAction, BetAction
+    from anki_poker_master.model.hand import (
+        Street,
+        Question,
+        FoldAction,
+        BetAction,
+    )
 
     content = """variant = "NT"
 antes = [0, 0, 0]
@@ -920,7 +939,11 @@ actions = [
 ]
 """
     hand = parse(content)
-    assert hand.streets[0].actions == [[RaiseAction(12)], [FoldAction()], [CallAction()]]
+    assert hand.streets[0].actions == [
+        [RaiseAction(12)],
+        [FoldAction()],
+        [CallAction()],
+    ]
 
 
 def test_all_in_is_indicated_separately() -> None:
@@ -949,4 +972,8 @@ actions = [
 ]
 """
     hand = parse(content)
-    assert hand.streets[0].actions == [[RaiseAction(450, is_all_in=True)], [CallAction(is_all_in=True)], [FoldAction()]]
+    assert hand.streets[0].actions == [
+        [RaiseAction(450, is_all_in=True)],
+        [CallAction(is_all_in=True)],
+        [FoldAction()],
+    ]

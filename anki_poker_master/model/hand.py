@@ -25,12 +25,14 @@ class BetAction(Action):
         self._is_all_in = is_all_in
 
     def __str__(self):
-        return f'B {format_n(self._amount)}' + (' (AI)' if self._is_all_in else '')
+        return f"B {format_n(self._amount)}" + (" (AI)" if self._is_all_in else "")
 
     def __eq__(self, other):
-        return (isinstance(other, BetAction) and
-                self._amount == other._amount and
-                self._is_all_in == other._is_all_in)
+        return (
+            isinstance(other, BetAction)
+            and self._amount == other._amount
+            and self._is_all_in == other._is_all_in
+        )
 
 
 class RaiseAction(Action):
@@ -42,12 +44,14 @@ class RaiseAction(Action):
         self._is_all_in = is_all_in
 
     def __str__(self):
-        return f'R {format_n(self._amount)}' + (' (AI)' if self._is_all_in else '')
+        return f"R {format_n(self._amount)}" + (" (AI)" if self._is_all_in else "")
 
     def __eq__(self, other):
-        return (isinstance(other, RaiseAction) and
-                self._amount == other._amount and
-                self._is_all_in == other._is_all_in)
+        return (
+            isinstance(other, RaiseAction)
+            and self._amount == other._amount
+            and self._is_all_in == other._is_all_in
+        )
 
 
 class CheckAction(Action):
@@ -68,8 +72,7 @@ class CallAction(Action):
         return "C"
 
     def __eq__(self, other):
-        return (isinstance(other, CallAction) and
-                self._is_all_in == other._is_all_in)
+        return isinstance(other, CallAction) and self._is_all_in == other._is_all_in
 
 
 class Question:

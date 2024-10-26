@@ -16,8 +16,18 @@ from pokerkit import (
 
 from anki_poker_master.helper import format_n
 from anki_poker_master.model import ValidationError
-from anki_poker_master.model.hand import Hand, Player, Street, Question, Action, CallAction, CheckAction, BetAction, \
-    RaiseAction, FoldAction
+from anki_poker_master.model.hand import (
+    Hand,
+    Player,
+    Street,
+    Question,
+    Action,
+    CallAction,
+    CheckAction,
+    BetAction,
+    RaiseAction,
+    FoldAction,
+)
 
 
 class _ParserState(enum.Enum):
@@ -268,7 +278,7 @@ class _Parser:
             # custom field.
             answer: str = str(action)
             if commentary.lower().startswith("apm study:"):
-                answer = commentary[len("apm study:"):].strip()
+                answer = commentary[len("apm study:") :].strip()
             else:
                 # Choose the correct answer from _apm_answers
                 number_previous_questions = 0
