@@ -3,7 +3,6 @@ Test the 'hand' subcommand.
 """
 
 from pathlib import Path
-from typing import List, Tuple
 import anki
 import anki.importing.apkg
 from anki.collection import ImportAnkiPackageOptions, ImportAnkiPackageRequest
@@ -84,27 +83,27 @@ actions = [
 
     assert len(all_card_ids) == 5
 
-    all_qa: List[Tuple[str, str]] = []
-    for card in [collection.get_card(cid) for cid in all_card_ids]:
-        all_qa.append((card.question(), card.answer()))
+    # We know that there is only one note, so we can sort the cards by their
+    # 'ord' i.e. which template they use
+    sorted_cards = sorted(
+        (collection.get_card(cid) for cid in all_card_ids),
+        key=lambda c: c.ord,
+    )
 
-    # assert that there are no duplicate questions, just in case, otherwise
+    # assert that there are no duplicates, just in case, otherwise
     # the golden file comparison below will no longer be deterministic
-    assert len(set(qa[0] for qa in all_qa)) == 5
+    assert len(set(card.ord for card in sorted_cards)) == 5
 
-    # sort them to ensure a deterministic order in the golden files
-    all_qa = sorted(all_qa, key=lambda qa: qa[0])
-
-    for i, (q, a) in enumerate(all_qa):
+    for card in sorted_cards:
         compare_or_update_golden(
             pytestconfig,
-            golden_dir / f"answer_{i:02}.html",
-            a,
+            golden_dir / f"answer_{card.ord:02}.html",
+            card.answer(),
         )
         compare_or_update_golden(
             pytestconfig,
-            golden_dir / f"question_{i:02}.html",
-            q,
+            golden_dir / f"question_{card.ord:02}.html",
+            card.question(),
         )
 
     all_media_files = list(Path(collection.media.dir()).rglob("*"))
