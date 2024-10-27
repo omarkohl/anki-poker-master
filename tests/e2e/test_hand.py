@@ -75,10 +75,10 @@ actions = [
     deck_id = collection.decks.id_for_name("AnkiPokerMaster::HandHistory")
     assert deck_id
     all_notes_ids = collection.find_notes("")
-    assert len(all_notes_ids) == 5
+    assert len(all_notes_ids) == 1
 
     for note in [collection.get_note(nid) for nid in all_notes_ids]:
-        assert len(note.fields) == 4
+        assert len(note.fields) == 46
 
     all_card_ids = collection.find_cards("")
 

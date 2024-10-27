@@ -52,7 +52,17 @@ def get_question(
         result += f'<img src="apm-card-small-{c}.png" alt="{c}" title="{c}">\n'
     result += "</div>\n"
     result += f"<p><strong>Hero:</strong> {hand.get_hero().name}</p>\n"
+    result += get_question_only(hand, street_index_for_question, question_index)
+    result += "</div>\n"
+    return result
 
+
+def get_question_only(
+    hand: Hand, street_index_for_question: int, question_index: int
+) -> str:
+    hand.validate_with_indices(street_index_for_question, question_index)
+
+    result = ""
     table_is_done = False
     question = None
 
@@ -132,5 +142,4 @@ def get_question(
 <strong>{question.question}</strong>
 </p>
 """
-    result += "</div>\n"
     return result
