@@ -13,6 +13,7 @@ from tests.utils import compare_or_update_golden
 # in order to preview the HTML files conveniently we prefix resources
 RESOURCES_PREFIX = "../../../../../../anki_poker_master/resources/"
 
+
 @pytest.mark.parametrize(
     "street_index, question_index",
     [
@@ -256,7 +257,13 @@ _apm_hero = 3
 def test_validate_players(
     players, street_index_for_question, question_index, expected_err
 ):
-    from anki_poker_master.model.hand import Hand, Street, Question, BetAction, FoldAction
+    from anki_poker_master.model.hand import (
+        Hand,
+        Street,
+        Question,
+        BetAction,
+        FoldAction,
+    )
     from anki_poker_master.model import ValidationError
     from anki_poker_master.presenter.html.phh import get_question
 
@@ -279,3 +286,62 @@ def test_validate_players(
         get_question(hand, street_index_for_question, question_index)
 
     assert expected_err in excinfo.value.humanize_error()
+
+
+def test_mobile_dark_mode(testdata_dir, golden_dir, pytestconfig):
+    """
+    Generate HTML output for a hand history and compare it to the golden file.
+    This test is for "mobile" and "dark mode" only in the sense that the
+    generated HTML has a dark background and can be viewed in mobile view.
+    The test exists mostly as a convenience for manual preview and testing of
+    the HTML result.
+    """
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.presenter.html.phh import get_question
+
+    file_content = (testdata_dir / "harrington-cash-10-13.phh").read_text()
+    hand = parse(file_content)
+
+    content = get_question(hand, 3, 1)
+    content = re.sub(
+        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
+    )
+
+    content_light = (
+        f"""<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
+    </head>
+    <body>
+    """
+        + content
+        + "</body>\n</html>\n"
+    )
+
+    content_dark = (
+        f"""<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
+    </head>
+    <body style="background-color: #221e1e">
+    <div class="nightMode">
+    """
+        + content
+        + "</div>\n</body>\n</html>\n"
+    )
+
+    compare_or_update_golden(
+        pytestconfig,
+        golden_dir / "question_light.html",
+        content_light,
+    )
+
+    compare_or_update_golden(
+        pytestconfig,
+        golden_dir / "question_dark.html",
+        content_dark,
+    )

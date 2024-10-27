@@ -1,0 +1,75 @@
+variant = "NT"
+ante_trimming_status = true
+antes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+blinds_or_straddles = [1, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+min_bet = 2
+starting_stacks = [200, 200, 200, 200, 200, 200, 200, 200, 200, 200]
+actions = [
+    "d dh p1 ????",
+    "d dh p2 ????",
+    "d dh p3 ????",
+    "d dh p4 ????",
+    "d dh p5 ????",
+    "d dh p6 ????",
+    "d dh p7 ????",
+    "d dh p8 ????",
+    "d dh p9 QdTs",
+    "d dh p10 ????",
+    "p3 f",
+    "p4 cbr 6",
+    "p5 f",
+    "p6 cc",
+    "p7 f",
+    "p8 cc",
+    "p9 cc # apm study",
+    "p10 f",
+    "p1 cc",
+    "p2 f",
+    "d db KhJd4s",
+    "p1 cbr 20",
+    "p4 f",
+    "p6 cc",
+    "p8 f",
+    "p9 cc # apm study",
+    "d db Kc",
+    "p1 cc",
+    "p6 cc",
+    "p9 cc # apm study",
+    "d db As",
+    "p1 cc",
+    "p6 cc",
+    "p9 cbr 100 # apm study",
+    "p1 cbr 174",
+    "p6 f",
+    "p9 cc # apm study",
+    "p1 sm Ks7d",
+    "p9 sm QdTs"
+]
+players = ["SB", "BB", "A", "B", "C", "D", "E", "F", "G", "H"]
+_apm_hero = 9
+_apm_context = "Live table. You have never seen any of the players."
+_apm_notes = ""
+_apm_source = """Example 13, page 302<br>
+    Part 10 - Beating Weak Games<br>
+    Harrington on Cash Games - Volume II<br>
+    Dan Harrington and Bill Robertie<br>
+    March 2008
+    """
+_apm_answers = [
+    """Call. At these stakes the table is pretty loose. You're trying to
+    see a cheap flop in position with a hand that could develop into
+    something promising.""",
+    """Call. The other two players have probably each hit a pair. You
+    have OESD and you are getting almost 3-to-1 pot odds. If you hit
+    your straight it will be well concealed, there will be a bunch of
+    high cards on board so you should have good implied odds.""",
+    """Check. Based on the previous action at least one of them should
+    have a king but nobody bet. Probably one of them has a king and is
+    slow playing trips kings. You get to see the river card for free.""",
+    """Bet $100 or so. You think one of the players has trips kings, in
+    which case he'll call any reasonable bet you make.""",
+    """Call. Now you know who has the three kings. If he has A or J to
+    go with his K you will lose but the pot is offering you 5-to-1 odds
+    and you can't fold a straight in a low stakes games with those kinds
+    of odds."""
+]
