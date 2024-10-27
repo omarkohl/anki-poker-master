@@ -113,6 +113,7 @@ HAND_HISTORY_MODEL = genanki.Model(
     1771292474,  # Random number that should not change
     "APM Hand History",
     fields=[
+        {"name": "Content Hash", "collapsed": True, "size": 14},
         {"name": "Title"},
         {"name": "Context"},
         {"name": "Hero Cards"},

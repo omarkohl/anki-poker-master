@@ -1,4 +1,5 @@
 import random
+from hashlib import sha256
 from typing import Set, List, Tuple, Optional
 
 from genanki import Note, Deck
@@ -52,9 +53,18 @@ def get_note(
         question_answers.append(("", ""))
 
     flat_qa = [x for qa in question_answers for x in qa]
+    content_hash = sha256(
+        "".join(f"{q}{a}" for q, a in question_answers).encode("utf-8")
+    ).hexdigest()
+
     note = Note(
         model=HAND_HISTORY_MODEL,
         fields=[
+            (
+                "This fields exists to avoid duplicate warnings in Anki. You can "
+                + "ignore it. SHA256 of all QA pairs: "
+                + content_hash
+            ),
             hand.title,
             hand.context,
             hero_cards,

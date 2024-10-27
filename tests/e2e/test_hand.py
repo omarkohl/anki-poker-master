@@ -77,7 +77,7 @@ actions = [
     assert len(all_notes_ids) == 1
 
     for note in [collection.get_note(nid) for nid in all_notes_ids]:
-        assert len(note.fields) == 46
+        assert len(note.fields) == 47
 
     all_card_ids = collection.find_cards("")
 
