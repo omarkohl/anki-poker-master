@@ -10,6 +10,8 @@ from anki_poker_master.model.hand import Player
 
 from tests.utils import compare_or_update_golden
 
+# in order to preview the HTML files conveniently we prefix resources
+RESOURCES_PREFIX = "../../../../../../anki_poker_master/resources/"
 
 @pytest.mark.parametrize(
     "street_index, question_index",
@@ -69,16 +71,13 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
     hand = parse(content)
     content = get_question(hand, street_index, question_index)
 
-    # in order to preview the HTML files conveniently we prefix resources
-    resources_prefix = "../../../../../anki_poker_master/resources/"
-
     content = (
         f"""
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{resources_prefix}default.css">
+<link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
 </head>
 <body>
 """
@@ -88,7 +87,7 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
 
     # prefix all html img src with the above prefix
     content = re.sub(
-        r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content
+        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
     )
 
     compare_or_update_golden(
@@ -163,16 +162,13 @@ _apm_hero = 3
     hand = parse(content)
     content = get_question(hand, 2, 1)
 
-    # in order to preview the HTML files conveniently we prefix resources
-    resources_prefix = "../../../../../anki_poker_master/resources/"
-
     content = (
         f"""
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{resources_prefix}default.css">
+<link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
 </head>
 <body>
 """
@@ -182,7 +178,7 @@ _apm_hero = 3
 
     # prefix all html img src with the above prefix
     content = re.sub(
-        r'<img src="(.*)"', f'<img src="{resources_prefix}images/\\1"', content
+        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
     )
 
     compare_or_update_golden(
