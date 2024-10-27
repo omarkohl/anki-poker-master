@@ -127,7 +127,7 @@ def get_question_only(
                     ):
                         action = _action_to_html(street.actions[i][j])
                     else:
-                        action = '<span class="no-action">-</span>'
+                        action = ""
                 else:  # not last street
                     if j < len(street.actions[i]):
                         action = _action_to_html(street.actions[i][j])

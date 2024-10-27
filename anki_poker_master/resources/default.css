@@ -351,10 +351,3 @@ table.player-actions td .question-action {
     font-size: 1.2em;
     font-family: mono;
 }
-
-table.player-actions td .no-action {
-    color: lightgray;
-    font-weight: bold;
-    font-size: 1.2em;
-    font-family: mono;
-}
