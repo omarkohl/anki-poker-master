@@ -260,7 +260,7 @@ _apm_hero = 3
 def test_validate_players(
     players, street_index_for_question, question_index, expected_err
 ):
-    from anki_poker_master.model.hand import Hand, Street, Question
+    from anki_poker_master.model.hand import Hand, Street, Question, BetAction, FoldAction
     from anki_poker_master.model import ValidationError
     from anki_poker_master.presenter.html.phh import get_question
 
@@ -274,7 +274,7 @@ def test_validate_players(
             [True, True, True],
             [199, 198, 200],
             2,
-            [["B 50"], ["F"], ["F"]],
+            [[BetAction(50)], [FoldAction()], [FoldAction()]],
             [Question("What do you do?", "Bet high.", (0, 0))],
         )
     )
