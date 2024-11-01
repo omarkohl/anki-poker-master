@@ -14,6 +14,37 @@ from tests.utils import compare_or_update_golden
 RESOURCES_PREFIX = "../../../../../../anki_poker_master/resources/"
 
 
+def _create_html_content(content, dark_mode=False):
+    """
+    Helper function to create a full HTML document with the given content. It
+    makes it easier to visually inspect the HTML output.
+    """
+    content = re.sub(
+        r'<img src="(.*)"',
+        f'<img src="{RESOURCES_PREFIX}images/\\1"',
+        content,
+    )
+    header = f"""<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
+</head>
+"""
+    if dark_mode:
+        return (
+            header
+            + '<body style="background-color: #221e1e">\n'
+            + '<div class="nightMode">\n'
+            + content
+            + "</div>\n"
+            + "</body>\n"
+            + "</html>\n"
+        )
+    else:
+        return header + "<body>\n" + content + "</body>\n" + "</html>\n"
+
+
 @pytest.mark.parametrize(
     "street_index, question_index",
     [
@@ -72,29 +103,10 @@ _apm_context = "Online game. Fairly tight. The blinds have only played a few han
     hand = parse(content)
     content = get_question(hand, street_index, question_index)
 
-    content = (
-        f"""
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
-</head>
-<body>
-"""
-        + content
-        + "</body>\n</html>\n"
-    )
-
-    # prefix all html img src with the above prefix
-    content = re.sub(
-        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
-    )
-
     compare_or_update_golden(
         pytestconfig,
         golden_dir / f"question_{street_index}_{question_index}.html",
-        content,
+        _create_html_content(content),
     )
 
 
@@ -163,29 +175,10 @@ _apm_hero = 3
     hand = parse(content)
     content = get_question(hand, 2, 1)
 
-    content = (
-        f"""
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
-</head>
-<body>
-"""
-        + content
-        + "</body>\n</html>\n"
-    )
-
-    # prefix all html img src with the above prefix
-    content = re.sub(
-        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
-    )
-
     compare_or_update_golden(
         pytestconfig,
         golden_dir / "question.html",
-        content,
+        _create_html_content(content),
     )
 
 
@@ -303,47 +296,17 @@ def test_mobile_dark_mode(testdata_dir, golden_dir, pytestconfig):
     hand = parse(file_content)
 
     content = get_question(hand, 3, 1)
-    content = re.sub(
-        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
-    )
-
-    content_light = (
-        f"""<!DOCTYPE html>
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
-    </head>
-    <body>
-    """
-        + content
-        + "</body>\n</html>\n"
-    )
-
-    content_dark = (
-        f"""<!DOCTYPE html>
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
-    </head>
-    <body style="background-color: #221e1e">
-    <div class="nightMode">
-    """
-        + content
-        + "</div>\n</body>\n</html>\n"
-    )
 
     compare_or_update_golden(
         pytestconfig,
         golden_dir / "question_light.html",
-        content_light,
+        _create_html_content(content, False),
     )
 
     compare_or_update_golden(
         pytestconfig,
         golden_dir / "question_dark.html",
-        content_dark,
+        _create_html_content(content, True),
     )
 
 
@@ -359,27 +322,11 @@ def test_pot_rounding(testdata_dir, golden_dir, pytestconfig):
     hand = parse(file_content)
 
     content = get_question(hand, 2, 0)
-    content = re.sub(
-        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
-    )
-
-    content = (
-            f"""<!DOCTYPE html>
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-        <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
-        </head>
-        <body>
-        """
-            + content
-            + "</body>\n</html>\n"
-    )
 
     compare_or_update_golden(
         pytestconfig,
         golden_dir / "question.html",
-        content,
+        _create_html_content(content),
     )
 
 
@@ -396,25 +343,9 @@ def test_long_history(testdata_dir, golden_dir, pytestconfig):
     hand = parse(file_content)
 
     content = get_question(hand, 2, 0)
-    content = re.sub(
-        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
-    )
-
-    content = (
-            f"""<!DOCTYPE html>
-            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-            <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
-            </head>
-            <body>
-            """
-            + content
-            + "</body>\n</html>\n"
-    )
 
     compare_or_update_golden(
         pytestconfig,
         golden_dir / "question.html",
-        content,
+        _create_html_content(content),
     )
