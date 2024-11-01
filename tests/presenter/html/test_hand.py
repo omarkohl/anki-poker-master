@@ -381,3 +381,40 @@ def test_pot_rounding(testdata_dir, golden_dir, pytestconfig):
         golden_dir / "question.html",
         content,
     )
+
+
+def test_long_history(testdata_dir, golden_dir, pytestconfig):
+    """
+    Generate HTML output for a long hand history and compare it to the golden
+    file. The main reason for this test is to have a long hand history to
+    visually examine the HTML output in order to maybe tweak it.
+    """
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.presenter.html.phh import get_question
+
+    file_content = (testdata_dir / "long_history.phh").read_text()
+    hand = parse(file_content)
+
+    content = get_question(hand, 2, 0)
+    content = re.sub(
+        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
+    )
+
+    content = (
+            f"""<!DOCTYPE html>
+            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+            <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
+            </head>
+            <body>
+            """
+            + content
+            + "</body>\n</html>\n"
+    )
+
+    compare_or_update_golden(
+        pytestconfig,
+        golden_dir / "question.html",
+        content,
+    )
