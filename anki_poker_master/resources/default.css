@@ -273,7 +273,7 @@ table.player-actions tr.hero {
 }
 
 .nightMode table.player-actions tr.hero {
-    background: #8a6b2b;
+    background: #5c4a26;
 }
 
 table.player-actions tr.hero:hover {
@@ -281,7 +281,7 @@ table.player-actions tr.hero:hover {
 }
 
 .nightMode table.player-actions tr.hero:hover {
-    background: #c49f54;
+    background: #6d531f;
 }
 
 table.player-actions .dealerbtn {
@@ -323,15 +323,29 @@ table.player-actions td .fold-action {
     font-family: mono;
 }
 
+.nightMode table.player-actions td .fold-action {
+    color: #df3838;
+}
+
 table.player-actions td .raise-action, table.player-actions td .bet-action {
-    color: green;
+    color: #07a007;
     font-weight: bold;
     font-size: 1.2em;
     font-family: mono;
 }
 
+.nightMode table.player-actions td .raise-action,
+.nightMode table.player-actions td .bet-action {
+    color: #199d19;
+}
+
 table.player-actions td .raise-action.all-in-action, table.player-actions td .bet-action.all-in-action {
-    color: darkgreen;
+    color: #038403;
+}
+
+.nightMode table.player-actions td .raise-action.all-in-action,
+.nightMode table.player-actions td .bet-action.all-in-action {
+    color: #3cb33c;
 }
 
 table.player-actions td .check-action, table.player-actions td .call-action {
@@ -341,8 +355,17 @@ table.player-actions td .check-action, table.player-actions td .call-action {
     font-family: mono;
 }
 
+.nightMode table.player-actions td .check-action,
+.nightMode table.player-actions td .call-action {
+    color: #4e4eec;
+}
+
 table.player-actions td .call-action.all-in-action {
     color: darkblue;
+}
+
+.nightMode table.player-actions td .call-action.all-in-action {
+    color: #6969ee;
 }
 
 table.player-actions td .question-action {
@@ -350,4 +373,8 @@ table.player-actions td .question-action {
     font-weight: bold;
     font-size: 1.2em;
     font-family: mono;
+}
+
+.nightMode table.player-actions td .question-action {
+    color: #E5FFFF;
 }
