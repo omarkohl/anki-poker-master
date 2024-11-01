@@ -26,4 +26,6 @@ def format_n(n: Number) -> str:
     """
     Return the number as a string with thin space as separator.
     """
+    if isinstance(n, float):
+        n = round(n, 2)
     return f"{n:,}".replace(",", "\u2009")

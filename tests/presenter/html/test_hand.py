@@ -345,3 +345,39 @@ def test_mobile_dark_mode(testdata_dir, golden_dir, pytestconfig):
         golden_dir / "question_dark.html",
         content_dark,
     )
+
+
+def test_pot_rounding(testdata_dir, golden_dir, pytestconfig):
+    """
+    Generate HTML output for a hand history and compare it to the golden file. There was a bug that
+    caused the pot not to be rounded in the HTML output so this test ensures there is no regression.
+    """
+    from anki_poker_master.parser.phh import parse
+    from anki_poker_master.presenter.html.phh import get_question
+
+    file_content = (testdata_dir / "harrington-cash-10-11.phh").read_text()
+    hand = parse(file_content)
+
+    content = get_question(hand, 2, 0)
+    content = re.sub(
+        r'<img src="(.*)"', f'<img src="{RESOURCES_PREFIX}images/\\1"', content
+    )
+
+    content = (
+            f"""<!DOCTYPE html>
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{RESOURCES_PREFIX}default.css">
+        </head>
+        <body>
+        """
+            + content
+            + "</body>\n</html>\n"
+    )
+
+    compare_or_update_golden(
+        pytestconfig,
+        golden_dir / "question.html",
+        content,
+    )
