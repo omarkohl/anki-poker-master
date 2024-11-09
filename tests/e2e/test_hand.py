@@ -25,22 +25,22 @@ def _create_html_content(content, dark_mode=False):
 """
     if dark_mode:
         return (
-            header
-            + '<body style="background-color: #221e1e">\n'
-            + '<div class="nightMode">\n'
-            + content
-            + "</div>\n"
-            + "</body>\n"
-            + "</html>\n"
+                header
+                + '<body style="background-color: #221e1e">\n'
+                + '<div class="nightMode">\n'
+                + content
+                + "</div>\n"
+                + "</body>\n"
+                + "</html>\n"
         )
     else:
         return header + "<body>\n" + content + "</body>\n" + "</html>\n"
 
 
 def _create_anki_collection(
-    phh_content: str,
-    tags: List[str],
-    tmp_path: Path,
+        phh_content: str,
+        tags: List[str],
+        tmp_path: Path,
 ) -> anki.collection.Collection:
     """
     Create an Anki collection from the given phh content and tags.
@@ -153,6 +153,65 @@ actions = [
         "apm-card-small-Ah.png",
         "apm-card-small-Tc.png",
         "apm-card-small-Th.png",
+        "apm-card-small-Ts.png",
+    ]
+
+    assert sorted([f.name for f in all_media_files]) == sorted(expected_media_files)
+
+    for f in expected_media_files:
+        compare_or_update_golden_with_path(
+            pytestconfig,
+            golden_dir / f,
+            Path(collection.media.dir()) / f,
+        )
+
+
+def test_full_phh_file(testdata_dir, pytestconfig, golden_dir, tmp_path):
+    """
+    Verify that when calling anki-poker-master with a "full" phh file an
+    Anki deck is generated and contains the notes, cards, tags etc. we expect.
+    """
+
+    phh_content = (testdata_dir / "harrington-cash-10-13.phh").read_text()
+
+    collection = _create_anki_collection(phh_content, ["poker"], tmp_path)
+
+    assert collection.tags.all() == ["poker"]
+
+    assert len(collection.decks.all_names_and_ids()) == 3
+
+    # We know that there is only one note, so we can sort the cards by their
+    # 'ord' i.e. which template they use
+    sorted_cards = sorted(
+        (collection.get_card(cid) for cid in collection.find_cards("")),
+        key=lambda c: c.ord,
+    )
+
+    # assert that there are no duplicates, just in case, otherwise
+    # the golden file comparison below will no longer be deterministic
+    assert len(set(card.ord for card in sorted_cards)) == 5
+
+    for card in sorted_cards:
+        compare_or_update_golden(
+            pytestconfig,
+            golden_dir / f"answer_{card.ord:02}.html",
+            _create_html_content(card.answer()),
+        )
+        compare_or_update_golden(
+            pytestconfig,
+            golden_dir / f"question_{card.ord:02}.html",
+            _create_html_content(card.question()),
+        )
+
+    all_media_files = list(Path(collection.media.dir()).rglob("*"))
+
+    expected_media_files = [
+        "apm-card-small-4s.png",
+        "apm-card-small-As.png",
+        "apm-card-small-Jd.png",
+        "apm-card-small-Kc.png",
+        "apm-card-small-Kh.png",
+        "apm-card-small-Qd.png",
         "apm-card-small-Ts.png",
     ]
 
