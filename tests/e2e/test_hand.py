@@ -10,6 +10,31 @@ from anki.collection import ImportAnkiPackageOptions, ImportAnkiPackageRequest
 from tests.utils import compare_or_update_golden, compare_or_update_golden_with_path
 
 
+def _create_html_content(content, dark_mode=False):
+    """
+    Helper function to create a full HTML document with the given content. It
+    makes it easier to visually inspect the HTML output.
+    """
+    header = f"""<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+"""
+    if dark_mode:
+        return (
+            header
+            + '<body style="background-color: #221e1e">\n'
+            + '<div class="nightMode">\n'
+            + content
+            + "</div>\n"
+            + "</body>\n"
+            + "</html>\n"
+        )
+    else:
+        return header + "<body>\n" + content + "</body>\n" + "</html>\n"
+
+
 def test_pure_phh_file(pytestconfig, golden_dir, tmp_path):
     """
     Verify that when calling anki-poker-master with a "normal" phh file an
@@ -98,12 +123,12 @@ actions = [
         compare_or_update_golden(
             pytestconfig,
             golden_dir / f"answer_{card.ord:02}.html",
-            card.answer(),
+            _create_html_content(card.answer()),
         )
         compare_or_update_golden(
             pytestconfig,
             golden_dir / f"question_{card.ord:02}.html",
-            card.question(),
+            _create_html_content(card.question()),
         )
 
     all_media_files = list(Path(collection.media.dir()).rglob("*"))
