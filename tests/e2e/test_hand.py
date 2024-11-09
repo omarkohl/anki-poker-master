@@ -3,6 +3,8 @@ Test the 'hand' subcommand.
 """
 
 from pathlib import Path
+from typing import List
+
 import anki
 import anki.importing.apkg
 from anki.collection import ImportAnkiPackageOptions, ImportAnkiPackageRequest
@@ -15,7 +17,7 @@ def _create_html_content(content, dark_mode=False):
     Helper function to create a full HTML document with the given content. It
     makes it easier to visually inspect the HTML output.
     """
-    header = f"""<!DOCTYPE html>
+    header = """<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,16 +37,50 @@ def _create_html_content(content, dark_mode=False):
         return header + "<body>\n" + content + "</body>\n" + "</html>\n"
 
 
+def _create_anki_collection(
+    phh_content: str,
+    tags: List[str],
+    tmp_path: Path,
+) -> anki.collection.Collection:
+    """
+    Create an Anki collection from the given phh content and tags.
+    """
+    from anki_poker_master.cli import main_with_args
+
+    phh_f = tmp_path / "hand.phh"
+    phh_f.write_text(phh_content, encoding="utf-8")
+
+    collection = anki.collection.Collection(str(tmp_path / "collection.anki2"))
+    pkg_f = tmp_path / "package.apkg"
+
+    main_with_args(
+        [
+            "hand",
+            *[f"--tag={tag}" for tag in tags],
+            "-o",
+            str(pkg_f),
+            str(phh_f),
+        ]
+    )
+
+    collection.import_anki_package(
+        ImportAnkiPackageRequest(
+            package_path=str(pkg_f),
+            options=ImportAnkiPackageOptions(
+                with_scheduling=True, with_deck_configs=True
+            ),
+        )
+    )
+    return collection
+
+
 def test_pure_phh_file(pytestconfig, golden_dir, tmp_path):
     """
     Verify that when calling anki-poker-master with a "normal" phh file an
     Anki deck is generated and contains the notes, cards, tags etc. we expect.
     """
-    from anki_poker_master.cli import main_with_args
 
-    phh_f = tmp_path / "hand.phh"
-    phh_f.write_text(
-        """variant = "NT"
+    phh_content = """variant = "NT"
 antes = [0, 0, 0]
 blinds_or_straddles = [2, 4, 0]
 min_bet = 2
@@ -67,32 +103,9 @@ actions = [
     "p2 cbr 388",
     "p3 f",
 ]
-""",
-        encoding="utf-8",
-    )
+"""
 
-    collection = anki.collection.Collection(str(tmp_path / "collection.anki2"))
-    pkg_f = tmp_path / "package.apkg"
-
-    main_with_args(
-        [
-            "hand",
-            "-t",
-            "poker",
-            "-o",
-            str(pkg_f),
-            str(phh_f),
-        ]
-    )
-
-    collection.import_anki_package(
-        ImportAnkiPackageRequest(
-            package_path=str(pkg_f),
-            options=ImportAnkiPackageOptions(
-                with_scheduling=True, with_deck_configs=True
-            ),
-        )
-    )
+    collection = _create_anki_collection(phh_content, ["poker"], tmp_path)
 
     assert collection.tags.all() == ["poker"]
     assert len(collection.decks.all_names_and_ids()) == 3
