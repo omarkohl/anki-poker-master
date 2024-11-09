@@ -320,8 +320,7 @@
     table.player-actions td .fold-action {
         color: red;
         font-weight: bold;
-        font-size: 1.2em;
-        font-family: mono;
+        font-family: Verdana, "DejaVu Sans", sans-serif;
     }
 
     .nightMode table.player-actions td .fold-action {
@@ -331,8 +330,7 @@
     table.player-actions td .raise-action, table.player-actions td .bet-action {
         color: #07a007;
         font-weight: bold;
-        font-size: 1.2em;
-        font-family: mono;
+        font-family: Verdana, "DejaVu Sans", sans-serif;
     }
 
     .nightMode table.player-actions td .raise-action,
@@ -352,8 +350,7 @@
     table.player-actions td .check-action, table.player-actions td .call-action {
         color: blue;
         font-weight: bold;
-        font-size: 1.2em;
-        font-family: mono;
+        font-family: Verdana, "DejaVu Sans", sans-serif;
     }
 
     .nightMode table.player-actions td .check-action,
@@ -372,12 +369,29 @@
     table.player-actions td .question-action {
         color: black;
         font-weight: bold;
-        font-size: 1.2em;
-        font-family: mono;
+        font-family: Verdana, "DejaVu Sans", sans-serif;
     }
 
     .nightMode table.player-actions td .question-action {
         color: #E5FFFF;
+    }
+
+    @media (max-width: 600px) {
+        table.player-actions.shrink {
+            font-size: 0.8em;
+        }
+
+        table.player-actions.shrink tr td {
+            padding: 2px;
+        }
+
+        table.player-actions.shrink thead tr th:first-child {
+            width: 10%;
+        }
+
+        table.player-actions.shrink thead tr th:nth-child(2) {
+            width: 10%;
+        }
     }
 </style>
 <style>

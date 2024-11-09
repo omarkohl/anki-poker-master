@@ -86,7 +86,7 @@ def get_question_only(
             for c in street.board:
                 result += f'<img src="apm-card-small-{c}.png" alt="{c}" title="{c}">\n'
             result += "</div>\n"
-        result += '<table class="player-actions">\n'
+        result += f'<table class="player-actions {"shrink" if max_num_actions >= 3 else ""}">\n'
         result += "<thead>\n"
         result += "<tr>\n"
         result += '<th scope="col">Player</th>\n'
